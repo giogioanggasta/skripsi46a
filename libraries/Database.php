@@ -2,10 +2,11 @@
 
 class Database
 {
-    private $host = "localhost";
-    private $dbName = "c3";
+    private $host = "127.0.0.1";
+    private $dbName = "kos46a";
     private $username = "root";
-    private $password = "";
+    private $password = "root";
+    private $port = 3307;
 
     private $dbh;
     private $statement;
@@ -13,7 +14,7 @@ class Database
 
     public function __construct()
     {
-        $dsn = "mysql:host={$this->host};dbname={$this->dbName}";
+        $dsn = "mysql:host={$this->host};port={$this->port};dbname={$this->dbName}";
         $options = [
             PDO::ATTR_PERSISTENT => true,
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
@@ -29,6 +30,7 @@ class Database
 
     public function query($query)
     {
+        // echo $query;exit;
         $this->statement = $this->dbh->prepare($query);
     }
 

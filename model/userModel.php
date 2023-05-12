@@ -11,8 +11,39 @@ class UserModel
         $this->db = new Database();
     }
 
+    public function saveSignUp($nama, $jenisKelamin, $tanggalLahir, $noTelepon, $email, $password)
+    {
+        $password = base64_encode($password);
+        // CEK EMAIL
+        $cekEmail = "SELECT * FROM user WHERE email='{$email}'";
+        $this->db->query($cekEmail);
+        if ($this->db->single()) {
+            flash('signup_alert', 'Email sudah digunakan', 'red');
+            header('Location: ../view/Signup.php');
+            exit;
+        }
+        // CEK EMAIL
+
+        // SIMPAN DATA
+        $insert = "INSERT INTO user (namaUser,jenisKelamin,tanggalLahir,nomorTelepon,email,password) VALUES ('{$nama}','{$jenisKelamin}','{$tanggalLahir}','{$noTelepon}','{$email}','{$password}')";
+        $this->db->query($insert);
+
+        if ($this->db->returnExecute()) {
+            flash('signup_alert', 'Berhasil menyimpan data', 'green');
+            // $_POST
+        } else {
+            flash('signup_alert', 'Gagal menyimpan data', 'red');
+        }
+        header('Location: ../view/Signup.php');
+        // $_POST['enterBtn'] = 0;
+        // return redirect('../view/Signup.php');
+    }
+
+
+    /*
+
     public function findUserByEmail($email){
-        $this->db->query('SELECT * FROM user WHERE email = :email');
+        $this->db->query("SELECT * FROM user WHERE email = '{$email}'");
         $this->db->bind(':email', $email);
 
         $row = $this->db->single();
@@ -23,7 +54,6 @@ class UserModel
             return false;
         }
     }
-
     public function login($email, $password)
     {
         $row = $this->findUserByEmail($email);
@@ -60,4 +90,6 @@ class UserModel
         if($this->db->returnExecute()) return true;
         else return false;
     }
+
+*/
 }
