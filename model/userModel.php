@@ -11,11 +11,33 @@ class UserModel
         $this->db = new Database();
     }
 
+    public function checkLogin($email, $password)
+    {
+        $cekAkun = "SELECT idUser,namaUser,jenisKelamin,tanggalLahir,nomorTelepon,email FROM `m_user` WHERE email = '{$email}' AND password = TO_BASE64('{$password}')";
+        $this->db->query($cekAkun);
+        $row = $this->db->single();
+        if ($row) {
+
+            $_SESSION['session_login'] = $row;
+            header('Location: ../view/Home.php');
+
+            // echo $_SESSION['session_login']->namaUser;
+            // var_dump($_SESSION['session']);
+            // exit;
+            // flash('login_alert', 'Email sudah digunakan', 'red');
+            // header('Location: ../view/Login.php');
+            // exit;
+        } else {
+            flash('login_alert', 'Akun tidak valid', 'red');
+            header('Location: ../view/Login.php');
+        }
+    }
+
     public function saveSignUp($nama, $jenisKelamin, $tanggalLahir, $noTelepon, $email, $password)
     {
         $password = base64_encode($password);
         // CEK EMAIL
-        $cekEmail = "SELECT * FROM user WHERE email='{$email}'";
+        $cekEmail = "SELECT * FROM m_user WHERE email='{$email}'";
         $this->db->query($cekEmail);
         if ($this->db->single()) {
             flash('signup_alert', 'Email sudah digunakan', 'red');
@@ -25,7 +47,7 @@ class UserModel
         // CEK EMAIL
 
         // SIMPAN DATA
-        $insert = "INSERT INTO user (namaUser,jenisKelamin,tanggalLahir,nomorTelepon,email,password) VALUES ('{$nama}','{$jenisKelamin}','{$tanggalLahir}','{$noTelepon}','{$email}','{$password}')";
+        $insert = "INSERT INTO m_user (namaUser,jenisKelamin,tanggalLahir,nomorTelepon,email,password) VALUES ('{$nama}','{$jenisKelamin}','{$tanggalLahir}','{$noTelepon}','{$email}','{$password}')";
         $this->db->query($insert);
 
         if ($this->db->returnExecute()) {
@@ -43,7 +65,7 @@ class UserModel
     /*
 
     public function findUserByEmail($email){
-        $this->db->query("SELECT * FROM user WHERE email = '{$email}'");
+        $this->db->query("SELECT * FROM m_user WHERE email = '{$email}'");
         $this->db->bind(':email', $email);
 
         $row = $this->db->single();
@@ -67,7 +89,7 @@ class UserModel
     }
 
     public function editProfile($idUser, $namaUser, $jenisKelamin, $tanggalLahir, $noTelepon, $email, $password){
-        $this->db->query('UPDATE user SET namaUser = :namaUser, jenisKelamin = :jenisKelamin, tanggalLahir = :tanggalLahir, noTelepon = :noTelepon, email = :email, password = :password WHERE idUser = :idUser');
+        $this->db->query('UPDATE m_user SET namaUser = :namaUser, jenisKelamin = :jenisKelamin, tanggalLahir = :tanggalLahir, noTelepon = :noTelepon, email = :email, password = :password WHERE idUser = :idUser');
         $this->db->bind(':namaUser', $namaUser);
         $this->db->bind(':jenisKelamin', $jenisKelamin);
         $this->db->bind(':tanggalLahir', $tanggalLahir);
@@ -82,7 +104,7 @@ class UserModel
 
     public function requestMembership($idUser, $tipeMembership, $statusMembership)
     {
-        $this->db->query('UPDATE user SET tipeMembership = :tipeMembership, statusMembership = :statusMembership WHERE idUser = :idUser');
+        $this->db->query('UPDATE m_user SET tipeMembership = :tipeMembership, statusMembership = :statusMembership WHERE idUser = :idUser');
         $this->db->bind(':tipeMembership', $tipeMembership);
         $this->db->bind(':statusMembership', $statusMembership);
         $this->db->bind(':idUser', $idUser);
@@ -93,3 +115,19 @@ class UserModel
 
 */
 }
+
+$userM = new UserModel();
+// TRIGGER UNTUK SING UP
+if (isset($_POST['enterBtnSignUp']) && !isset($_SESSION['signup_alert'])) {
+
+    // $nama, $jenisKelamin, $tanggalLahir, $noTelepon, $email, $password
+    $userM->saveSignUp($_POST['nama'], $_POST['jenisKelamin'], $_POST['tanggalLahir'], $_POST['nomorTelepon'], $_POST['email'], $_POST['password']);
+}
+
+// TRIGGER UNTUK LOGIN
+if (isset($_POST['enterBtnLogin']) && (!isset($_SESSION['login_alert']))) {
+
+    // $nama, $jenisKelamin, $tanggalLahir, $noTelepon, $email, $password
+    $userM->checkLogin($_POST['email'], $_POST['password']);
+}
+

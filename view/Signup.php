@@ -1,8 +1,7 @@
 <?php
-include('../model/userModel.php');
 include('../helper/flash_session.php');
+include('../model/userModel.php');
 ?>
-
 <!DOCTYPE html>
 
 <head>
@@ -151,16 +150,7 @@ include('../helper/flash_session.php');
   <button onclick="location.href = 'Login.php'" class="loginbutton" style="color:black">Login</button>
   <button onclick="location.href = 'Signup.php'" class="signupbutton" style="color:white">Signup</button>
 
-  <?php
-  $userM = new UserModel();
-  ?>
-  <?php
-  if (isset($_POST['enterBtn']) && !$_SESSION['signup_alert']) {
 
-    // $nama, $jenisKelamin, $tanggalLahir, $noTelepon, $email, $password
-    $userM->saveSignUp($_POST['nama'], $_POST['jenisKelamin'], $_POST['tanggalLahir'], $_POST['nomorTelepon'], $_POST['email'], $_POST['password']);
-  }
-  ?>
   <form method="post">
 
     <div class="signup">
@@ -199,13 +189,13 @@ include('../helper/flash_session.php');
     <a class="w3-display-middle" style="color:black;float: center; margin-top: 15%; text-decoration: none;">Dengan menekan tombol Enter, anda setuju dengan <b>persyaratan penggunaan dan kebijakan privasi</b> dan menyetujui untuk menerima terkait informasi</a>
 
     <?php
-    if (isset($_SESSION['signup_alert']) && !isset($_POST['enterBtn'])) {
+    if (isset($_SESSION['signup_alert']) && !isset($_POST['enterBtnSignUp'])) {
       echo $_SESSION['signup_alert'];
       unset($_SESSION['signup_alert']);
     }
     ?>
 
-    <button type="submit" value="" class="enterbutton" name="enterBtn">Enter</button>
+    <button type="submit" value="" class="enterbutton" name="enterBtnSignUp">Enter</button>
   </form>
 
 

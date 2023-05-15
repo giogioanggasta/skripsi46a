@@ -14,9 +14,6 @@ function flash($name = '', $message = '', $class = '')
     if ($name != '') {
         $_SESSION[$name] = '<center><div class="w-50 ' . $class . '" >' . $message . '</div></center> <br>';
     }
-    // unset($_SESSION[$name]);
-    // unset($_SESSION[$name . '_class']);
-
 }
 
 function redirect($location)

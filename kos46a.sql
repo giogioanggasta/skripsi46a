@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3307
--- Waktu pembuatan: 12 Bulan Mei 2023 pada 16.40
+-- Waktu pembuatan: 15 Bulan Mei 2023 pada 15.56
 -- Versi server: 10.11.0-MariaDB
 -- Versi PHP: 5.6.40
 
@@ -104,25 +104,50 @@ INSERT INTO `kamar` (`nomorKamar`, `tipeKamar`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tipekamar`
+-- Struktur dari tabel `m_tipekamar`
 --
 
-CREATE TABLE `tipekamar` (
+CREATE TABLE `m_tipekamar` (
   `idTipeKamar` int(11) NOT NULL,
   `namaTipeKamar` varchar(500) NOT NULL,
-  `hargaKamar` double NOT NULL,
-  `fotoKamar` varchar(500) NOT NULL,
-  `stok` int(11) NOT NULL
+  `thumbnailKamar` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `tipekamar`
+-- Dumping data untuk tabel `m_tipekamar`
 --
 
-INSERT INTO `tipekamar` (`idTipeKamar`, `namaTipeKamar`, `hargaKamar`, `fotoKamar`, `stok`) VALUES
-(1, 'Small', 2250000, '', 1),
-(2, 'Medium', 2500000, '', 2),
-(3, 'Deluxe', 2850000, '', 2);
+INSERT INTO `m_tipekamar` (`idTipeKamar`, `namaTipeKamar`, `thumbnailKamar`) VALUES
+(1, 'Small', 'kamar1.jpg'),
+(2, 'Medium', 'kamar2.jpg'),
+(3, 'Deluxe', 'kamar3.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `m_user`
+--
+
+CREATE TABLE `m_user` (
+  `idUser` int(11) NOT NULL,
+  `namaUser` varchar(500) NOT NULL,
+  `jenisKelamin` varchar(50) NOT NULL,
+  `tanggalLahir` date NOT NULL,
+  `nomorTelepon` varchar(50) NOT NULL,
+  `email` varchar(500) NOT NULL,
+  `password` varchar(500) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `m_user`
+--
+
+INSERT INTO `m_user` (`idUser`, `namaUser`, `jenisKelamin`, `tanggalLahir`, `nomorTelepon`, `email`, `password`) VALUES
+(39, 'Satria', 'Pria', '1999-01-20', '083832204284', 'satria@gmail.com', 'MTIzNDU2Nzg5'),
+(41, 'Satria', 'Pria', '1999-01-20', '083832204284', 'satriags@gmail.com', 'MTIzNDU2Nzg5'),
+(42, 'Udin', 'Pria', '1999-01-20', '083838383883', 'yahi@gmail.com', 'MTIzNDU2Nzg5'),
+(43, 'yoooo', 'Pria', '0002-02-22', '2222222', 'yahi2@gmail.com', 'MTIzNDU2Nzg5'),
+(44, 'Giovanni', 'Pria', '2001-12-31', '083838388383', 'gio@gmail.com', 'MTIz');
 
 -- --------------------------------------------------------
 
@@ -137,29 +162,6 @@ CREATE TABLE `transaksi` (
   `lamaSewa` int(11) NOT NULL,
   `buktiPembayaran` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `user`
---
-
-CREATE TABLE `user` (
-  `idUser` int(11) NOT NULL,
-  `namaUser` varchar(500) NOT NULL,
-  `jenisKelamin` varchar(50) NOT NULL,
-  `tanggalLahir` date NOT NULL,
-  `nomorTelepon` varchar(50) NOT NULL,
-  `email` varchar(500) NOT NULL,
-  `password` varchar(500) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `user`
---
-
-INSERT INTO `user` (`idUser`, `namaUser`, `jenisKelamin`, `tanggalLahir`, `nomorTelepon`, `email`, `password`) VALUES
-(39, 'Satria', 'Pria', '1999-01-20', '083832204284', 'satria@gmail.com', 'MTIzNDU2Nzg5');
 
 --
 -- Indexes for dumped tables
@@ -184,22 +186,22 @@ ALTER TABLE `kamar`
   ADD PRIMARY KEY (`nomorKamar`);
 
 --
--- Indeks untuk tabel `tipekamar`
+-- Indeks untuk tabel `m_tipekamar`
 --
-ALTER TABLE `tipekamar`
+ALTER TABLE `m_tipekamar`
   ADD PRIMARY KEY (`idTipeKamar`);
+
+--
+-- Indeks untuk tabel `m_user`
+--
+ALTER TABLE `m_user`
+  ADD PRIMARY KEY (`idUser`);
 
 --
 -- Indeks untuk tabel `transaksi`
 --
 ALTER TABLE `transaksi`
   ADD PRIMARY KEY (`idTransaksi`);
-
---
--- Indeks untuk tabel `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`idUser`);
 
 --
 -- AUTO_INCREMENT untuk tabel yang dibuang
@@ -224,22 +226,22 @@ ALTER TABLE `kamar`
   MODIFY `nomorKamar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
--- AUTO_INCREMENT untuk tabel `tipekamar`
+-- AUTO_INCREMENT untuk tabel `m_tipekamar`
 --
-ALTER TABLE `tipekamar`
+ALTER TABLE `m_tipekamar`
   MODIFY `idTipeKamar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT untuk tabel `m_user`
+--
+ALTER TABLE `m_user`
+  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT untuk tabel `transaksi`
 --
 ALTER TABLE `transaksi`
   MODIFY `idTransaksi` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT untuk tabel `user`
---
-ALTER TABLE `user`
-  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -1,14 +1,17 @@
 <?php
-// include('../model/Model-Login.php');
-include_once '../helper/flash_session.php';
-?>
+include('../helper/flash_session.php');
+include('../model/userModel.php');
 
+if (isset($_SESSION['session_login'])) {
+  header('Location:Home.php');
+}
+?>
 <!DOCTYPE html>
 <html>
 
 <head>
-<title>Signup</title>
-<meta charset="utf-8">
+  <title>Sign In</title>
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -34,7 +37,7 @@ include_once '../helper/flash_session.php';
 
     body {
       font-family: texts;
-      color: white;
+      /* color: white; */
     }
 
     .login {
@@ -112,29 +115,32 @@ include_once '../helper/flash_session.php';
 
 <body>
 
-<nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #11355b">
-  <!-- Brand/logo -->
-  <a class="navbar-brand" href="Home.php"><img src="../images/logo46a.png" style="width:100px;"></a>
-  
-</nav>
+  <nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #11355b">
+    <!-- Brand/logo -->
+    <a class="navbar-brand" href="Home.php"><img src="../images/logo46a.png" style="width:100px;"></a>
 
-<button onclick="location.href = 'Login.php'" class="loginbutton" style="color:white">Login</button>
-<button onclick="location.href = 'Signup.php'" class="signupbutton" style="color:black">Signup</button>
-  <form action="../controller/UserController.php" method="post">
-    <?php //include('../model/Model-Errors.php')
-    ?>
+  </nav>
+
+  <button onclick="location.href = 'Login.php'" class="loginbutton" style="color:white">Login</button>
+  <button onclick="location.href = 'Signup.php'" class="signupbutton" style="color:black">Signup</button>
+  <form method="post">
+
     <div class="login">
       <fieldset style="width:120%">
         <div class="isi">
           <br>
-          <?php flash('error_message') ?>
-          <input type="hidden" name="type" value="login">
           <input type="email" name="email" placeholder="E-mail" style="width: 70vh; height: 2.5vw; border: 1px solid #ccc; padding: 12px; color: black">
           <br><br>
           <input type="password" name="password" placeholder="Password" style="width: 70vh; height: 2.5vw; border: 1px solid #ccc; padding: 6px; color: black">
           <br>
+          <?php
+          if (isset($_SESSION['login_alert']) && !isset($_POST['enterBtnLogin'])) {
+            echo $_SESSION['login_alert'];
+            unset($_SESSION['login_alert']);
+          }
+          ?>
           <br>
-          <button type="submit" class="enterbutton" name="enterBtn">Login</button>
+          <button type="submit" class="enterbutton" name="enterBtnLogin">Login</button>
         </div>
       </fieldset>
     </div>
