@@ -13,16 +13,19 @@ class kelolaModel
 
     public function saveTipeKamar($idAdmin, $tipeKamar, $namaGambar)
     {
+
         $insert = "INSERT INTO m_tipekamar (namaTipeKamar,thumbnailKamar,idAdmin) VALUES ('{$tipeKamar}','{$namaGambar}','{$idAdmin}')";
+
         $this->db->query($insert);
 
         if ($this->db->returnExecute()) {
             flash('insert_alert', 'Berhasil menambah tipe kamar', 'green');
             // $_POST
+            // header('Location: ../view/Kelola.php');
         } else {
             flash('insert_alert', 'Gagal menambah tipe kamar', 'red');
         }
-        // header('Location: ../view/Kelola.php');
+        header('Location: ../view/Kelola.php');
         // exit;
     }
 
@@ -46,8 +49,8 @@ class kelolaModel
 }
 
 $kelolaM = new kelolaModel();
-
-if (isset($_POST['btnInsertTipeKamar'])  && !isset($_SESSION['insert_alert'])) {
+// TRIGGER SAVE
+if (isset($_POST['btnInsertTipeKamar'])) {
 
     if (!(file_exists('../images/thumbnail'))) {
         mkdir('../images/thumbnail', 0777, true);
@@ -61,13 +64,4 @@ if (isset($_POST['btnInsertTipeKamar'])  && !isset($_SESSION['insert_alert'])) {
     // var_dump($simpanGambar);
     // exit;
     $kelolaM->saveTipeKamar($idAdmin, $tipeKamar, $namaGambar);
-}
-
-
-// TRIGGER LOGUT
-if (isset($_GET['logOut']) && isset($_SESSION['session_login'])) {
-
-    unset($_SESSION['session_login']);
-
-    header('Location: ../view/Home.php');
 }

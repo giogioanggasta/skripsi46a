@@ -1,18 +1,20 @@
 <?php
-$title = "Kelola Kamar";
 include('../helper/flash_session.php');
+include('../model/kelolaModel.php');
+$title = "Kelola Kamar";
 include('tmpadmin/header.php');
 include('tmpadmin/nav-kelola.php');
-include('../model/kelolaModel.php');
 // include('../model/adminModel.php');
 ?>
-
+.
 <a class="w3-display-middle" style="color:black;float: center; margin-top: -13%; margin-left: 45%; text-decoration: none; font-size: 120%;">Tabel Kamar</a>
 <?php
+
 if (isset($_SESSION['insert_alert']) && !isset($_POST['btnInsertTipeKamar'])) {
   echo $_SESSION['insert_alert'];
   unset($_SESSION['insert_alert']);
 }
+
 ?>
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalHapus" style="float:right; margin-top:8%; margin-right: 1%; background-color:steelblue">
   Hapus
@@ -83,7 +85,7 @@ if (isset($_SESSION['insert_alert']) && !isset($_POST['btnInsertTipeKamar'])) {
 
       <!-- Modal body -->
       <div class="modal-body">
-        <form method="POST" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data">
 
           <div class="form-group">
             <label for="tipeKamar">Tipe Kamar</label>
@@ -98,7 +100,7 @@ if (isset($_SESSION['insert_alert']) && !isset($_POST['btnInsertTipeKamar'])) {
           </div>
 
           <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
-            <button class="btn btn-primary" type="submit" name="btnInsertTipeKamar"><i class="bi bi-check-square-fill"></i> Save</button>
+            <button class="btn btn-primary" type="submit" name="btnInsertTipeKamar" value="1"><i class="bi bi-check-square-fill"></i> Save</button>
           </div>
         </form>
 
@@ -125,14 +127,7 @@ if (isset($_SESSION['insert_alert']) && !isset($_POST['btnInsertTipeKamar'])) {
 
     <form class="w3-container" action="DataJasa.php" method="POST" enctype="multipart/form-data">
       <tr>
-        <td><?= $row["idJasa"] ?></td>
-        <td><?= $row["kodeJasa"] ?></td>
-        <td><?= $row["namaJasa"] ?></td>
-        <td><img src="../model/uploadImage/<?= $row['fotoJasa'] ?>" style="width:25%"> </td>
-        <td><?= $row["keteranganJasa"] ?></td>
-        <td><?= $row["hargaJasa"] ?></td>
-        <td><input type="hidden" name="idJasa" value="<?= $row["idJasa"]; ?>"></td>
-        <td><button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalUbah-<?= $row["idJasa"] ?>' name='buttonEdit' style="background-color:steelblue">Edit</button></td>
+
       </tr>
       <!-- The Modal -->
       <div class="modal fade" id="modalUbah-<?= $row["idJasa"] ?>">
