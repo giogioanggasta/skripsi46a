@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3307
--- Waktu pembuatan: 15 Bulan Mei 2023 pada 15.56
+-- Waktu pembuatan: 18 Bulan Mei 2023 pada 18.07
 -- Versi server: 10.11.0-MariaDB
 -- Versi PHP: 5.6.40
 
@@ -41,7 +41,8 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`idAdmin`, `namaAdmin`, `nomorTelepon`, `email`, `password`) VALUES
-(1, 'Erick', '087742037644', 'erickadmin46a@gmail.com', 'jerapah12');
+(1, 'Gio', '087742037644', 'gio@gmail.com', 'YWRtaW5rdQ=='),
+(2, 'Satria', '087742037644', 'satria@gmail.com', 'YWRtaW5rdQ==');
 
 -- --------------------------------------------------------
 
@@ -110,17 +111,16 @@ INSERT INTO `kamar` (`nomorKamar`, `tipeKamar`, `status`) VALUES
 CREATE TABLE `m_tipekamar` (
   `idTipeKamar` int(11) NOT NULL,
   `namaTipeKamar` varchar(500) NOT NULL,
-  `thumbnailKamar` varchar(500) NOT NULL
+  `thumbnailKamar` varchar(500) NOT NULL,
+  `idAdmin` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `m_tipekamar`
 --
 
-INSERT INTO `m_tipekamar` (`idTipeKamar`, `namaTipeKamar`, `thumbnailKamar`) VALUES
-(1, 'Small', 'kamar1.jpg'),
-(2, 'Medium', 'kamar2.jpg'),
-(3, 'Deluxe', 'kamar3.jpg');
+INSERT INTO `m_tipekamar` (`idTipeKamar`, `namaTipeKamar`, `thumbnailKamar`, `idAdmin`) VALUES
+(20, 'asdas', '1684425980_unikom.png', 2);
 
 -- --------------------------------------------------------
 
@@ -211,7 +211,7 @@ ALTER TABLE `transaksi`
 -- AUTO_INCREMENT untuk tabel `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `idAdmin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idAdmin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `fasilitas`
@@ -229,7 +229,7 @@ ALTER TABLE `kamar`
 -- AUTO_INCREMENT untuk tabel `m_tipekamar`
 --
 ALTER TABLE `m_tipekamar`
-  MODIFY `idTipeKamar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idTipeKamar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT untuk tabel `m_user`
