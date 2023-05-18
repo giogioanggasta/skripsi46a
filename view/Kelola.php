@@ -13,6 +13,9 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <style>
     @font-face {
@@ -153,78 +156,140 @@
 
   <a class="w3-display-middle" style="color:black;float: center; margin-top: -13%; margin-left: 45%; text-decoration: none; font-size: 120%;">Tabel Kamar</a>
 
-  <a target="_blank" href="DownloadExcelTransaksi.php" style="margin-left: -48px;"> <button style="border: none;
-                outline: 0;
-                padding: 6px;
-                color: white;
-                background-color: steelblue;
-                text-align: center;
-                cursor: pointer;
-                font-size: 16px;
-                width: 15%;
-                margin-top: 45px;
-                margin-right: 35px;
-                float: right;">Download as Excel</button> </a>
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalHapus" style="float:right; margin-top:8%; margin-right: 1%; background-color:steelblue">
+    Hapus
+  </button>
+
+  <!-- The Modal -->
+  <div class="modal fade" id="modalHapus">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Hapus Tipe Kamar</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form class="w3-container" action="DataJasa.php" method="POST">
+            <br>
+            <label><b>Kode Tipe Kamar yang ingin dihapus</b></label>
+            <input class="w3-input w3-border" type="text" placeholder="" name="kodeJasa">
+            <br>
+            <br>
+            <br>
+
+            <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+              <button class="w3-button w3-block w3-dark-grey w3-section w3-padding" type="submit" name="btnHapus">HAPUS</button>
+            </div>
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- The Modal -->
+  <div class="modal fade" id="modalUbah">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Ubah Transaksi</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambah" style="float:right; margin-top:8%; margin-right: 2%; background-color:steelblue">
+    Tambah
+  </button>
+
+  <!-- The Modal -->
+  <div class="modal fade" id="modalTambah">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Tambah Tipe Kamar</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form class="w3-container" action="DataJasa.php" method="POST" enctype="multipart/form-data">
+            <br>
+            <label><b>Nama Tipe Kamar</b></label>
+            <input class="w3-input w3-border" type="text" placeholder="" name="tambahNamaTipe">
+            <label><b>ThumbnailKamar</b></label>
+            <input class="w3-input w3-border" type="file" name="tambahFoto">
+            
+
+            <br>
+            <br>
+            <br>
+
+            <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+              <button class="w3-button w3-block w3-dark-grey w3-section w3-padding" type="submit" name="btnInsert">ENTER</button>
+            </div>
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
 
 
 
-
-
-
-  <div class="w3-container" style="margin-left: -10%; margin-top: 5%">
+  <div class="w3-container" style="margin-left: -10%;">
     <table class="w3-table-all w3-center w3-hoverable" id="tabelcust" style="font-family: texts; font-size: 15px; width: 90%">
       <thead>
         <tr class="w3-light-grey">
-          <th>Nomor Kamar</th>
-          <th>Tipe Kamar</th>
-          <th>Status</th>
-          <th></th>
-          <th></th>
+          <th>ID Tipe Kamar</th>
+          <th>Nama Tipe Kamar</th>
+          <th>Thumbnail Kamar</th>
         </tr>
-
-
       </thead>
 
-
       <?php
-      $sql = "SELECT * FROM transaksi ";
+      $sql = "SELECT * FROM m_tipekamar";
       $results = mysqli_query($db, $sql) or die(mysqli_error($db));
 
       while ($row = mysqli_fetch_array($results)) {
 
+
+
       ?>
-        <form action="DataTransaksi.php" method="post">
+
+
+        <form class="w3-container" action="DataJasa.php" method="POST" enctype="multipart/form-data">
           <tr>
-            <td><?php echo $row["idTransaksi"] ?></td>
-            <td><?php echo $row["tanggalTransaksi"] ?></td>
-            <td><?php echo $row["waktuTransaksi"] ?></td>
-            <td><?php echo $row["jenisMobil"] ?></td>
-            <td><?php echo $row["platKendaraan"] ?></td>
-            <td><?php echo $row["jasa1"] ?></td>
-            <td><?php echo $row["jasa2"] ?></td>
-            <td><?php echo $row["jasa3"] ?></td>
-            <td><?php echo $row["catatanPelanggan"] ?></td>
-            <td><?php echo $row["totalHarga"] ?></td>
-            <td><img src="../model/uploadImage/<?php echo $row['buktiPembayaran'] ?>" style="width:25%" alt="Customer belum mengupload bukti pembayaran"> </td>
-            <td><?php echo $row["waktuPembayaran"] ?></td>
-            <td><?php echo $row["status"] ?></td>
-            <td><input type="hidden" name="idTransaksi" value="<?php echo $row["idTransaksi"]; ?>"></td>
-            <td><input type="hidden" name="emailTujuan" value="<?php echo $row["email"]; ?>"></td>
-            <td><input type="hidden" name="nama" value="<?php echo $row["namaUser"]; ?>"></td>
-            <td><input type="hidden" name="tanggalTransaksi" value="<?php echo $row["tanggalTransaksi"]; ?>"></td>
-            <td><input type="hidden" name="waktuTransaksi" value="<?php echo $row["waktuTransaksi"]; ?>"></td>
-            <td><button type="submit" class="w3-button btn btn-primary" name="buttonTerima" style="border-color:#e7e7e7; background-color:steelblue">Terima</button>
-            <td><button type='button' class="w3-button btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalPembatalan-<?= $row['idTransaksi'] ?>" name="confirmBtn" style="border-color:#e7e7e7; background-color:red">Batalkan Pesanan</button></td>
-
-
+            <td><?php echo $row["idJasa"] ?></td>
+            <td><?php echo $row["kodeJasa"] ?></td>
+            <td><?php echo $row["namaJasa"] ?></td>
+            <td><img src="../model/uploadImage/<?php echo $row['fotoJasa'] ?>" style="width:25%"> </td>
+            <td><?php echo $row["keteranganJasa"] ?></td>
+            <td><?php echo $row["hargaJasa"] ?></td>
+            <td><input type="hidden" name="idJasa" value="<?php echo $row["idJasa"]; ?>"></td>
+            <td><button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalUbah-<?= $row["idJasa"] ?>' name='buttonEdit' style="background-color:steelblue">Edit</button></td>
           </tr>
-          <div class="modal fade" id="modalPembatalan-<?= $row["idTransaksi"] ?>">
+          <!-- The Modal -->
+          <div class="modal fade" id="modalUbah-<?= $row["idJasa"] ?>">
             <div class="modal-dialog">
               <div class="modal-content">
 
                 <!-- Modal Header -->
                 <div class="modal-header">
-                  <h4 class="modal-title">Masukkan Alasan Pembatalan</h4>
+                  <h4 class="modal-title">Ubah Jasa</h4>
                   <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
 
@@ -232,29 +297,38 @@
                 <div class="modal-body">
 
                     <br>
-                    <label><b>Alasan Pembatalan</b></label>
-                    <input class="w3-input w3-border" type="text" placeholder="" name="alasanPembatalan">
+                    <label><b>Nama Tipe Kamar</b></label>
+                    <input class="w3-input w3-border" type="text" placeholder="" name="editNama" value="<?php echo $row["namaTipeKamar"] ?>" required>
+                    <label><b>Thumbnail Tipe Kamar</b></label>
+                    <input class="w3-input w3-border" type="file" name="editFoto">
+                    
+
                     <br>
                     <br>
                     <br>
 
                     <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
-                    <input type="hidden" name="emailTujuan" value="<?php echo $row["email"]; ?>">
-                    
-
-                      <button class="w3-button w3-block w3-dark-grey w3-section w3-padding" type="submit" name="btnBatal">ENTER</button>
+                      <button class="w3-button w3-block w3-dark-grey w3-section w3-padding" type="submit" name="btnEdit">ENTER</button>
                     </div>
                 </div>
               </div>
             </div>
-      </div>
         </form>
-       
-      <?php
 
+
+      <?php
       }
+
       ?>
+
     </table>
+
+
+
+
+
+
+
   </div>
 
 
