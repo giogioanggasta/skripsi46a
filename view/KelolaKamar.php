@@ -7,7 +7,7 @@ include('../model/kelolaModel.php');
 // include('../model/adminModel.php');
 ?>
 
-<a class="w3-display-middle" style="color:black;float: center; margin-top: -13%; margin-left: 45%; text-decoration: none; font-size: 120%;">Tabel Fasilitas</a>
+<a class="w3-display-middle" style="color:black;float: center; margin-top: -13%; margin-left: 45%; text-decoration: none; font-size: 120%;">Tabel Kamar</a>
 <?php
 if (isset($_SESSION['insert_alert']) && !isset($_POST['btnInsertTipeKamar'])) {
   echo $_SESSION['insert_alert'];
@@ -25,7 +25,7 @@ if (isset($_SESSION['insert_alert']) && !isset($_POST['btnInsertTipeKamar'])) {
 
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">Hapus Fasilitas</h4>
+        <h4 class="modal-title">Hapus Tipe Kamar</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
@@ -34,12 +34,12 @@ if (isset($_SESSION['insert_alert']) && !isset($_POST['btnInsertTipeKamar'])) {
         <form method="post" enctype="multipart/form-data">
 
           <div class="form-group">
-            <label for="namaKamar">ID Fasilitas yang ingin dihapus</label>
-            <input type="text" class="form-control" name="idFasilitas">
+            <label for="namaKamar">ID kamar yang ingin dihapus</label>
+            <input type="text" class="form-control" name="namaKamar">
           </div>
           <input type="hidden" name="idAdmin" value="<?= $_SESSION['admin_session_login']->idAdmin; ?>">
           <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
-            <button class="btn btn-primary" type="submit" name="btnInsertTipeKamar"><i class="bi bi-check-square-fill"></i> Save</button>
+          <button class="btn btn-primary" type="submit" name="btnInsertTipeKamar"><i class="bi bi-check-square-fill"></i> Save</button>
           </div>
         </form>
 
@@ -61,7 +61,7 @@ if (isset($_SESSION['insert_alert']) && !isset($_POST['btnInsertTipeKamar'])) {
 
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">Tambah Fasilitas</h4>
+        <h4 class="modal-title">Tambah Kamar</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
@@ -70,13 +70,18 @@ if (isset($_SESSION['insert_alert']) && !isset($_POST['btnInsertTipeKamar'])) {
         <form method="post" enctype="multipart/form-data">
 
           <div class="form-group">
-            <label for="namaKamar">Nama Fasilitas</label>
-            <input type="text" class="form-control" name="namaFasilitas">
+            <label for="namaKamar">Nomor Kamar</label>
+            <input type="text" class="form-control" name="nomorKamar">
           </div>
           <input type="hidden" name="idAdmin" value="<?= $_SESSION['admin_session_login']->idAdmin; ?>">
           <div class="form-group">
-            <label for="tipeKamar">Foto Fasilitas</label>
-            <input type="file" class="form-control" name="fileFasilitas">
+            <label for="namaKamar">Tipe Kamar</label>
+            <input type="text" class="form-control" name="tipeKamar">
+          </div>
+
+          <div class="form-group">
+            <label for="namaKamar">Status</label>
+            <input type="text" class="form-control" name="namaKamar">
           </div>
 
           <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
@@ -96,9 +101,10 @@ if (isset($_SESSION['insert_alert']) && !isset($_POST['btnInsertTipeKamar'])) {
   <table class="w3-table-all w3-center w3-hoverable" id="tabelcust" style="font-family: texts; font-size: 15px; width: 90%">
     <thead>
       <tr class="w3-light-grey">
-        <th>ID Fasilitas</th>
-        <th>Nama Fasilitas</th>
-        <th>Foto Fasilitas</th>
+        <th>ID Kamar</th>
+        <th>Nomor Kamar</th>
+        <th>Tipe Kamar</th>
+        <th>Status</th>
       </tr>
     </thead>
 
@@ -108,8 +114,9 @@ if (isset($_SESSION['insert_alert']) && !isset($_POST['btnInsertTipeKamar'])) {
     <form class="w3-container" method="POST" enctype="multipart/form-data">
       <tr>
         <td></td>
-        <td><?= $row["tipeKamar"] ?></td>
-        <td><?= $row["status"] ?></td>
+        <td></td>
+        <td></td>
+        <td></td>
         <td><button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalUbah-<?= $row["idJasa"] ?>' name='buttonEdit' style="background-color:steelblue">Edit</button></td>
       </tr>
       <!-- The Modal -->
@@ -119,7 +126,7 @@ if (isset($_SESSION['insert_alert']) && !isset($_POST['btnInsertTipeKamar'])) {
 
             <!-- Modal Header -->
             <div class="modal-header">
-              <h4 class="modal-title">Ubah Fasilitas</h4>
+              <h4 class="modal-title">Ubah Kamar</h4>
               <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
@@ -128,13 +135,18 @@ if (isset($_SESSION['insert_alert']) && !isset($_POST['btnInsertTipeKamar'])) {
               <form method="post" enctype="multipart/form-data">
 
                 <div class="form-group">
-                  <label for="namaKamar">Nama Fasilitas</label>
-                  <input type="text" class="form-control" name="namaFasilitas" value="">
+                  <label for="namaKamar">Nomor Kamar</label>
+                  <input type="text" class="form-control" name="nomorKamar" value="">
                 </div>
                 <input type="hidden" name="idAdmin" value="<?= $_SESSION['admin_session_login']->idAdmin; ?>">
                 <div class="form-group">
-                  <label for="tipeKamar">Foto Fasilitas</label>
-                  <input type="file" class="form-control" name="fileFasilitas">
+                  <label for="namaKamar">Tipe Kamar</label>
+                  <input type="text" class="form-control" name="tipeKamar" value="">
+                </div>
+
+                <div class="form-group">
+                  <label for="namaKamar">Status</label>
+                  <input type="text" class="form-control" name="namaKamar" value="">
                 </div>
 
                 <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
