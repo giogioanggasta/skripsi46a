@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3307
--- Waktu pembuatan: 18 Bulan Mei 2023 pada 18.07
+-- Waktu pembuatan: 19 Bulan Mei 2023 pada 16.04
 -- Versi server: 10.11.0-MariaDB
 -- Versi PHP: 5.6.40
 
@@ -112,15 +112,20 @@ CREATE TABLE `m_tipekamar` (
   `idTipeKamar` int(11) NOT NULL,
   `namaTipeKamar` varchar(500) NOT NULL,
   `thumbnailKamar` varchar(500) NOT NULL,
-  `idAdmin` int(11) DEFAULT NULL
+  `idAdmin` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `m_tipekamar`
 --
 
-INSERT INTO `m_tipekamar` (`idTipeKamar`, `namaTipeKamar`, `thumbnailKamar`, `idAdmin`) VALUES
-(20, 'asdas', '1684425980_unikom.png', 2);
+INSERT INTO `m_tipekamar` (`idTipeKamar`, `namaTipeKamar`, `thumbnailKamar`, `idAdmin`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(42, 'Small', '1684502105_header.jpg', 2, '2023-05-19 21:00:55', NULL, NULL),
+(43, 'Medium', '1684504734_logo46a.png', 1, '2023-05-19 21:00:55', NULL, NULL),
+(50, 'Kos', '1684504728_kamarkos.png', 2, '2023-05-19 21:00:55', '2023-05-19 21:01:48', NULL);
 
 -- --------------------------------------------------------
 
@@ -229,7 +234,7 @@ ALTER TABLE `kamar`
 -- AUTO_INCREMENT untuk tabel `m_tipekamar`
 --
 ALTER TABLE `m_tipekamar`
-  MODIFY `idTipeKamar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `idTipeKamar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT untuk tabel `m_user`
