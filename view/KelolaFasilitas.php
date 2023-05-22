@@ -104,7 +104,7 @@ if (count($_POST) == 0) {
             // $data = array('nama' => 'gio', 'umur' => '25');
             // var_dump($data);
             // var_dump($kelolaM->showKamar());/
-            foreach ($kelolaM->showKamar() as $s => $x) {
+            foreach ($kelolaM->showFasilitas() as $s => $x) {
             ?>
 
               <!-- echo $x->idTipeKamar; -->
@@ -171,7 +171,7 @@ if (count($_POST) == 0) {
       <script>
         function hapusFasilitas(idFasilitas, namaFasilitas) {
           Swal.fire({
-            title: '<p style="text-transform:lowercase !important;">yakin menghapus tipe kamar (' + namaFasilitas + ') ?</p>',
+            title: '<p style="text-transform:lowercase !important;">yakin menghapus fasilitas (' + namaFasilitas + ') ?</p>',
             showDenyButton: true,
             showCancelButton: false,
             confirmButtonText: 'Cancel',
@@ -180,7 +180,7 @@ if (count($_POST) == 0) {
           }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isDenied) {
-              window.location.href = "../model/kelolaModel.php?actTipeKamar=hapusTipeKamar&idTipeKamar=" + idFasilitas;
+              window.location.href = "../model/kelolaModel.php?actFasilitas=hapusFasilitas&idFasilitas=" + idFasilitas;
             }
           })
         }
