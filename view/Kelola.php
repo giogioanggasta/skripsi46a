@@ -1,7 +1,7 @@
 <?php
 include('../helper/flash_session.php');
 include('../model/kelolaModel.php');
-$title = "Kelola Kamar";
+$title = "Kelola Tipe Kamar";
 include('tmpadmin/header.php');
 include('tmpadmin/nav-kelola.php');
 // include('../model/adminModel.php');

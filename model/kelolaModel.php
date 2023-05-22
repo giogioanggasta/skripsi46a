@@ -26,6 +26,22 @@ class kelolaModel
         }
         header('Location: ../view/Kelola.php');
     }
+
+    public function saveKamar($idAdmin, $kamar)
+    {
+
+        $insert = "INSERT INTO m_kamar (nomorKamar, status, idAdmin) VALUES ('{$nomorKamar}','{$status}','{$idAdmin}')";
+
+        $this->db->query($insert);
+
+        if ($this->db->returnExecute()) {
+            flash('insert_alert', 'Berhasil menambah kamar', 'green');
+        } else {
+            flash('insert_alert', 'Gagal menambah kamar', 'red');
+        }
+        header('Location: ../view/KelolaKamar.php');
+    }
+
     public function updateTipeKamar($idAdmin, $tipeKamar, $namaGambar, $idTipeKamar)
     {
         // JIKA NAMA GAMBAR KOSONG
@@ -45,6 +61,24 @@ class kelolaModel
         header('Location: ../view/Kelola.php');
     }
 
+    public function updateKamar($idAdmin, $nomorKamar, $status, $idKamar)
+    {
+        // JIKA NAMA GAMBAR KOSONG
+        if ($namaGambar == '') {
+            $update = "UPDATE m_kamar SET nomorKamar = '{$nomorKamar}',idAdmin = '{$idAdmin}' WHERE idTipeKamar='{$idTipeKamar}'";
+        } else {
+            $update = "UPDATE m_kamar SET thumbnailKamar = '{$namaGambar}',namaTipeKamar = '{$tipeKamar}',idAdmin = '{$idAdmin}' WHERE idTipeKamar='{$idTipeKamar}'";
+        }
+
+        $this->db->query($update);
+
+        if ($this->db->returnExecute()) {
+            flash('insert_alert', 'Berhasil mengubah tipe kamar', 'green');
+        } else {
+            flash('insert_alert', 'Gagal mengubah tipe kamar', 'red');
+        }
+        header('Location: ../view/Kelola.php');
+    }
 
     public function showKamar()
     {
@@ -56,6 +90,20 @@ class kelolaModel
         m_tipekamar mtk
         LEFT JOIN admin a ON mtk.idAdmin = a.idAdmin ORDER BY mtk.idTipeKamar DESC";
         $this->db->query($getAllKamar);
+
+        return $this->db->resultAll();
+    }
+
+    public function showNomorKamar()
+    {
+
+        // CEK EMAIL
+        $getAllNomorKamar = "SELECT
+        k.idKamar,k.nomorKamar,k.status,a.namaAdmin
+    FROM
+        m_kamar k
+        LEFT JOIN admin a ON k.idAdmin = a.idAdmin ORDER BY k.idKamar DESC";
+        $this->db->query($getAllNomorKamar);
 
         return $this->db->resultAll();
     }
@@ -94,6 +142,21 @@ class kelolaModel
 
         header('Location: ../view/Kelola.php');
     }
+
+    public function hapusKamar($idKamar)
+    {
+        $cariGambar = "SELECT * FROM kamar WHERE idKamar = '{$idKamar}'";
+        $this->db->query($cariGambar);
+
+            $delete = "DELETE FROM kamar WHERE idKamar='{$idKamar}'";
+            $this->db->query($delete);
+            if ($this->db->returnExecute()) {
+                flash('insert_alert', 'Berhasil menghapus kamar', 'green');
+            } else {
+                flash('insert_alert', 'Gagal menghapus kamar', 'red');
+            }
+        header('Location: ../view/KelolaKamar.php');
+    }
 }
 
 $kelolaM = new kelolaModel();
@@ -112,6 +175,14 @@ if (isset($_POST['btnInsertTipeKamar'])) {
     $simpanGambar =  move_uploaded_file($_FILES['fileTipeKamar']['tmp_name'], '../images/thumbnail/' . $namaGambar);
 
     $kelolaM->saveTipeKamar($idAdmin, $tipeKamar, $namaGambar);
+}
+
+if (isset($_POST['btnInsertKamar'])) {
+
+    $kamar = $_POST['kamar'];
+    $admin = $_POST['admin'];
+
+    $kelolaM->saveTipeKamar($idAdmin, $kamar);
 }
 
 // ACTION UPDATE
