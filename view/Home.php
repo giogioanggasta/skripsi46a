@@ -21,7 +21,7 @@ include 'tmpuser/nav.php';
     foreach ($homeM->showKamar() as $k => $v) {
 
     ?>
-      <div class="col-4 col-md-6 col-lg-4">
+      <div class="col-4 col-md-6 col-lg-4 mt-2">
         <div class="card" style="border-width:none">
           <img class="img-fluid" style="width:726px; height:409px;" src="../images/thumbnail/<?= $v->thumbnailKamar ?>"><br>
           <div class="card-body">

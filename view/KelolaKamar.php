@@ -7,7 +7,7 @@ include('tmpadmin/nav-kelola.php');
 // include('../model/adminModel.php');
 ?>
 .
-<a class="w3-display-middle" style="color:black;float: center; margin-top: -13%; margin-left: 45%; text-decoration: none; font-size: 120%;">Tabel Tipe Kamar</a>
+<a class="w3-display-middle" style="color:black;float: center; margin-top: -13%; margin-left: 45%; text-decoration: none; font-size: 120%;">Tabel Kamar</a>
 <?php
 if (isset($_SESSION['insert_alert']) && !isset($_POST['btnInsertKamar']) || isset($_SESSION['insert_alert']) && !isset($_POST['btnUpdateKamar'])) {
   echo $_SESSION['insert_alert'];
@@ -59,25 +59,43 @@ if (count($_POST) == 0) {
 
                   <div class="form-group">
                     <label for="nomorKamar">Nomor Kamar</label>
-
-                    <input type="text" class="form-control" name="nomorKamar">
+                    <input type="number" class="form-control" name="nomorKamar">
                   </div>
                   <input type="hidden" name="idAdmin" value="<?= $_SESSION['admin_session_login']->idAdmin; ?>">
                   <div class="form-group">
                     <label for="tipeKamar">Tipe Kamar</label>
+                    <select name="tipeKamar" class="form-select">
+                      <option value="" selected hidden>Pilih Tipe Kamar</option>
+                      <?php
+                      foreach ($kelolaM->showKamar() as $k => $d) {
+                      ?>
+                        <option value="<?= $d->idTipeKamar ?>"><?= $d->namaTipeKamar ?></option>
+                      <?php
+                      }
+                      ?>
 
-                    <input type="text" class="form-control" name="tipeKamar">
+                    </select>
+                    <!-- <input type="text" class="form-control" name="tipeKamar"> -->
+                  </div>
+                  <div class="form-group">
+                    <label for="status">Pilih Gambar</label>
+                    <input class="form-control" type="file" accept="image/jpeg,image/png" name="namaFoto[]" multiple>
+                    <div class="form-text">Bisa pilih lebih dari 1 Gambar</div>
                   </div>
                   <div class="form-group">
                     <label for="status">Status</label>
 
-                    <input type="text" class="form-control" name="status">
+                    <select name="status" class="form-select">
+                      <option value="" selected hidden>Pilih Status Kamar</option>
+                      <option value="Tersedia">Tersedia</option>
+                      <option value="Tidak Tersedia">Tidak Tersedia</option>
+                    </select>
                   </div>
 
 
-                    <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
-                      <button class="btn btn-primary" type="submit" name="btnInsertKamar" value="1"><i class="bi bi-check-square-fill"></i> Save</button>
-                    </div>
+                  <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+                    <button class="btn btn-primary" type="submit" name="btnInsertKamar" value="1"><i class="bi bi-check-square-fill"></i> Save</button>
+                  </div>
                 </form>
 
               </div>
@@ -158,7 +176,7 @@ if (count($_POST) == 0) {
 
                           <input type="text" required value="<?= $x->status ?>" class="form-control" name="status">
                         </div>
-                        
+
 
                         <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
                           <button class="btn btn-primary" type="submit" name="btnUpdateKamar" value="1"><i class="bi bi-check-square-fill"></i> Update</button>
