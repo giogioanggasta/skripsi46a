@@ -7,10 +7,8 @@
     $(document).ready(function() {
         $('#Table_ID').DataTable({
             // "scrollY": 200,
-            "scrollX": true,
-            "order": [
-                [4, 'DESC']
-            ],
+
+
 
 
         });

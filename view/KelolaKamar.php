@@ -77,11 +77,7 @@ if (count($_POST) == 0) {
                     </select>
                     <!-- <input type="text" class="form-control" name="tipeKamar"> -->
                   </div>
-                  <div class="form-group">
-                    <label for="status">Pilih Gambar</label>
-                    <input class="form-control" type="file" accept="image/jpeg,image/png" name="namaFoto[]" multiple>
-                    <div class="form-text">Bisa pilih lebih dari 1 Gambar</div>
-                  </div>
+              
                   <div class="form-group">
                     <label for="status">Status</label>
 
@@ -108,10 +104,8 @@ if (count($_POST) == 0) {
 
 
       <div class="col-12 mt-4">
-        <table class=" display" id="Table_ID" style="font-family: texts; font-size: 15px;">
-
+        <table class="table display" id="Table_ID" width="100%" style="font-family: texts; font-size: 15px;">
           <thead>
-
             <tr>
               <th>ID Kamar</th>
               <th>Nomor Kamar</th>
@@ -125,22 +119,19 @@ if (count($_POST) == 0) {
 
             <?php
 
-            // echo "<br><pre>";
-            // $data = array('nama' => 'gio', 'umur' => '25');
-            // var_dump($data);
-            // var_dump($kelolaM->showKamar());/
-            foreach ($kelolaM->showKamar() as $s => $x) {
+            foreach ($kelolaM->showNomorKamar() as $s => $x) {
             ?>
 
               <!-- echo $x->idTipeKamar; -->
               <tr>
                 <td><?= $x->idKamar ?></td>
                 <td><?= $x->nomorKamar ?></td>
-                <td><?= $x->tipeKamar ?></td>
+                <td><?= $x->namaTipeKamar ?></td>
                 <td><?= $x->status ?></td>
                 <td><?= $x->namaAdmin ?></td>
-                <td><a href="#" data-bs-toggle="modal" data-bs-target="#modalTambah<?= $x->idKamar ?>" class="btn btn-secondary">Edit</a>
-                  <a onclick="hapusKamar('<?= $x->idKamar ?>','<?= $x->idKamar ?>')" href="#" class="btn btn-danger">Hapus</a>
+                <td>
+                  <!-- <a href="#" data-bs-toggle="modal" data-bs-target="#modalTambah<?= $x->idKamar ?>" class="btn btn-secondary">Edit</a> -->
+                  <a onclick="hapusKamar('<?= $x->idKamar ?>','<?= $x->nomorKamar ?>')" href="#" class="btn btn-danger">Hapus</a>
                 </td>
               </tr>
 
@@ -151,7 +142,7 @@ if (count($_POST) == 0) {
 
                     <!-- Modal Header -->
                     <div class="modal-header">
-                      <h4 class="modal-title">Ubah Kamar <?= $x->nomorKamar ?></h4>
+                      <h4 class="modal-title">Ubah Kamar (Nomor <?= $x->nomorKamar ?>)</h4>
                       <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
 
@@ -159,22 +150,40 @@ if (count($_POST) == 0) {
                     <div class="modal-body">
                       <form method="post" enctype="multipart/form-data">
 
-                        <div class="form-group">
-                          <label for="nomorKamar">Nomor Kamar</label>
 
-                          <input type="text" required value="<?= $x->nomorKamar ?>" class="form-control" name="nomorKamar">
+                        <div class="form-group">
+                          <label for="nomorKamar">Ubah Nomor Kamar</label>
+                          <input type="number" class="form-control" value="<?= $x->nomorKamar ?>" name="nomorKamar">
                         </div>
                         <input type="hidden" name="idAdmin" value="<?= $_SESSION['admin_session_login']->idAdmin; ?>">
-                        <input type="hidden" name="idKamar" value="<?= $x->idKamar ?>">
                         <div class="form-group">
                           <label for="tipeKamar">Tipe Kamar</label>
+                          <select name="tipeKamar" class="form-select">
 
-                          <input type="text" required value="<?= $x->tipeKamar ?>" class="form-control" name="tipeKamar">
+                            <?php
+                            foreach ($kelolaM->showKamar() as $k => $d) {
+                            ?>
+                              <option value="<?= $d->idTipeKamar ?>"><?= $d->namaTipeKamar ?></option>
+                            <?php
+                            }
+                            ?>
+
+                          </select>
+                          <!-- <input type="text" class="form-control" name="tipeKamar"> -->
+                        </div>
+                        <div class="form-group">
+                          <label for="status">Pilih Gambar</label>
+                          <input class="form-control" type="file" accept="image/jpeg,image/png" name="namaFoto[]" multiple>
+                          <div class="form-text">Bisa pilih lebih dari 1 Gambar</div>
                         </div>
                         <div class="form-group">
                           <label for="status">Status</label>
 
-                          <input type="text" required value="<?= $x->status ?>" class="form-control" name="status">
+                          <select name="status" class="form-select">
+                            <option value="" selected hidden>Pilih Status Kamar</option>
+                            <option value="Tersedia">Tersedia</option>
+                            <option value="Tidak Tersedia">Tidak Tersedia</option>
+                          </select>
                         </div>
 
 
@@ -198,7 +207,7 @@ if (count($_POST) == 0) {
       <script>
         function hapusKamar(idKamar, nomorKamar) {
           Swal.fire({
-            title: '<p style="text-transform:lowercase !important;">yakin menghapus kamar (' + nomorKamar + ') ?</p>',
+            title: '<p style="text-transform:lowercase !important;">yakin menghapus kamar (Nomor ' + nomorKamar + ') ?</p>',
             showDenyButton: true,
             showCancelButton: false,
             confirmButtonText: 'Cancel',

@@ -68,7 +68,11 @@ if (count($_POST) == 0) {
                     <label for="tipeKamar">Upload Thumbnail</label>
                     <input type="file" class="form-control" name="fileTipeKamar">
                   </div>
-
+                  <div class="form-group">
+                    <label for="status">Detail Foto Kamar</label>
+                    <input class="form-control" type="file" accept="image/jpeg,image/png" name="namaFoto[]" multiple>
+                    <div class="form-text">Bisa pilih lebih dari 1 Gambar</div>
+                  </div>
                   <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
                     <button class="btn btn-primary" type="submit" name="btnInsertTipeKamar" value="1"><i class="bi bi-check-square-fill"></i> Save</button>
                   </div>
@@ -84,7 +88,7 @@ if (count($_POST) == 0) {
 
 
       <div class="col-12 mt-4">
-        <table class=" display" id="Table_ID" style="font-family: texts; font-size: 15px;">
+        <table class=" display" id="Table_ID" width="100%" style="font-family: texts; font-size: 15px;">
 
           <thead>
 
