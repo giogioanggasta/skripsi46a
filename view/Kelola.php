@@ -154,7 +154,35 @@ if (count($_POST) == 0) {
                         <center>
 
                           <img src="../images/thumbnail/<?= $x->thumbnailKamar ?>" class=" img-fluid img-thumbnail " alt="">
+
+
                         </center>
+                        <div class="form-group">
+                          <label for="tipeKamar">Upload Detail Kamar</label>
+                          <input type="file" class="form-control" name="namaFoto">
+
+                        </div>
+                        <div class="form-text fw-bold text-dark">*Jika tidak ingin mengubah gambar silahkan dikosongi</div>
+                        <center>
+
+                          <div class="row">
+
+                            <?php
+                            foreach ($kelolaM->showAllFotoKamar($x->idTipeKamar) as $k => $d) {
+                            ?>
+                              <div class="col-2">
+
+                                <img src="../images/img-kamar/<?= $d->namaFoto ?>" class="mb-3  img-fluid img-thumbnail " alt="">
+                              </div>
+
+                            <?php
+                            }
+                            ?>
+                          </div>
+
+
+                        </center>
+
                         <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
                           <button class="btn btn-primary" type="submit" name="btnUpdateTipeKamar" value="1"><i class="bi bi-check-square-fill"></i> Update</button>
                         </div>

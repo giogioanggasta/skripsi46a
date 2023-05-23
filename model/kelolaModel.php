@@ -298,6 +298,14 @@ class kelolaModel
 
         header('Location: ../view/KelolaFasilitas.php');
     }
+
+    public function showAllFotoKamar($idTipeKamar)
+    {
+        $cariGambar = "SELECT * FROM m_tipekamar_foto WHERE idTipeKamar = '{$idTipeKamar}'";
+
+        $this->db->query($cariGambar);
+        return $this->db->resultAll();
+    }
 }
 
 $kelolaM = new kelolaModel();
