@@ -11,7 +11,7 @@
  Target Server Version : 101100
  File Encoding         : 65001
 
- Date: 23/05/2023 23:36:43
+ Date: 24/05/2023 23:40:24
 */
 
 SET NAMES utf8mb4;
@@ -43,20 +43,50 @@ DROP TABLE IF EXISTS `fasilitas`;
 CREATE TABLE `fasilitas`  (
   `idFasilitas` int(11) NOT NULL AUTO_INCREMENT,
   `namaFasilitas` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `hargaFasilitas` double NOT NULL,
   `fotoFasilitas` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `stok` int(11) NOT NULL,
+  `created_at` datetime NULL DEFAULT current_timestamp(),
+  `idAdmin` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`idFasilitas`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of fasilitas
 -- ----------------------------
-INSERT INTO `fasilitas` VALUES (1, 'Air Conditioner', 250000, '', 15);
-INSERT INTO `fasilitas` VALUES (2, 'Parkir Motor', 100000, '', 18);
-INSERT INTO `fasilitas` VALUES (3, 'Parkir Mobil', 150000, '', 6);
-INSERT INTO `fasilitas` VALUES (4, 'Televisi', 200000, '', 19);
-INSERT INTO `fasilitas` VALUES (5, 'Laundry', 150000, '', 32);
+INSERT INTO `fasilitas` VALUES (2, 'Parkir Motor', '', '2023-05-24 23:12:59', NULL);
+INSERT INTO `fasilitas` VALUES (3, 'Parkir Mobil', '', '2023-05-24 23:12:59', NULL);
+INSERT INTO `fasilitas` VALUES (4, 'Televisi', '1684945874_20230522_083641_0000.png', '2023-05-24 23:12:59', 2);
+INSERT INTO `fasilitas` VALUES (7, 'AC', '1684945824_Frame 2.png', '2023-05-24 23:17:43', 2);
+INSERT INTO `fasilitas` VALUES (8, 'Televisi Samsung', '1684945800_3011d8ae-986e-4831-ae73-3decbdc02f6e.jpg', '2023-05-24 23:21:02', 2);
+
+-- ----------------------------
+-- Table structure for fasilitas_pengelolaan
+-- ----------------------------
+DROP TABLE IF EXISTS `fasilitas_pengelolaan`;
+CREATE TABLE `fasilitas_pengelolaan`  (
+  `idPengelolaan` int(11) NOT NULL AUTO_INCREMENT,
+  `idFasilitas` int(11) NOT NULL,
+  `idAdmin` int(11) NOT NULL,
+  `hargaFasilitas` bigint(100) NULL DEFAULT NULL,
+  `created_at` datetime NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NULL DEFAULT current_timestamp() ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` datetime NULL DEFAULT NULL,
+  `namaFasilitas` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`idPengelolaan`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 74 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of fasilitas_pengelolaan
+-- ----------------------------
+INSERT INTO `fasilitas_pengelolaan` VALUES (64, 7, 2, 100000, '2023-05-24 23:17:43', '2023-05-24 23:17:43', NULL, 'AC');
+INSERT INTO `fasilitas_pengelolaan` VALUES (65, 8, 2, 150000, '2023-05-24 23:21:02', '2023-05-24 23:21:02', NULL, 'Televisi');
+INSERT INTO `fasilitas_pengelolaan` VALUES (66, 8, 2, 180000, '2023-05-24 23:23:54', '2023-05-24 23:23:54', NULL, 'Televisi Samsung');
+INSERT INTO `fasilitas_pengelolaan` VALUES (67, 5, 2, 80000, '2023-05-24 23:24:07', '2023-05-24 23:24:07', NULL, 'Laundry');
+INSERT INTO `fasilitas_pengelolaan` VALUES (68, 8, 2, 180000, '2023-05-24 23:30:00', '2023-05-24 23:30:00', NULL, 'Televisi Samsung');
+INSERT INTO `fasilitas_pengelolaan` VALUES (69, 7, 2, 100000, '2023-05-24 23:30:06', '2023-05-24 23:30:06', NULL, 'AC');
+INSERT INTO `fasilitas_pengelolaan` VALUES (70, 5, 2, 80000, '2023-05-24 23:30:16', '2023-05-24 23:30:16', NULL, 'Laundry');
+INSERT INTO `fasilitas_pengelolaan` VALUES (71, 7, 2, 100000, '2023-05-24 23:30:24', '2023-05-24 23:30:24', NULL, 'AC');
+INSERT INTO `fasilitas_pengelolaan` VALUES (72, 5, 2, 80000, '2023-05-24 23:30:37', '2023-05-24 23:30:37', NULL, 'Laundry');
+INSERT INTO `fasilitas_pengelolaan` VALUES (73, 4, 2, 60000, '2023-05-24 23:31:14', '2023-05-24 23:31:14', NULL, 'Televisi');
 
 -- ----------------------------
 -- Table structure for kamar
@@ -72,11 +102,12 @@ CREATE TABLE `kamar`  (
   `updated_at` datetime NULL DEFAULT current_timestamp() ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`idKamar`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of kamar
 -- ----------------------------
+INSERT INTO `kamar` VALUES (15, 2, 64, '100', 'Tersedia', '2023-05-24 22:43:49', '2023-05-24 22:43:49', NULL);
 
 -- ----------------------------
 -- Table structure for m_tipekamar
@@ -91,16 +122,15 @@ CREATE TABLE `m_tipekamar`  (
   `updated_at` datetime NULL DEFAULT current_timestamp() ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`idTipeKamar`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 55 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 69 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of m_tipekamar
 -- ----------------------------
-INSERT INTO `m_tipekamar` VALUES (43, 'Medium', '1684762813_msg-463887772-4921.jpg', 2, '2023-05-19 21:00:55', '2023-05-22 20:40:13', NULL);
-INSERT INTO `m_tipekamar` VALUES (50, 'Kos', '1684504728_kamarkos.png', 2, '2023-05-19 21:00:55', '2023-05-19 21:01:48', NULL);
-INSERT INTO `m_tipekamar` VALUES (51, 'Royal', '1684762836_Screen Shot 2023-04-14 at 01.11.35.png', 2, '2023-05-22 20:40:36', '2023-05-22 20:40:36', NULL);
-INSERT INTO `m_tipekamar` VALUES (52, 'Deluxe', '1684853789_iconapp (1).png', 2, '2023-05-23 21:56:29', '2023-05-23 21:56:29', NULL);
-INSERT INTO `m_tipekamar` VALUES (54, 'Small', '1684859568_40940701_292197488041925_2337109043983679488_n.jpg', 2, '2023-05-23 23:32:48', '2023-05-23 23:32:48', NULL);
+INSERT INTO `m_tipekamar` VALUES (64, 'Delux', '1684942578_kamar2.jpg', 2, '2023-05-24 22:48:53', '2023-05-24 22:48:53', NULL);
+INSERT INTO `m_tipekamar` VALUES (65, 'Small', '1684943059_kamar1.jpg', 2, '2023-05-24 22:44:19', '2023-05-24 22:44:19', NULL);
+INSERT INTO `m_tipekamar` VALUES (66, 'Reguler', '1684943084_kamar2.jpg', 2, '2023-05-24 22:44:44', '2023-05-24 22:44:44', NULL);
+INSERT INTO `m_tipekamar` VALUES (68, 'Big', '1684943648_kamar5.jpg', 2, '2023-05-24 22:54:08', '2023-05-24 22:54:08', NULL);
 
 -- ----------------------------
 -- Table structure for m_tipekamar_foto
@@ -113,18 +143,25 @@ CREATE TABLE `m_tipekamar_foto`  (
   `idAdmin` int(11) NULL DEFAULT NULL,
   `created_at` datetime NULL DEFAULT current_timestamp(),
   `updated_at` datetime NULL DEFAULT current_timestamp() ON UPDATE CURRENT_TIMESTAMP,
-  `deleted_at` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`idFotoKamar`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 114 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of m_tipekamar_foto
 -- ----------------------------
-INSERT INTO `m_tipekamar_foto` VALUES (23, 54, '1684859568_iconapp (1) (1).jpg', 2, '2023-05-23 23:32:48', '2023-05-23 23:32:48', NULL);
-INSERT INTO `m_tipekamar_foto` VALUES (24, 54, '1684859568_iconapp (1).jpg', 2, '2023-05-23 23:32:48', '2023-05-23 23:32:48', NULL);
-INSERT INTO `m_tipekamar_foto` VALUES (25, 54, '1684859568_iconapp (1).png', 2, '2023-05-23 23:32:48', '2023-05-23 23:32:48', NULL);
-INSERT INTO `m_tipekamar_foto` VALUES (26, 54, '1684859568_iconapp.png', 2, '2023-05-23 23:32:48', '2023-05-23 23:32:48', NULL);
-INSERT INTO `m_tipekamar_foto` VALUES (27, 54, '1684859568_iconapp-1.jpeg', 2, '2023-05-23 23:32:48', '2023-05-23 23:32:48', NULL);
+INSERT INTO `m_tipekamar_foto` VALUES (97, 64, '1684942578_kamar2.jpg', 2, '2023-05-24 22:36:18', '2023-05-24 22:36:18');
+INSERT INTO `m_tipekamar_foto` VALUES (98, 64, '1684942578_kamar3.jpg', 2, '2023-05-24 22:36:18', '2023-05-24 22:36:18');
+INSERT INTO `m_tipekamar_foto` VALUES (99, 64, '1684942578_kamar4.jpg', 2, '2023-05-24 22:36:18', '2023-05-24 22:36:18');
+INSERT INTO `m_tipekamar_foto` VALUES (100, 64, '1684942578_kamar5.jpg', 2, '2023-05-24 22:36:18', '2023-05-24 22:36:18');
+INSERT INTO `m_tipekamar_foto` VALUES (102, 65, '1684943059_kamar3.jpg', 2, '2023-05-24 22:44:19', '2023-05-24 22:44:19');
+INSERT INTO `m_tipekamar_foto` VALUES (103, 65, '1684943059_kamar4.jpg', 2, '2023-05-24 22:44:19', '2023-05-24 22:44:19');
+INSERT INTO `m_tipekamar_foto` VALUES (104, 65, '1684943059_kamar5.jpg', 2, '2023-05-24 22:44:19', '2023-05-24 22:44:19');
+INSERT INTO `m_tipekamar_foto` VALUES (105, 66, '1684943084_kamar3.jpg', 2, '2023-05-24 22:44:44', '2023-05-24 22:44:44');
+INSERT INTO `m_tipekamar_foto` VALUES (106, 66, '1684943084_kamar4.jpg', 2, '2023-05-24 22:44:44', '2023-05-24 22:44:44');
+INSERT INTO `m_tipekamar_foto` VALUES (107, 66, '1684943084_kamar5.jpg', 2, '2023-05-24 22:44:44', '2023-05-24 22:44:44');
+INSERT INTO `m_tipekamar_foto` VALUES (111, 68, '1684943648_checked.png', 2, '2023-05-24 22:54:08', '2023-05-24 22:54:08');
+INSERT INTO `m_tipekamar_foto` VALUES (112, 68, '1684943648_header.jpg', 2, '2023-05-24 22:54:08', '2023-05-24 22:54:08');
+INSERT INTO `m_tipekamar_foto` VALUES (113, 68, '1684943648_itb.png', 2, '2023-05-24 22:54:08', '2023-05-24 22:54:08');
 
 -- ----------------------------
 -- Table structure for m_tipekamar_pengelolaan
@@ -134,22 +171,23 @@ CREATE TABLE `m_tipekamar_pengelolaan`  (
   `idPengelolaan` int(11) NOT NULL AUTO_INCREMENT,
   `idTipeKamar` int(11) NOT NULL,
   `idAdmin` int(11) NOT NULL,
-  `harga` bigint(100) NULL DEFAULT NULL,
+  `hargaTipeKamar` bigint(100) NULL DEFAULT NULL,
   `created_at` datetime NULL DEFAULT current_timestamp(),
   `updated_at` datetime NULL DEFAULT current_timestamp() ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` datetime NULL DEFAULT NULL,
+  `namaTipeKamar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`idPengelolaan`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 58 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 64 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of m_tipekamar_pengelolaan
 -- ----------------------------
-INSERT INTO `m_tipekamar_pengelolaan` VALUES (52, 42, 2, 1000000, '2023-05-22 20:49:45', NULL, NULL);
-INSERT INTO `m_tipekamar_pengelolaan` VALUES (53, 43, 2, 1500000, '2023-05-22 21:02:22', '2023-05-22 21:02:27', NULL);
-INSERT INTO `m_tipekamar_pengelolaan` VALUES (54, 50, 2, 2000000, '2023-05-22 21:02:22', '2023-05-22 21:02:32', NULL);
-INSERT INTO `m_tipekamar_pengelolaan` VALUES (55, 51, 2, 2500000, '2023-05-22 21:02:22', '2023-05-22 21:02:35', NULL);
-INSERT INTO `m_tipekamar_pengelolaan` VALUES (56, 42, 1, 1100000, '2023-05-22 21:03:10', '2023-05-22 21:03:10', NULL);
-INSERT INTO `m_tipekamar_pengelolaan` VALUES (57, 43, 2, 1550000, '2023-05-22 21:02:23', '2023-05-22 21:10:52', NULL);
+INSERT INTO `m_tipekamar_pengelolaan` VALUES (58, 68, 2, 2000000, '2023-05-24 22:54:08', '2023-05-24 22:54:08', NULL, 'Big');
+INSERT INTO `m_tipekamar_pengelolaan` VALUES (59, 68, 2, 2000000, '2023-05-24 23:00:50', '2023-05-24 23:00:50', NULL, 'Big');
+INSERT INTO `m_tipekamar_pengelolaan` VALUES (60, 68, 2, 2500000, '2023-05-24 23:01:01', '2023-05-24 23:01:01', NULL, 'Big');
+INSERT INTO `m_tipekamar_pengelolaan` VALUES (61, 66, 2, 3000000, '2023-05-24 23:01:19', '2023-05-24 23:01:19', NULL, 'Reguler');
+INSERT INTO `m_tipekamar_pengelolaan` VALUES (62, 65, 2, 1000000, '2023-05-24 23:03:34', '2023-05-24 23:03:34', NULL, 'Small');
+INSERT INTO `m_tipekamar_pengelolaan` VALUES (63, 64, 2, 900000, '2023-05-24 23:03:52', '2023-05-24 23:03:52', NULL, 'Delux');
 
 -- ----------------------------
 -- Table structure for m_user
