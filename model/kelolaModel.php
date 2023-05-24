@@ -65,14 +65,26 @@ class kelolaModel
         header('Location: ../view/KelolaKamar.php');
     }
 
-    public function saveFasilitas($idAdmin, $namaFasilitas)
+    public function saveFasilitas($idAdmin, $namaFasilitas, $namaGambar)
     {
 
-        $insert = "INSERT INTO m_fasilitas (namaFasilitas,thumbnailFasilitas,idAdmin) VALUES ('{$namaFasilitas}','{$namaGambar}','{$idAdmin}')";
+        $insert = "INSERT INTO fasilitas (namaFasilitas,fotoFasilitas,idAdmin) VALUES ('{$namaFasilitas}','{$namaGambar}','{$idAdmin}')";
 
         $this->db->query($insert);
 
         if ($this->db->returnExecute()) {
+            // CARI ID DATA KAMAR
+            $cariFasilitasTerbaru = "SELECT * FROM fasilitas ORDER BY idFasilitas DESC";
+            $this->db->query($cariFasilitasTerbaru);
+            $first = $this->db->single();
+            $idFasilitas = $first->idFasilitas;
+
+
+            // INSERT HARGA
+            $insertHargaFasilitas = "INSERT INTO fasilitas_pengelolaan (idFasilitas,namaFasilitas,idAdmin,hargaFasilitas) VALUES ('{$idFasilitas}','{$namaFasilitas}','{$idAdmin}','{$_POST['hargaFasilitas']}')";
+            $this->db->query($insertHargaFasilitas);
+            $this->db->returnExecute();
+
             flash('insert_alert', 'Berhasil menambah fasilitas', 'green');
         } else {
             flash('insert_alert', 'Gagal menambah fasilitas', 'red');
@@ -145,14 +157,21 @@ class kelolaModel
     {
         // JIKA NAMA GAMBAR KOSONG
         if ($namaGambar == '') {
-            $update = "UPDATE m_fasilitas SET namaFasilitas = '{$namaFasilitas}',idAdmin = '{$idAdmin}' WHERE idFasilitas ='{$idFasilitas}'";
+            $update = "UPDATE fasilitas SET namaFasilitas = '{$namaFasilitas}',idAdmin = '{$idAdmin}' WHERE idFasilitas ='{$idFasilitas}'";
         } else {
-            $update = "UPDATE m_fasilitas SET thumbnailFasilitas = '{$namaGambar}',namaFasilitas = '{$namaFasilitas}',idAdmin = '{$idAdmin}' WHERE idFasilitas ='{$idFasilitas}'";
+            $update = "UPDATE fasilitas SET fotoFasilitas = '{$namaGambar}',namaFasilitas = '{$namaFasilitas}',idAdmin = '{$idAdmin}' WHERE idFasilitas ='{$idFasilitas}'";
         }
 
         $this->db->query($update);
 
         if ($this->db->returnExecute()) {
+
+
+            // INSERT HARGA
+            $insertHargaFasilitas = "INSERT INTO fasilitas_pengelolaan (idFasilitas,namaFasilitas,idAdmin,hargaFasilitas) VALUES ('{$idFasilitas}','{$namaFasilitas}','{$idAdmin}','{$_POST['hargaFasilitas']}')";
+            $this->db->query($insertHargaFasilitas);
+            $this->db->returnExecute();
+
             flash('insert_alert', 'Berhasil mengubah fasilitas', 'green');
         } else {
             flash('insert_alert', 'Gagal mengubah fasilitas', 'red');
@@ -201,9 +220,10 @@ class kelolaModel
 
         // CEK EMAIL
         $getAllFasilitas = "SELECT
-        mf.idFasilitas,mf.namaFasilitas,mf.thumbnailFasilitas,a.namaAdmin
+        mf.idFasilitas,mf.namaFasilitas,mf.fotoFasilitas,a.namaAdmin,
+        ( SELECT z.hargaFasilitas FROM fasilitas_pengelolaan z WHERE mf.idFasilitas = z.idFasilitas ORDER BY z.created_at DESC LIMIT 1) hargaFasilitas
     FROM
-        m_fasilitas mf
+        fasilitas mf
         LEFT JOIN admin a ON mf.idAdmin = a.idAdmin ORDER BY mf.idFasilitas DESC";
         $this->db->query($getAllFasilitas);
 
@@ -231,7 +251,7 @@ class kelolaModel
     public function searchFasilitas($idFasilitas)
     {
 
-        $cariFasilitas = "SELECT * FROM m_fasilitas WHERE idFasilitas = '{$idFasilitas}'";
+        $cariFasilitas = "SELECT * FROM fasilitas WHERE idFasilitas = '{$idFasilitas}'";
         $this->db->query($cariFasilitas);
 
         return $this->db->single();
@@ -298,15 +318,15 @@ class kelolaModel
 
     public function hapusFasilitas($idFasilitas)
     {
-        $cariGambar = "SELECT * FROM m_fasilitas WHERE idFasilitas = '{$idFasilitas}'";
+        $cariGambar = "SELECT * FROM fasilitas WHERE idFasilitas = '{$idFasilitas}'";
         $this->db->query($cariGambar);
 
         $cekGambar = $this->db->single();
 
         if ($cekGambar) {
-            unlink('../images/thumbnail/' . $cekGambar->thumbnailFasilitas);
+            unlink('../images/thumbnail-fasilitas/' . $cekGambar->fotoFasilitas);
 
-            $delete = "DELETE FROM m_fasilitas WHERE idFasilitas ='{$idFasilitas}'";
+            $delete = "DELETE FROM fasilitas WHERE idFasilitas ='{$idFasilitas}'";
             $this->db->query($delete);
             if ($this->db->returnExecute()) {
                 flash('insert_alert', 'Berhasil menghapus fasilitas', 'green');
@@ -390,14 +410,14 @@ if (isset($_POST['btnInsertKamar'])) {
 
 if (isset($_POST['btnInsertFasilitas'])) {
 
-    if (!(file_exists('../images/thumbnail'))) {
-        mkdir('../images/thumbnail', 0777, true);
+    if (!(file_exists('../images/thumbnail-fasilitas'))) {
+        mkdir('../images/thumbnail-fasilitas', 0777, true);
     }
 
     $namaFasilitas = $_POST['namaFasilitas'];
     $idAdmin = $_POST['idAdmin'];
     $namaGambar = time() . "_" . $_FILES['fileFasilitas']['name'];
-    $simpanGambar =  move_uploaded_file($_FILES['fileFasilitas']['tmp_name'], '../images/thumbnail/' . $namaGambar);
+    $simpanGambar =  move_uploaded_file($_FILES['fileFasilitas']['tmp_name'], '../images/thumbnail-fasilitas/' . $namaGambar);
 
     $kelolaM->saveFasilitas($idAdmin, $namaFasilitas, $namaGambar);
 }
@@ -437,7 +457,7 @@ if (isset($_POST['btnUpdateTipeKamar'])) {
 
 if (isset($_POST['btnUpdateFasilitas'])) {
 
-    if (!(file_exists('../images/thumbnail'))) {
+    if (!(file_exists('../images/thumbnail-fasilitas'))) {
         mkdir('../images/thumbnail', 0777, true);
     }
 
@@ -456,11 +476,14 @@ if (isset($_POST['btnUpdateFasilitas'])) {
 
         if ($cekGambarNow) {
 
-            unlink('../images/thumbnail/' .  $cekGambarNow->thumbnailFasilitas);
+            if (file_exists('../images/thumbnail-fasilitas/' .  $cekGambarNow->fotoFasilitas)) {
+
+                unlink('../images/thumbnail-fasilitas/' .  $cekGambarNow->fotoFasilitas);
+            }
 
             $namaGambarBaru = time() . "_" . $_FILES['fileFasilitas']['name'];
-            $simpanGambar =  move_uploaded_file($_FILES['fileFasilitas']['tmp_name'], '../images/thumbnail/' . $namaGambarBaru);
-            $kelolaM->updateTipeKamar($idAdmin, $namaFasilitas, $namaGambarBaru, $idFasilitas);
+            $simpanGambar =  move_uploaded_file($_FILES['fileFasilitas']['tmp_name'], '../images/thumbnail-fasilitas/' . $namaGambarBaru);
+            $kelolaM->updateFasilitas($idAdmin, $namaFasilitas, $namaGambarBaru, $idFasilitas);
         } else {
             flash('insert_alert', 'Gagal mengubah fasilitas', 'red');
         }

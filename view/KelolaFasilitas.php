@@ -60,13 +60,18 @@ if (count($_POST) == 0) {
                   <div class="form-group">
                     <label for="namaFasilitas">Nama Fasilitas</label>
 
-                    <input type="text" class="form-control" name="namaFasilitas">
+                    <input type="text" class="form-control" required name="namaFasilitas">
+                  </div>
+                  <div class="form-group">
+                    <label for="namaFasilitas">Harga Fasilitas</label>
+
+                    <input type="number" required class="form-control" name="hargaFasilitas">
                   </div>
                   <input type="hidden" name="idAdmin" value="<?= $_SESSION['admin_session_login']->idAdmin; ?>">
 
                   <div class="form-group">
-                    <label for="thumbnailFasilitas">Upload Thumbnail</label>
-                    <input type="file" class="form-control" name="fileFasilitas">
+                    <label for="fotoFasilitas">Upload Thumbnail</label>
+                    <input type="file" required class="form-control" name="fileFasilitas">
                   </div>
 
                   <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
@@ -91,6 +96,7 @@ if (count($_POST) == 0) {
             <tr>
               <th>ID Fasilitas</th>
               <th>Nama Fasilitas</th>
+              <th>Harga Fasilitas</th>
               <th width="25%">Foto Fasilitas</th>
               <th>Dibuat oleh</th>
               <th>Opsi</th>
@@ -111,7 +117,8 @@ if (count($_POST) == 0) {
               <tr>
                 <td><?= $x->idFasilitas ?></td>
                 <td><?= $x->namaFasilitas ?></td>
-                <td><img src="../images/thumbnail/<?= $x->thumbnailFasilitas ?>" class="w-25 img-fluid" alt=""></td>
+                <td><?= formatRupiah($x->hargaFasilitas) ?></td>
+                <td><img src="../images/thumbnail-fasilitas/<?= $x->fotoFasilitas ?>" class="w-25 img-fluid" alt=""></td>
                 <td><?= $x->namaAdmin ?></td>
                 <td><a href="#" data-bs-toggle="modal" data-bs-target="#modalTambah<?= $x->idFasilitas ?>" class="btn btn-secondary">Edit</a>
                   <a onclick="hapusFasilitas('<?= $x->idFasilitas ?>','<?= $x->namaFasilitas ?>')" href="#" class="btn btn-danger">Hapus</a>
@@ -138,6 +145,12 @@ if (count($_POST) == 0) {
 
                           <input type="text" required value="<?= $x->namaFasilitas ?>" class="form-control" name="namaFasilitas">
                         </div>
+                        <div class="form-group">
+                          <label for="namaFasilitas">Harga Fasilitas</label>
+
+                          <input type="number" required value="<?= $x->hargaFasilitas ?>" class="form-control" name="hargaFasilitas">
+                        </div>
+
                         <input type="hidden" name="idAdmin" value="<?= $_SESSION['admin_session_login']->idAdmin; ?>">
                         <input type="hidden" name="idFasilitas" value="<?= $x->idFasilitas ?>">
 
@@ -149,7 +162,7 @@ if (count($_POST) == 0) {
                         <div class="form-text fw-bold text-dark">*Jika tidak ingin mengubah gambar silahkan dikosongi</div>
                         <center>
 
-                          <img src="../images/thumbnail/<?= $x->thumbnailFasilitas ?>" class=" img-fluid img-thumbnail " alt="">
+                          <img src="../images/thumbnail-fasilitas/<?= $x->fotoFasilitas ?>" class=" img-fluid img-thumbnail " alt="">
                         </center>
                         <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
                           <button class="btn btn-primary" type="submit" name="btnUpdateFasilitas" value="1"><i class="bi bi-check-square-fill"></i> Update</button>
