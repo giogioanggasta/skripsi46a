@@ -1,7 +1,7 @@
 <?php
 include('../helper/flash_session.php');
 include('../model/kelolaModel.php');
-$title = "Laporan Tipe Kamar";
+$title = "Data Perpanjang";
 include('tmpadmin/header.php');
 include('tmpadmin/nav-data.php');
 // include('../model/adminModel.php');
