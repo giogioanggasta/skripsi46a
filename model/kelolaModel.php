@@ -36,6 +36,11 @@ class kelolaModel
                 }
             }
 
+            // INSERT HARGA
+            $insertFoto = "INSERT INTO m_tipekamar_pengelolaan (idTipeKamar,namaTipeKamar,idAdmin,hargaTipeKamar) VALUES ('{$idTipeKamar}','{$first->namaTipeKamar}','{$idAdmin}','{$_POST['hargaTipeKamar']}')";
+            $this->db->query($insertFoto);
+            $this->db->returnExecute();
+
 
 
             flash('insert_alert', 'Berhasil menambah tipe kamar', 'green');
@@ -43,22 +48,16 @@ class kelolaModel
             flash('insert_alert', 'Gagal menambah tipe kamar', 'red');
         }
         header('Location: ../view/Kelola.php');
+        exit;
     }
 
     public function saveKamar($nomorKamar, $idAdmin, $tipeKamar, $status)
     {
-
         // MEMASUKKAN DATA KAMAR
         $insert = "INSERT INTO kamar (idAdmin,idTipeKamar,nomorKamar, status) VALUES ('{$idAdmin}','{$tipeKamar}','{$nomorKamar}','{$status}')";
         $this->db->query($insert);
         // BERHASIL MEMASUKKAN DATA KAMAR
         if ($this->db->returnExecute()) {
-
-
-
-
-
-
             flash('insert_alert', 'Berhasil menambah kamar', 'green');
         } else {
             flash('insert_alert', 'Gagal menambah kamar', 'red');
@@ -93,11 +92,34 @@ class kelolaModel
         $this->db->query($update);
 
         if ($this->db->returnExecute()) {
+
+            // UPLOAD GAMBAR DETAIL KAMAR TIPE KAMAR
+            for ($i = 0; $i < count($_FILES['namaFoto']['name']); $i++) {
+
+                $namaGambar = time() . "_" . $_FILES['namaFoto']['name'][$i];
+                $simpanGambar =  move_uploaded_file($_FILES['namaFoto']['tmp_name'][$i], '../images/img-kamar/' . $namaGambar);
+                if ($simpanGambar) {
+                    $insertFoto = "INSERT INTO m_tipekamar_foto (idTipeKamar,namaFoto,idAdmin) VALUES ('{$idTipeKamar}','{$namaGambar}','{$idAdmin}')";
+                    $this->db->query($insertFoto);
+                    $this->db->returnExecute();
+                }
+            }
+            // UPLOAD GAMBAR DETAIL KAMAR TIPE KAMAR
+
+            // INSERT HARGA
+            $insertFoto = "INSERT INTO m_tipekamar_pengelolaan (idTipeKamar,namaTipeKamar,idAdmin,hargaTipeKamar) VALUES ('{$idTipeKamar}','{$tipeKamar}','{$idAdmin}','{$_POST['hargaTipeKamar']}')";
+            $this->db->query($insertFoto);
+            $this->db->returnExecute();
+
+
             flash('insert_alert', 'Berhasil mengubah tipe kamar', 'green');
+            header('Location: ../view/Kelola.php');
+            exit;
         } else {
             flash('insert_alert', 'Gagal mengubah tipe kamar', 'red');
+            header('Location: ../view/Kelola.php');
+            exit;
         }
-        header('Location: ../view/Kelola.php');
     }
 
     public function updateKamar($idAdmin, $nomorKamar, $status, $idKamar)
@@ -143,7 +165,8 @@ class kelolaModel
 
         // CEK EMAIL
         $getAllKamar = "SELECT
-        mtk.idTipeKamar,mtk.namaTipeKamar,mtk.thumbnailKamar,a.namaAdmin
+        mtk.idTipeKamar,mtk.namaTipeKamar,mtk.thumbnailKamar,a.namaAdmin,
+        ( SELECT z.hargaTipeKamar FROM m_tipekamar_pengelolaan z WHERE mtk.idTipeKamar = z.idTipeKamar ORDER BY z.created_at DESC LIMIT 1) hargaTipeKamar
     FROM
         m_tipekamar mtk
         LEFT JOIN admin a ON mtk.idAdmin = a.idAdmin ORDER BY mtk.idTipeKamar DESC";
@@ -306,6 +329,32 @@ class kelolaModel
         $this->db->query($cariGambar);
         return $this->db->resultAll();
     }
+
+    public function hapusFotoDetailTipeKamar($idFotoKamar, $idTipeKamar)
+    {
+
+        $cariGambar = "SELECT * FROM m_tipekamar_foto WHERE idTipeKamar = '{$idTipeKamar}'";
+        $this->db->query($cariGambar);
+        $total = count($this->db->resultAll());
+        if ($total <= 1) {
+            flash('insert_alert', 'tidak boleh menghapus gambar pada detail kamar yang tinggal 1', 'red');
+            // var_dump($_SESSION);exit;
+            header('Location: ../view/Kelola.php');
+            exit;
+        } else {
+            $cariGambar2 = "SELECT * FROM m_tipekamar_foto WHERE idFotoKamar = '{$idFotoKamar}'";
+            $this->db->query($cariGambar2);
+            $get = $this->db->single();
+            unlink('../images/img-kamar/' . $get->namaFoto);
+
+            $delete = "DELETE FROM m_tipekamar_foto WHERE idFotoKamar='{$idFotoKamar}'";
+            $this->db->query($delete);
+            $this->db->returnExecute();
+            flash('insert_alert', 'Berhasil menghapus detail kamar', 'green');
+            header('Location: ../view/Kelola.php');
+            exit;
+        }
+    }
 }
 
 $kelolaM = new kelolaModel();
@@ -422,6 +471,8 @@ if (isset($_POST['btnUpdateFasilitas'])) {
 if (isset($_GET['actTipeKamar'])) {
     if ($_GET['actTipeKamar'] == 'hapusTipeKamar') {
         $kelolaM->hapusTipeKamar($_GET['idTipeKamar']);
+    } else if ($_GET['actTipeKamar'] == 'hapusFotoDetailTipeKamar') {
+        $kelolaM->hapusFotoDetailTipeKamar($_GET['idFotoKamar'], $_GET['idTipeKamar']);
     }
 }
 

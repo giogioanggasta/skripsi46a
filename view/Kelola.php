@@ -5,8 +5,8 @@ $title = "Kelola Tipe Kamar";
 include('tmpadmin/header.php');
 include('tmpadmin/nav-kelola.php');
 // include('../model/adminModel.php');
+
 ?>
-.
 <a class="w3-display-middle" style="color:black;float: center; margin-top: -13%; margin-left: 45%; text-decoration: none; font-size: 120%;">Tabel Tipe Kamar</a>
 <?php
 if (isset($_SESSION['insert_alert']) && !isset($_POST['btnInsertTipeKamar']) || isset($_SESSION['insert_alert']) && !isset($_POST['btnUpdateTipeKamar'])) {
@@ -24,7 +24,7 @@ if (count($_POST) == 0) {
 
       <!-- The Modal -->
       <div class="modal fade" id="modalUbah">
-        <div class="modal-dialog">
+        <div class="modal-dialog ">
           <div class="modal-content">
 
             <!-- Modal Header -->
@@ -60,17 +60,21 @@ if (count($_POST) == 0) {
                   <div class="form-group">
                     <label for="tipeKamar">Tipe Kamar</label>
 
-                    <input type="text" class="form-control" name="tipeKamar">
+                    <input type="text" class="form-control" name="tipeKamar" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="tipeKamar">Harga Tipe Kamar (Rp.)</label>
+                    <input type="number" class="form-control" name="hargaTipeKamar" required>
                   </div>
                   <input type="hidden" name="idAdmin" value="<?= $_SESSION['admin_session_login']->idAdmin; ?>">
 
                   <div class="form-group">
                     <label for="tipeKamar">Upload Thumbnail</label>
-                    <input type="file" class="form-control" name="fileTipeKamar">
+                    <input required type="file" class="form-control" name="fileTipeKamar">
                   </div>
                   <div class="form-group">
                     <label for="status">Detail Foto Kamar</label>
-                    <input class="form-control" type="file" accept="image/jpeg,image/png" name="namaFoto[]" multiple>
+                    <input required class="form-control" type="file" accept="image/jpeg,image/png" name="namaFoto[]" multiple>
                     <div class="form-text">Bisa pilih lebih dari 1 Gambar</div>
                   </div>
                   <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
@@ -95,6 +99,7 @@ if (count($_POST) == 0) {
             <tr>
               <th>ID Tipe Kamar</th>
               <th>Nama Tipe Kamar</th>
+              <th>Harga Tipe Kamar</th>
               <th width="25%">Thumbnail Kamar</th>
               <th>Dibuat oleh</th>
               <th>Opsi</th>
@@ -115,6 +120,7 @@ if (count($_POST) == 0) {
               <tr>
                 <td><?= $x->idTipeKamar ?></td>
                 <td><?= $x->namaTipeKamar ?></td>
+                <td><?= formatRupiah($x->hargaTipeKamar) ?></td>
                 <td><img src="../images/thumbnail/<?= $x->thumbnailKamar ?>" class="w-25 img-fluid" alt=""></td>
                 <td><?= $x->namaAdmin ?></td>
                 <td><a href="#" data-bs-toggle="modal" data-bs-target="#modalTambah<?= $x->idTipeKamar ?>" class="btn btn-secondary">Edit</a>
@@ -124,7 +130,7 @@ if (count($_POST) == 0) {
 
               <!-- The Modal -->
               <div class="modal fade" id="modalTambah<?= $x->idTipeKamar ?>">
-                <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
                   <div class="modal-content">
 
                     <!-- Modal Header -->
@@ -142,6 +148,11 @@ if (count($_POST) == 0) {
 
                           <input type="text" required value="<?= $x->namaTipeKamar ?>" class="form-control" name="tipeKamar">
                         </div>
+                        <div class="form-group">
+                          <label for="tipeKamar">Harga Kamar</label>
+
+                          <input type="text" required value="<?= $x->hargaTipeKamar ?>" class="form-control" name="hargaTipeKamar">
+                        </div>
                         <input type="hidden" name="idAdmin" value="<?= $_SESSION['admin_session_login']->idAdmin; ?>">
                         <input type="hidden" name="idTipeKamar" value="<?= $x->idTipeKamar ?>">
 
@@ -153,13 +164,13 @@ if (count($_POST) == 0) {
                         <div class="form-text fw-bold text-dark">*Jika tidak ingin mengubah gambar silahkan dikosongi</div>
                         <center>
 
-                          <img src="../images/thumbnail/<?= $x->thumbnailKamar ?>" class=" img-fluid img-thumbnail " alt="">
+                          <img src="../images/thumbnail/<?= $x->thumbnailKamar ?>" class=" img-fluid img-thumbnail" alt="">
 
 
                         </center>
                         <div class="form-group">
                           <label for="tipeKamar">Upload Detail Kamar</label>
-                          <input type="file" class="form-control" name="namaFoto">
+                          <input type="file" class="form-control" name="namaFoto[]" multiple>
 
                         </div>
                         <div class="form-text fw-bold text-dark">*Jika tidak ingin mengubah gambar silahkan dikosongi</div>
@@ -170,9 +181,11 @@ if (count($_POST) == 0) {
                             <?php
                             foreach ($kelolaM->showAllFotoKamar($x->idTipeKamar) as $k => $d) {
                             ?>
-                              <div class="col-2">
+                              <div class="col-3 mt-1 mb-1">
 
                                 <img src="../images/img-kamar/<?= $d->namaFoto ?>" class="mb-3  img-fluid img-thumbnail " alt="">
+                                <br>
+                                <a class="btn btn-danger" onclick="hapusFotoDetailTipeKamar('<?= $d->idFotoKamar ?>','<?= $d->idTipeKamar ?>')" href="#"><i class="bi bi-trash"></i></a>
                               </div>
 
                             <?php
@@ -201,6 +214,23 @@ if (count($_POST) == 0) {
         </table>
       </div>
       <script>
+        function hapusFotoDetailTipeKamar(idFotoKamar, idTipeKamar) {
+          Swal.fire({
+            title: '<p style="text-transform:lowercase !important;">yakin menghapus foto yang dipilih ?</p>',
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: 'Cancel',
+            denyButtonText: `Hapus`,
+            confirmButtonText: 'Batal',
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isDenied) {
+              window.location.href = "?actTipeKamar=hapusFotoDetailTipeKamar&idFotoKamar=" + idFotoKamar + "&idTipeKamar=" + idTipeKamar;
+            }
+          })
+        }
+
+
         function hapusTipeKamar(idTipeKamar, namaTipeKamar) {
           Swal.fire({
             title: '<p style="text-transform:lowercase !important;">yakin menghapus tipe kamar (' + namaTipeKamar + ') ?</p>',

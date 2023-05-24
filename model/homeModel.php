@@ -14,7 +14,7 @@ class HomeModel
 
     public function showKamar()
     {
-        $cekEmail = "SELECT x.*,( SELECT z.harga FROM m_tipekamar_pengelolaan z WHERE x.idTipeKamar = z.idTipeKamar ORDER BY z.created_at DESC LIMIT 1) harga
+        $cekEmail = "SELECT x.*,( SELECT z.hargaTipeKamar FROM m_tipekamar_pengelolaan z WHERE x.idTipeKamar = z.idTipeKamar ORDER BY z.created_at DESC LIMIT 1) harga
         FROM
             m_tipekamar x";
         $this->db->query($cekEmail);
