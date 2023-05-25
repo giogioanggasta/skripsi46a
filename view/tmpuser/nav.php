@@ -1,6 +1,3 @@
-
-
-
 <body>
 
 
@@ -22,7 +19,9 @@
         }
       </script>
 
-      <a href="Profile.php" class="w3-bar-item" style="float: right; margin-right: 2.5%; margin-top:4%; text-decoration: none;"><img src="../images/user.png" style="width:30px"> Hai, <?= ($_SESSION['session_login']->namaUser) ?></a>
+      <a href="Profile.php" class="w3-bar-item" style="float: right; margin-right: 2.5%; margin-top:4%; text-decoration: none;">
+        <!-- <img src="../images/user.png" style="width:30px">  -->
+        Hai, <?= ($_SESSION['session_login']->namaUser) ?></a>
 
     <?php
     } else {

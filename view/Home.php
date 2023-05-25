@@ -29,7 +29,7 @@ include 'tmpuser/nav.php';
             <!-- <p class="card-text">keterangan kamar</p> -->
             <p class="card-text"><?= formatRupiah($v->harga) ?> / bulan</p>
             <div class="purchase-info">
-              <a href="detail_kamar.html"><button type="button" class="btn">
+              <a href="detail_kamar.php?<?= base64_encode('tipeKamar') ?>=<?= base64_encode($v->idTipeKamar) ?>"><button type="button" class="btn">
                   Pesan Kamar Disini <i class="fas fa-money-bill"></i></button>
               </a>
             </div>
