@@ -15,7 +15,7 @@ class kelolaModel
     public function saveTipeKamar($idAdmin, $tipeKamar, $namaGambar)
     {
 
-        $insert = "INSERT INTO m_tipekamar (namaTipeKamar,thumbnailKamar,idAdmin) VALUES ('{$tipeKamar}','{$namaGambar}','{$idAdmin}')";
+        $insert = "INSERT INTO m_tipekamar (namaTipeKamar,descTipeKamar,thumbnailKamar,idAdmin) VALUES ('{$tipeKamar}','{$_POST['descTipeKamar']}','{$namaGambar}','{$idAdmin}')";
 
         $this->db->query($insert);
 
@@ -96,9 +96,9 @@ class kelolaModel
     {
         // JIKA NAMA GAMBAR KOSONG
         if ($namaGambar == '') {
-            $update = "UPDATE m_tipekamar SET namaTipeKamar = '{$tipeKamar}',idAdmin = '{$idAdmin}' WHERE idTipeKamar='{$idTipeKamar}'";
+            $update = "UPDATE m_tipekamar SET descTipeKamar='{$_POST['descTipeKamar']}', namaTipeKamar = '{$tipeKamar}',idAdmin = '{$idAdmin}' WHERE idTipeKamar='{$idTipeKamar}'";
         } else {
-            $update = "UPDATE m_tipekamar SET thumbnailKamar = '{$namaGambar}',namaTipeKamar = '{$tipeKamar}',idAdmin = '{$idAdmin}' WHERE idTipeKamar='{$idTipeKamar}'";
+            $update = "UPDATE m_tipekamar SET descTipeKamar='{$_POST['descTipeKamar']}',thumbnailKamar = '{$namaGambar}',namaTipeKamar = '{$tipeKamar}',idAdmin = '{$idAdmin}' WHERE idTipeKamar='{$idTipeKamar}'";
         }
 
         $this->db->query($update);
@@ -184,6 +184,7 @@ class kelolaModel
 
         // CEK EMAIL
         $getAllKamar = "SELECT
+        mtk.descTipeKamar,
         mtk.idTipeKamar,mtk.namaTipeKamar,mtk.thumbnailKamar,a.namaAdmin,
         ( SELECT z.hargaTipeKamar FROM m_tipekamar_pengelolaan z WHERE mtk.idTipeKamar = z.idTipeKamar ORDER BY z.created_at DESC LIMIT 1) hargaTipeKamar
     FROM

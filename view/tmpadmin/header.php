@@ -140,6 +140,10 @@
             color: #373737;
         }
     </style>
+
+    <!-- CK EDITOR -->
+    <script src="//cdn.ckeditor.com/4.19.1/full/ckeditor.js"></script>
+
 </head>
 
 <body>

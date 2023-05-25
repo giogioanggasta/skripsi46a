@@ -44,7 +44,7 @@ if (count($_POST) == 0) {
 
         <!-- The Modal -->
         <div class="modal fade" id="modalTambah">
-          <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
 
               <!-- Modal Header -->
@@ -67,7 +67,11 @@ if (count($_POST) == 0) {
                     <input type="number" class="form-control" name="hargaTipeKamar" required>
                   </div>
                   <input type="hidden" name="idAdmin" value="<?= $_SESSION['admin_session_login']->idAdmin; ?>">
-
+                  <div class="form-group">
+                    <label for="tipeKamar">Deskripsi Tipe Kamar</label>
+                    <textarea name="descTipeKamar" id="editor1"></textarea>
+                    <!-- <input type="number" class="form-control" name="descTipeKamar" required> -->
+                  </div>
                   <div class="form-group">
                     <label for="tipeKamar">Upload Thumbnail</label>
                     <input required type="file" class="form-control" name="fileTipeKamar">
@@ -149,10 +153,18 @@ if (count($_POST) == 0) {
                           <input type="text" required value="<?= $x->namaTipeKamar ?>" class="form-control" name="tipeKamar">
                         </div>
                         <div class="form-group">
-                          <label for="tipeKamar">Harga Kamar</label>
+                          <label for="tipeKamar">Ubah Harga Kamar</label>
 
                           <input type="text" required value="<?= $x->hargaTipeKamar ?>" class="form-control" name="hargaTipeKamar">
                         </div>
+                        <div class="form-group">
+                          <label for="tipeKamar">Ubah Deskripsi Tipe Kamar</label>
+                          <textarea name="descTipeKamar" id="editor2<?= $x->idTipeKamar ?>"><?= $x->descTipeKamar ?></textarea>
+                          <!-- <input type="number" class="form-control" name="descTipeKamar" required> -->
+                        </div>
+                        <script>
+                          CKEDITOR.replace('editor2<?= $x->idTipeKamar ?>', {});
+                        </script>
                         <input type="hidden" name="idAdmin" value="<?= $_SESSION['admin_session_login']->idAdmin; ?>">
                         <input type="hidden" name="idTipeKamar" value="<?= $x->idTipeKamar ?>">
 
