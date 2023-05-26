@@ -62,58 +62,29 @@ class UserModel
     }
 
 
-    /*
-
-    public function findUserByEmail($email){
-        $this->db->query("SELECT * FROM m_user WHERE email = '{$email}'");
-        $this->db->bind(':email', $email);
-
-        $row = $this->db->single();
-
-        if($this->db->rowCount() > 0){
-            return $row;
-        }else{
-            return false;
+    public function showPesanan()
+    {
+        if (!isset($_SESSION['session_login'])) {
+            header('Location:Login.php');
+            exit;
         }
+        $select = "SELECT
+        t.idTransaksi,
+        t.namaTipeKamar,
+        t.nomorKamar,
+        t.pilihanDetailFasilitas,
+        t.status,
+        t.lamaSewa,
+        CONCAT(t.tanggalTransaksi,' ',t.waktuTransaksi) created_at,
+        t.totalPembayaran
+        FROM 
+        transaksi t
+        LEFT JOIN m_user u ON t.idUser = u.idUser WHERE t.idUser = '{$_SESSION['session_login']->idUser}'
+        ";
+        $this->db->query($select);
+
+        return $this->db->resultAll();
     }
-    public function login($email, $password)
-    {
-        $row = $this->findUserByEmail($email);
-
-        if ($row == false) return false;
-
-        if ($password == $row->password)
-            return $row;
-        else
-            return false;
-    }
-
-    public function editProfile($idUser, $namaUser, $jenisKelamin, $tanggalLahir, $noTelepon, $email, $password){
-        $this->db->query('UPDATE m_user SET namaUser = :namaUser, jenisKelamin = :jenisKelamin, tanggalLahir = :tanggalLahir, noTelepon = :noTelepon, email = :email, password = :password WHERE idUser = :idUser');
-        $this->db->bind(':namaUser', $namaUser);
-        $this->db->bind(':jenisKelamin', $jenisKelamin);
-        $this->db->bind(':tanggalLahir', $tanggalLahir);
-        $this->db->bind(':noTelepon', $noTelepon);
-        $this->db->bind(':email', $email);
-        $this->db->bind(':password', $password);
-        $this->db->bind(':idUser', $idUser);
-
-        if($this->db->returnExecute()) return true;
-        else return false;
-    }
-
-    public function requestMembership($idUser, $tipeMembership, $statusMembership)
-    {
-        $this->db->query('UPDATE m_user SET tipeMembership = :tipeMembership, statusMembership = :statusMembership WHERE idUser = :idUser');
-        $this->db->bind(':tipeMembership', $tipeMembership);
-        $this->db->bind(':statusMembership', $statusMembership);
-        $this->db->bind(':idUser', $idUser);
-
-        if($this->db->returnExecute()) return true;
-        else return false;
-    }
-
-*/
 }
 
 $userM = new UserModel();
@@ -130,4 +101,3 @@ if (isset($_POST['enterBtnLogin']) && (!isset($_SESSION['login_alert']))) {
     // $nama, $jenisKelamin, $tanggalLahir, $noTelepon, $email, $password
     $userM->checkLogin($_POST['email'], $_POST['password']);
 }
-
