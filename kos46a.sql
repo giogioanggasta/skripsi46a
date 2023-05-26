@@ -11,7 +11,7 @@
  Target Server Version : 101100
  File Encoding         : 65001
 
- Date: 25/05/2023 21:09:31
+ Date: 26/05/2023 21:25:42
 */
 
 SET NAMES utf8mb4;
@@ -228,15 +228,25 @@ INSERT INTO `m_user` VALUES (44, 'Giovanni', 'Pria', '2001-12-31', '083838388383
 DROP TABLE IF EXISTS `transaksi`;
 CREATE TABLE `transaksi`  (
   `idTransaksi` int(11) NOT NULL AUTO_INCREMENT,
-  `tanggalTransaksi` date NOT NULL,
-  `waktuTransaksi` time NOT NULL,
-  `lamaSewa` int(11) NOT NULL,
-  `buktiPembayaran` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `idUser` int(11) NULL DEFAULT NULL,
+  `idAdmin` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `idTipeKamar` int(11) NULL DEFAULT NULL,
+  `nomorKamar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `namaTipeKamar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `tanggalTransaksi` date NULL DEFAULT current_timestamp(),
+  `waktuTransaksi` time NULL DEFAULT current_timestamp(),
+  `lamaSewa` int(11) NULL DEFAULT NULL,
+  `buktiPembayaran` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `pilihanDetailFasilitas` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `status` enum('Diterima','Ditolak','Menunggu Pembayaran','Proses') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT 'Menunggu Pembayaran',
+  `updated_at` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `totalPembayaran` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`idTransaksi`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of transaksi
 -- ----------------------------
+INSERT INTO `transaksi` VALUES (3, 41, NULL, 65, '15', 'Small', '2023-05-26', '20:51:53', 3, NULL, 'Televisi Samsung,AC,Televisi,Parkir Mobil', 'Menunggu Pembayaran', '2023-05-26 21:07:43', '6420000');
 
 SET FOREIGN_KEY_CHECKS = 1;
