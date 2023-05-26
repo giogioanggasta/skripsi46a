@@ -231,6 +231,8 @@ if (!$result) {
               <option value="12b">12 Bulan</option>
             </select> <br> <br>
 
+            <label for="harga">Harga : </label> <br><br>
+
             <button type="submit" style="background-color: rgb(0, 0, 46); color: white; padding: 10px;">Sewa Sekarang</button>
           </div>
 

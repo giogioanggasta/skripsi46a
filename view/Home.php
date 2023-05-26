@@ -4,7 +4,7 @@ include 'tmpuser/nav.php';
 ?>
 
 <div class="header">
-  <a href="Kamar-logged.php" class="btn btn-info" role="button" style="position:absolute; top: 65%; left: 7.5%; ">Pesan Kamar</a>
+  <a href="Kamar.php" class="btn btn-info" role="button" style="position:absolute; top: 65%; left: 7.5%; ">Pesan Kamar</a>
   <img src="../images/header.jpg" style="width:100%; float:center; margin-top: -3.4%">
   <div class="teks" style="color:white; font-size: 500%; margin-top: 5%">Professional service is our specialty</div>
 

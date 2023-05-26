@@ -148,11 +148,11 @@
 <body>
 
 <div class="w3-bar w3-white w3-border " id="menu" style="background-color: #11355b">
-        <a href="Home-logged.php" class="w3-bar-item"><img src="../images/logo46a.png" style="width:150px"></a>
+        <a href="Home.php" class="w3-bar-item"><img src="../images/logo46a.png" style="width:150px"></a>
         <a href="Home.php" class="w3-bar-item" style="float: right; margin-right: 2.5%; margin-top:4%; text-decoration: none;"><img src="../images/logout.png" style="width:30px"></a>
         <a href="Profile.php" class="w3-bar-item" style="float: right; margin-right: 2.5%; margin-top:4%; text-decoration: none;"><img src="../images/user.png" style="width:30px"></a>
-        <a href="Fasilitas-logged.php" class="w3-bar-item" style="float: right; margin-top:4%; margin-right: 2.5%; text-decoration: none; color: white">Fasilitas</a>
-        <a href="Kamar-logged.php" class="w3-bar-item" style="float: right; margin-top:4%; margin-right: 2.5%; text-decoration: none; color: white">Kamar</a>
+        <a href="Fasilitas.php" class="w3-bar-item" style="float: right; margin-top:4%; margin-right: 2.5%; text-decoration: none; color: white">Fasilitas</a>
+        <a href="Kamar.php" class="w3-bar-item" style="float: right; margin-top:4%; margin-right: 2.5%; text-decoration: none; color: white">Kamar</a>
         <a href="Pesanan.php" class="w3-bar-item" style="float: right; margin-top:4%; margin-right: 2.5%; text-decoration: none; color: white">Pesanan</a>
     </div>
 <!-- 

@@ -130,7 +130,7 @@ if (count($_POST) == 0) {
                 <td><?= $x->status ?></td>
                 <td><?= $x->namaAdmin ?></td>
                 <td>
-                  <!-- <a href="#" data-bs-toggle="modal" data-bs-target="#modalTambah<?= $x->idKamar ?>" class="btn btn-secondary">Edit</a> -->
+                  <a href="#" data-bs-toggle="modal" data-bs-target="#modalTambah<?= $x->idKamar ?>" class="btn btn-secondary">Edit</a>
                   <a onclick="hapusKamar('<?= $x->idKamar ?>','<?= $x->nomorKamar ?>')" href="#" class="btn btn-danger">Hapus</a>
                 </td>
               </tr>
@@ -170,11 +170,6 @@ if (count($_POST) == 0) {
 
                           </select>
                           <!-- <input type="text" class="form-control" name="tipeKamar"> -->
-                        </div>
-                        <div class="form-group">
-                          <label for="status">Pilih Gambar</label>
-                          <input class="form-control" type="file" accept="image/jpeg,image/png" name="namaFoto[]" multiple>
-                          <div class="form-text">Bisa pilih lebih dari 1 Gambar</div>
                         </div>
                         <div class="form-group">
                           <label for="status">Status</label>

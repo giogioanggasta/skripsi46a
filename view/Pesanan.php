@@ -17,15 +17,13 @@ include 'tmpuser/nav.php';
 
 
       <div class="detail-booking" style="width:50%;float:center; margin-left: 27.5%; margin-top:12%;">
-        <p style="margin-bottom: 8px;color: #0a2724;">ID Booking: <?php echo $row["idTransaksi"] . "<br>"; ?> </p>
-        <p style="margin-bottom: 8px;color: #0a2724;">Tanggal Pemesanan: <?php $final_tanggal = date_create($row["tanggalTransaksi"]);
+        <p style="margin-bottom: 8px;color: #0a2724;">ID transaksi: <?php echo $row["idTransaksi"] . "<br>"; ?> </p>
+        <p style="margin-bottom: 8px;color: #0a2724;">Tanggal pemesanan: <?php $final_tanggal = date_create($row["tanggalTransaksi"]);
                                                                           echo date_format($final_tanggal, "Y-m-d") . "<br>"; ?> </p>
-        <p style="margin-bottom: 8px;color: #0a2724;">Waktu Pemesanan: <?php $final_waktu = date_create($row["waktuTransaksi"]);
+        <p style="margin-bottom: 8px;color: #0a2724;">Waktu pemesanan: <?php $final_waktu = date_create($row["waktuTransaksi"]);
                                                                         echo date_format($final_waktu, "H:i") . "<br>"; ?> </p>
-        <p style="margin-bottom: 8px;color: #0a2724;">Pilihan Jasa 1: <?php echo $row["jasa1"] . "<br>"; ?> </p>
-        <p style="margin-bottom: 8px;color: #0a2724;">Pilihan Jasa 2: <?php echo $row["jasa2"] . "<br>"; ?></p>
-        <p style="margin-bottom: 8px;color: #0a2724;">Pilihan Jasa 3: <?php echo $row["jasa3"] . "<br>"; ?></p>
-        <p style="margin-bottom: 8px;color: #0a2724;">Catatan: <?php echo $row["catatanPelanggan"] . "<br>"; ?></p>
+        <p style="margin-bottom: 8px;color: #0a2724;">Nomor kamar: <?php echo $row["jasa1"] . "<br>"; ?> </p>
+        <p style="margin-bottom: 8px;color: #0a2724;">Lama sewa: <?php echo $row["jasa2"] . "<br>"; ?></p>
         <p style="margin-bottom: 8px;color: #0a2724;">Total Harga: <?php echo $row["totalHarga"] . "<br>"; ?></p>
         <p style="margin-bottom: 8px;color: #0a2724;"><b>Status Pemesanan:</b> <?php echo $row["status"] . "<br>"; ?></p>
         <p>Bukti Pembayaran :<img src="../model/uploadImage/<?php echo $row["buktiPembayaran"] ?>" alt="" style="width:15%"></p>
