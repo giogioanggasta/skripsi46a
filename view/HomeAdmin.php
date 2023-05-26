@@ -118,7 +118,7 @@ include('../model/adminModel.php');
 
   <nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #11355b">
     <!-- Brand/logo -->
-    <a class="navbar-brand" href="Home.php"><img src="../images/logo46a.png" style="width:100px;"></a>
+    <a class="navbar-brand" href="HomeAdmin.php"><img src="../images/logo46a.png" style="width:100px;"></a>
 
   </nav>
 
