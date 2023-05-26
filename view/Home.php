@@ -105,7 +105,7 @@ include 'tmpuser/nav.php';
 <div class="teksmaps" style="color:black; font-size: 250%; margin-left:10%; margin-top: 5%; padding-bottom:5%">Alamat Kos 46A pada Google Maps</div>
 <div align="center">
   <div class="mapouter">
-    <div class="gmap_canvas"><iframe width="600" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=C3%20car%20care%20center%20medan&t=&z=15&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://123movies-to.org"></a><br>
+    <div class="gmap_canvas"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3961.124045254148!2d107.60374777558488!3d-6.875738093123076!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e6ee367d53ad%3A0x1a3ab4a64b4f1afe!2sJl.%20Bukit%20Jarian%20No.46A%2C%20Hegarmanah%2C%20Kec.%20Cidadap%2C%20Kota%20Bandung%2C%20Jawa%20Barat%2040141!5e0!3m2!1sen!2sid!4v1685099586388!5m2!1sen!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></a><br>
       <style>
         .mapouter {
           position: relative;
@@ -113,7 +113,6 @@ include 'tmpuser/nav.php';
           height: 500px;
           width: 600px;
         }
-      </style><a href="https://www.embedgooglemap.net">google maps html widget</a>
       <style>
         .gmap_canvas {
           overflow: hidden;
