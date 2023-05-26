@@ -53,6 +53,19 @@ class HomeModel
 
         return $this->db->resultAll();
     }
+
+    public function savePesanan()
+    {
+
+        $detailTipeKamar = $this->searchTipeKamar(base64_decode($_GET['dGlwZUthbWFy']));
+        $insert = "INSERT INTO transaksi (idUser,idTipeKamar,nomorKamar,namaTipeKamar,lamaSewa,pilihanDetailFasilitas,totalPembayaran) VALUES ('{$_SESSION['session_login']->idUser}','{$detailTipeKamar->idTipeKamar}','{$_POST['kamar']}','{$detailTipeKamar->namaTipeKamar}','{$_POST['lamaSewa']}','{$_POST['pilihanDetailFasilitas']}','{$_POST['totalHargaTransaksi']}')";
+
+        $this->db->query($insert);
+
+        if ($this->db->returnExecute()) {
+            header('Location: ../view/Pesanan.php');
+        }
+    }
 }
 
 $homeM = new HomeModel();
@@ -63,4 +76,15 @@ if (isset($_GET['logOut']) && isset($_SESSION['session_login'])) {
     unset($_SESSION['session_login']);
 
     header('Location: ../view/Home.php');
+}
+
+
+if (isset($_POST['saveDetailPesanan'])) {
+    // echo "<pre>";
+    // var_dump($_SESSION);
+    // var_dump($_POST);
+    // var_dump($_GET);
+    // // exit;
+
+    $homeM->savePesanan();
 }

@@ -1,7 +1,7 @@
 <?php
 include('../helper/flash_session.php');
 include('../model/homeModel.php');
-
+// var_dump($_SESSION);
 // tipeKamar
 $tipeKamar = base64_decode($_GET['dGlwZUthbWFy']);
 $result = $homeM->searchTipeKamar($tipeKamar);
@@ -20,6 +20,7 @@ if (!$result) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   <style>
     @font-face {
       font-family: navBarFont;
@@ -89,7 +90,30 @@ if (!$result) {
 </head>
 
 <body>
+  <script>
+    var globalhargaTipeKamar = <?= $result->hargaTipeKamar ?>;
+    var globalpilihanSewa = 1;
+    var globalpilihFasilitas = [];
+    var globalpilihDetailFasilitas = [];
 
+
+
+    function totalKeseluruhan() {
+
+      var totalFasilitas = 0;
+      globalpilihFasilitas.forEach((item, index) => {
+        totalFasilitas = totalFasilitas + parseInt(item)
+      })
+      console.log(totalFasilitas)
+      var total = (parseInt(globalhargaTipeKamar) + totalFasilitas) * parseInt(globalpilihanSewa)
+
+      $('#totalHargaTransaksi').val(total)
+      $('#pilihanDetailFasilitas').val(globalpilihDetailFasilitas)
+      $('#totalHarga').text(formatRupiah(total))
+    }
+
+    // document.getElementById('totalHarga').innerHTML = hargaTipeKamar
+  </script>
   <div class="w3-bar w3-white w3-border " id="menu" style="background-color: #11355b">
     <a href="Home.php" class="w3-bar-item"><img src="../images/logo46a.png" style="width:150px"></a>
 
@@ -167,121 +191,156 @@ if (!$result) {
         </div>
       </div>
       <!-- card right -->
+      <form method="post">
 
-      <div class="product-content">
-        <h2 class="product-title"><?= $result->namaTipeKamar ?></h2>
+        <div class="product-content">
+          <h2 class="product-title"><?= $result->namaTipeKamar ?></h2>
 
-        <div class="product-price">
-          <!-- <p class="last-price">Harga Normal: <span>Rp.2.500.000</span></p> -->
-          <p class="new-price">Harga Normal: <span><?= formatRupiah($result->hargaTipeKamar) ?></span></p>
-        </div>
+          <div class="product-price">
+            <!-- <p class="last-price">Harga Normal: <span>Rp.2.500.000</span></p> -->
+            <p class="new-price">Harga Normal: <span><?= formatRupiah($result->hargaTipeKamar) ?></span></p>
+          </div>
 
-        <div class="product-detail">
-          <h2>Tentang Kamar <?= $result->namaTipeKamar ?></h2>
-          <p class="">
-            <?= $result->descTipeKamar ?>
-          </p>
-        </div>
+          <div class="product-detail">
+            <h2>Tentang Kamar <?= $result->namaTipeKamar ?></h2>
+            <p class="">
+              <?= $result->descTipeKamar ?>
+            </p>
+          </div>
 
-        <div class="purchase-info">
-          <button type="button" class="btn" data-toggle="modal" data-target="#myModal" id="btnFormSewa">
-            Pesan Kamar Disini <i class="fas fa-money-bill"></i>
-          </button>
-        </div>
+          <div class="purchase-info">
+            <button type="button" class="btn" data-toggle="modal" data-target="#myModal" id="btnFormSewa">
+              Pesan Kamar Disini <i class="fas fa-money-bill"></i>
+            </button>
+          </div>
 
-        <div id="myModal" class="modal">
+          <div id="myModal" class="modal">
 
-          <!-- Modal content -->
-          <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Sewa Kamar <?= $result->namaTipeKamar ?></h2> <br>
+            <!-- Modal content -->
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <h2>Sewa Kamar <?= $result->namaTipeKamar ?></h2> <br>
 
-            <label for="kamar">Pilih Kamar:</label> <br>
-            <select name="kamar" id="kamar">
+              <label for="kamar">Pilih Kamar:</label> <br>
+              <select name="kamar" id="kamar" required>
+                <option value="" selected hidden>Pilih Nomor Kamar</option>
+                <?php
+                foreach ($nomorKamar as $n) {
+                ?>
+
+                  <option value="<?= $n ?>">Kamar <?= $n ?></option>
+                <?php
+                }
+                ?>
+              </select>
+
+              <br>
+              <p>Fasilitas Tambahan:</p>
               <?php
-              foreach ($nomorKamar as $n) {
+              $dataFasi = $homeM->showFasilitas();
+              foreach ($dataFasi as $f) {
               ?>
-
-                <option value="<?= $n ?>">Kamar <?= $n ?></option>
+                <div class="form-group">
+                  <label class="checkbox-inline">
+                    <input type="checkbox" onclick="klikpilihFasilitas()" name="pilihFasilitas" value="<?= $f->idFasilitas ?>|<?= $f->hargaFasilitas ?>|<?= $f->namaFasilitas ?>"><?= $f->namaFasilitas ?>-<?= formatRupiah($f->hargaFasilitas) ?>
+                  </label>&nbsp;&nbsp;
+                </div>
               <?php
               }
               ?>
 
-            </select>
-            <br>
-            <p>Fasilitas Tambahan:</p>
-            <?php
-            $dataFasi = $homeM->showFasilitas();
-            foreach ($dataFasi as $f) {
-            ?>
-              <label class="checkbox-inline">
-                <input type="checkbox" name="pilihFasilitas" value="<?= $f->idFasilitas ?>"><?= $f->namaFasilitas ?>
-              </label>&nbsp;&nbsp;
-            <?php
-            }
-            ?>
+              <script>
+                function klikpilihFasilitas() {
+                  var checkboxes = document.getElementsByName("pilihFasilitas");
+                  var selectedFasilitas = [];
+                  var selectedDetailFasilitas = [];
+                  for (var i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].checked) {
+                      selectedFasilitas.push(checkboxes[i].value.split("|")[1]);
+                      selectedDetailFasilitas.push(checkboxes[i].value.split("|")[2]);
+                    }
+                  }
+                  globalpilihDetailFasilitas = selectedDetailFasilitas
+                  globalpilihFasilitas = selectedFasilitas
+                  totalKeseluruhan()
+                }
+              </script>
+              <br>
+              <input type="hidden" name="pilihanDetailFasilitas" id="pilihanDetailFasilitas">
+              <input type="hidden" name="totalHargaTransaksi" id="totalHargaTransaksi">
+              <label for="lamaSewa">Pilih Lama Sewa:</label> <br>
+              <select required name="lamaSewa" onchange="changeSewa(this.value)" id="lamaSewa">
+                <!-- <option value="">Pilih Lama Sewa</option> -->
+                <option value="1">1 Bulan</option>
+                <option value="3">3 Bulan</option>
+                <option value="6">6 Bulan</option>
+                <option value="12">12 Bulan</option>
+              </select> <br> <br>
+              <script>
+                function changeSewa(pilihan) {
+
+                  if (pilihan != '') {
+                    globalpilihanSewa = pilihan
+                    totalKeseluruhan()
+                  }
+
+                }
+              </script>
+              <label for="harga">Harga : <span id="totalHarga"><?= formatRupiah($result->hargaTipeKamar) ?></span></label> <br><br>
+
+              <button type="submit" name="saveDetailPesanan" style="background-color: rgb(0, 0, 46); color: white; padding: 10px;">Sewa Sekarang</button>
+            </div>
 
 
-            <br>
-            <label for="lamaSewa">Pilih Lama Sewa:</label> <br>
-            <select name="lamaSewa" id="lamaSewa">
-              <option value="1b">1 Bulan</option>
-              <option value="3b">3 Bulan</option>
-              <option value="6b">6 Bulan</option>
-              <option value="12b">12 Bulan</option>
-            </select> <br> <br>
-
-            <label for="harga">Harga : </label> <br><br>
-
-            <button type="submit" style="background-color: rgb(0, 0, 46); color: white; padding: 10px;">Sewa Sekarang</button>
           </div>
 
-        </div>
+          <script>
+            // Get the modal
+            var modal = document.getElementById("myModal");
 
-        <script>
-          // Get the modal
-          var modal = document.getElementById("myModal");
+            // Get the button that opens the modal
+            var btn = document.getElementById("btnFormSewa");
 
-          // Get the button that opens the modal
-          var btn = document.getElementById("btnFormSewa");
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
 
-          // Get the <span> element that closes the modal
-          var span = document.getElementsByClassName("close")[0];
+            // When the user clicks the button, open the modal 
+            btn.onclick = function() {
+              modal.style.display = "block";
+            }
 
-          // When the user clicks the button, open the modal 
-          btn.onclick = function() {
-            modal.style.display = "block";
-          }
-
-          // When the user clicks on <span> (x), close the modal
-          span.onclick = function() {
-            modal.style.display = "none";
-          }
-
-          // When the user clicks anywhere outside of the modal, close it
-          window.onclick = function(event) {
-            if (event.target == modal) {
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
               modal.style.display = "none";
             }
-          }
-        </script>
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+              if (event.target == modal) {
+                modal.style.display = "none";
+              }
+            }
+          </script>
 
 
-        <div class="social-links">
-          <p>Share At: </p>
-          <a href="#">
-            <i class="fab fa-facebook-f"></i>
-          </a>
-          <a href="#">
-            <i class="fab fa-instagram"></i>
-          </a>
+          <div class="social-links">
+            <p>Share At: </p>
+            <a href="#">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#">
+              <i class="fab fa-instagram"></i>
+            </a>
+          </div>
         </div>
-      </div>
+
+      </form>
+
     </div>
   </div>
 
 
-  <script src="script.js"></script>
+  <script src="script.js?time=<?= time() ?>"></script>
 </body>
 
 </html>
