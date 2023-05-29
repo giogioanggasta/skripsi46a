@@ -75,15 +75,35 @@ class UserModel
         t.pilihanDetailFasilitas,
         t.status,
         t.lamaSewa,
-       t.tanggalWaktuTransaksi created_at,
-        t.totalPembayaran
+       t.tanggalWaktuTransaksi,
+        t.totalPembayaran,
+        mtk.thumbnailKamar,
+        t.reason,
+        t.buktiPembayaran
         FROM 
         transaksi t
-        LEFT JOIN m_user u ON t.idUser = u.idUser WHERE t.idUser = '{$_SESSION['session_login']->idUser}'
+        LEFT JOIN m_user u ON t.idUser = u.idUser
+        LEFT JOIN m_tipekamar mtk ON t.idTipeKamar = mtk.idTipeKamar
+        
+         WHERE t.idUser = '{$_SESSION['session_login']->idUser}' ORDER BY t.tanggalWaktuTransaksi DESC
         ";
+        // echo $select;exit;
         $this->db->query($select);
 
         return $this->db->resultAll();
+    }
+    public function saveBuktiBayar($idTransaksi, $namaGambar)
+    {
+        $upd = "UPDATE transaksi SET buktiPembayaran='$namaGambar',status = 'Proses' WHERE idTransaksi = '{$idTransaksi}'";
+        $this->db->query($upd);
+
+        if ($this->db->returnExecute()) {
+            flash('pesanan_alert', 'Berhasil upload bukti pembayaran', 'green');
+            // $_POST
+        } else {
+            flash('pesanan_alert', 'Gagal upload bukti pembayaran', 'red');
+        }
+        header('Location: ../view/Pesanan.php');
     }
 }
 
@@ -100,4 +120,15 @@ if (isset($_POST['enterBtnLogin']) && (!isset($_SESSION['login_alert']))) {
 
     // $nama, $jenisKelamin, $tanggalLahir, $noTelepon, $email, $password
     $userM->checkLogin($_POST['email'], $_POST['password']);
+}
+
+
+if (isset($_POST['btnSavePembayaran'])) {
+    if (!(file_exists('../images/bukti-bayar'))) {
+        mkdir('../images/bukti-bayar', 0777, true);
+    }
+    $idTransaksi = $_POST['idTransaksi'];
+    $namaGambar = time() . "_" . $_FILES['buktiPembayaran']['name'];
+    $simpanGambar =  move_uploaded_file($_FILES['buktiPembayaran']['tmp_name'], '../images/bukti-bayar/' . $namaGambar);
+    $userM->saveBuktiBayar($idTransaksi, $namaGambar);
 }
