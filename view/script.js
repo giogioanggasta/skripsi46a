@@ -32,4 +32,18 @@ function formatRupiah(angka) {
     );
 }
 
+function getJSON(url,data){
+    return JSON.parse($.ajax({
+        type: 'POST',
+        url : url,
+        data: data,
+        dataType:'json',
+        global: false,
+        async: false,
+        success:function(msg){
+
+        }
+    }).responseText);
+}
+
 window.addEventListener('resize', slideImage);

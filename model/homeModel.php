@@ -53,19 +53,57 @@ class HomeModel
 
         return $this->db->resultAll();
     }
-    
+
 
     public function savePesanan()
     {
 
+        $create_akhirSewa = date("Y-m-d", strtotime($_POST['awalSewa'] . " +{$_POST['lamaSewa']} month"));
         $detailTipeKamar = $this->searchTipeKamar(base64_decode($_GET['dGlwZUthbWFy']));
-        $insert = "INSERT INTO transaksi (idUser,idTipeKamar,nomorKamar,namaTipeKamar,lamaSewa,pilihanDetailFasilitas,totalPembayaran) VALUES ('{$_SESSION['session_login']->idUser}','{$detailTipeKamar->idTipeKamar}','{$_POST['kamar']}','{$detailTipeKamar->namaTipeKamar}','{$_POST['lamaSewa']}','{$_POST['pilihanDetailFasilitas']}','{$_POST['totalHargaTransaksi']}')";
+        $insert = "INSERT INTO transaksi (idUser,idTipeKamar,nomorKamar,namaTipeKamar,lamaSewa,pilihanDetailFasilitas,totalPembayaran,awalSewa,akhirSewa) VALUES ('{$_SESSION['session_login']->idUser}','{$detailTipeKamar->idTipeKamar}','{$_POST['kamar']}','{$detailTipeKamar->namaTipeKamar}','{$_POST['lamaSewa']}','{$_POST['pilihanDetailFasilitas']}','{$_POST['totalHargaTransaksi']}','{$_POST['awalSewa']}','{$create_akhirSewa}')";
 
         $this->db->query($insert);
 
         if ($this->db->returnExecute()) {
             header('Location: ../view/Pesanan.php');
         }
+    }
+
+    public function cekKetersediaanKamar($awalSewa, $lamaSewa, $tipeKamar)
+    {
+        $cekKamar = "SELECT
+        k.nomorKamar,
+        k.status,
+        IF((SELECT
+        GROUP_CONCAT(concat('(',t.awalSewa,' sampai ',t.akhirSewa,')')) sewa
+    FROM
+        `transaksi` t
+    WHERE
+    (t.awalSewa BETWEEN '{$awalSewa}' AND DATE_FORMAT(DATE_ADD('{$awalSewa}', INTERVAL {$lamaSewa} MONTH), '%Y-%m-%d') OR
+    t.akhirSewa BETWEEN '{$awalSewa}' AND DATE_FORMAT(DATE_ADD('{$awalSewa}', INTERVAL {$lamaSewa} MONTH), '%Y-%m-%d'))
+        AND t.nomorKamar = k.nomorKamar AND t.status = 'Diterima') IS NULL,'kosong',(SELECT
+        GROUP_CONCAT(concat('(',t.awalSewa,' sampai ',t.akhirSewa,')')) sewa
+    FROM
+        `transaksi` t
+    WHERE
+    (t.awalSewa BETWEEN '{$awalSewa}' AND DATE_FORMAT(DATE_ADD('{$awalSewa}', INTERVAL {$lamaSewa} MONTH), '%Y-%m-%d') OR
+    t.akhirSewa BETWEEN '{$awalSewa}' AND DATE_FORMAT(DATE_ADD('{$awalSewa}', INTERVAL {$lamaSewa} MONTH), '%Y-%m-%d'))
+        AND t.nomorKamar = k.nomorKamar AND t.status = 'Diterima'))
+        ketersediaan,
+        IF((SELECT
+        GROUP_CONCAT(concat('(',t.awalSewa,' sampai ',t.akhirSewa,')')) sewa
+    FROM
+        `transaksi` t
+    WHERE
+    (t.awalSewa BETWEEN '{$awalSewa}' AND DATE_FORMAT(DATE_ADD('{$awalSewa}', INTERVAL {$lamaSewa} MONTH), '%Y-%m-%d') OR
+    t.akhirSewa BETWEEN '{$awalSewa}' AND DATE_FORMAT(DATE_ADD('{$awalSewa}', INTERVAL {$lamaSewa} MONTH), '%Y-%m-%d'))
+        AND t.nomorKamar = k.nomorKamar AND t.status = 'Diterima') IS NULL,'','disabled')
+        html 
+    FROM
+        kamar k WHERE k.idTipeKamar = '{$tipeKamar}'";
+
+        $this->db->query($cekKamar);
+        return $this->db->resultAll();
     }
 }
 

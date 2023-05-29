@@ -220,19 +220,55 @@ if (!$result) {
             <div class="modal-content">
               <span class="close">&times;</span>
               <h2>Sewa Kamar <?= $result->namaTipeKamar ?></h2> <br>
+              <label for="kamar">Tanggal Awal Sewa:</label> <br>
+              <input type="date" min="<?php echo date("Y-m-d") ?>" id="cekTanggal" onchange="pilihTanggalSewa()" name="awalSewa">
 
-              <label for="kamar">Pilih Kamar:</label> <br>
-              <select name="kamar" id="kamar" required>
-                <option value="" selected hidden>Pilih Nomor Kamar</option>
-                <?php
-                foreach ($nomorKamar as $n) {
-                ?>
+              <script>
+                function pilihTanggalSewa() {
 
-                  <option value="<?= $n ?>">Kamar <?= $n ?></option>
-                <?php
+                  // $('#pilihKamar').hide()
+                  cekKamar()
                 }
-                ?>
+                // $(document).ready(function() {
+
+                //   $('#pilihKamar').hide()
+                // });
+              </script>
+              <br>
+
+              <label for="lamaSewa">Pilih Lama Sewa:</label> <br>
+              <select required name="lamaSewa" onchange="changeSewa(this.value)" id="lamaSewa">
+                <!-- <option value="">Pilih Lama Sewa</option> -->
+                <option value="1">1 Bulan</option>
+                <option value="3">3 Bulan</option>
+                <option value="6">6 Bulan</option>
+                <option value="12">12 Bulan</option>
               </select>
+              <br>
+              <!-- <button onclick="cekKamar()">Cek Ketersediaan Kamar</button> -->
+              <script>
+                function cekKamar() {
+                  var tgl = document.getElementById('cekTanggal').value;
+                  var lamaSewa = document.getElementById('lamaSewa').value;
+
+                  var result = getJSON('../model/ajax_group.php', {
+                    act: 'cekTanggalBooking',
+                    tanggal: tgl,
+                    idTipeKamar: '<?= $_GET['dGlwZUthbWFy'] ?>',
+                    lamaSewa: lamaSewa
+                  })
+
+                  $('#selectKamar').html(result);
+                  $('#pilihKamar').show();
+                }
+              </script>
+              <br>
+              <div id="pilihKamar">
+
+                <label for=" kamar">Pilih Kamar:</label> <br>
+                <div id="selectKamar"></div>
+
+              </div>
 
               <br>
               <p>Fasilitas Tambahan:</p>
@@ -268,17 +304,11 @@ if (!$result) {
               <br>
               <input type="hidden" name="pilihanDetailFasilitas" id="pilihanDetailFasilitas">
               <input type="hidden" name="totalHargaTransaksi" id="totalHargaTransaksi">
-              <label for="lamaSewa">Pilih Lama Sewa:</label> <br>
-              <select required name="lamaSewa" onchange="changeSewa(this.value)" id="lamaSewa">
-                <!-- <option value="">Pilih Lama Sewa</option> -->
-                <option value="1">1 Bulan</option>
-                <option value="3">3 Bulan</option>
-                <option value="6">6 Bulan</option>
-                <option value="12">12 Bulan</option>
-              </select> <br> <br>
+              <br> <br>
               <script>
                 function changeSewa(pilihan) {
-
+                  // $('#pilihKamar').hide()
+                  cekKamar()
                   if (pilihan != '') {
                     globalpilihanSewa = pilihan
                     totalKeseluruhan()

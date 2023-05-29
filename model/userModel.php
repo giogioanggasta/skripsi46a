@@ -75,7 +75,7 @@ class UserModel
         t.pilihanDetailFasilitas,
         t.status,
         t.lamaSewa,
-        CONCAT(t.tanggalTransaksi,' ',t.waktuTransaksi) created_at,
+       t.tanggalWaktuTransaksi created_at,
         t.totalPembayaran
         FROM 
         transaksi t
