@@ -108,6 +108,15 @@ class UserModel
         }
         header('Location: ../view/Pesanan.php');
     }
+
+    public function profileUser()
+    {
+        $select = "SELECT * FROM m_user WHERE idUser='{$_SESSION['session_login']->idUser}'";
+        // echo $select;exit;
+        $this->db->query($select);
+
+        return $this->db->single();
+    }
 }
 
 $userM = new UserModel();
