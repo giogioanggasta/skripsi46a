@@ -48,10 +48,10 @@ function formatTgl($date)
         'November',
         'Desember'
     );
-    echo date_format(date_create($date), "d ") . $bulan[$cek] . date_format(date_create($date), " Y");
+    return date_format(date_create($date), "d ") . $bulan[$cek] . date_format(date_create($date), " Y");
 }
 function formatWaktu($time)
 {
 
-    echo date("H:i:s A", strtotime($time));
+    return date("H:i:s A", strtotime($time));
 }

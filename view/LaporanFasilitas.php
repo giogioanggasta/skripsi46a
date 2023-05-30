@@ -1,15 +1,21 @@
 <?php
 include('../helper/flash_session.php');
-include('../model/kelolaModel.php');
+include('../model/laporanModel.php');
 $title = "Laporan Fasilitas";
 include('tmpadmin/header.php');
 include('tmpadmin/nav-laporan.php');
 // include('../model/adminModel.php');
 ?>
 
-  <a class="w3-display-middle" style="color:black;float: center; margin-top: -13%; text-decoration: none; font-size: 120%">Laporan Fasilitas</a>
 
-  <a target="_blank" href="DownloadExcelTransaksi.php" style="margin-left: -48px;"> <button style="border: none;
+
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+
+      <a class="w3-display-middle" style="color:black;text-decoration: none; font-size: 120%">Laporan Fasilitas</a>
+      <br>
+      <a target="_blank" href="LaporanFasilitasExport.php"> <button style="border: none;
                 outline: 0;
                 padding: 6px;
                 color: white;
@@ -17,75 +23,63 @@ include('tmpadmin/nav-laporan.php');
                 text-align: center;
                 cursor: pointer;
                 font-size: 16px;
-                width: 15%;
-                margin-top: 45px;
+              
+             
                 margin-right: 35px;
-                float: right;">Download as Excel</button> </a>
+               ">Download as Excel</button> </a>
 
 
 
 
 
 
-<div class="w3-container" style="margin-left: -10%; margin-top: 5%">
-    <table class="w3-table-all w3-center w3-hoverable" id="tabelcust" style="font-family: texts; font-size: 15px; width: 90%">
-      <thead>
-        <tr class="w3-light-grey">
-          <th>ID Pengelolaan</th>
-          <th>ID Fasilitas</th>
-          <th>Nama Fasilitas</th>
-          <th>Harga Fasilitas</th>
-          <th>Tanggal Perubahan</th>
-          <th>Diganti oleh</th>
-        </tr>
+
+      <div class="col-12 mt-4">
+        <table class=" display" id="Table_ID" style="font-family: texts; font-size: 15px;">
+
+          <thead>
+
+            <tr>
+              <th>ID Pengelolaan</th>
+              <th>ID Fasilitas</th>
+              <th>Nama Fasilitas</th>
+              <th>Harga Fasilitas</th>
+              <th>Tanggal Perubahan</th>
+              <th>Diubah Oleh</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <?php
 
 
-      </thead>
+            foreach ($laporanM->showLaporanFasilitas() as $s => $x) {
+            ?>
+
+              <!-- echo $x->idTipeKamar; -->
+              <tr>
+                <td><?= $x->idPengelolaan ?></td>
+                <td><?= $x->idFasilitas ?></td>
+                <td><?= $x->namaFasilitas ?></td>
+                <td><?= formatRupiah($x->hargaFasilitas) ?></td>
+                <td><?= formatTgl($x->created_at) ?> <?= formatWaktu($x->created_at) ?> </td>
+                <td><?= $x->namaAdmin ?></td>
+              </tr>
 
 
-        <form action="DataTransaksi.php" method="post">
-          <tr>
-            <td></td>
-          
-          </tr>
-          <div class="modal fade" id="modalPembatalan-<?= $row["idTransaksi"] ?>">
-            <div class="modal-dialog">
-              <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header">
-                  <h4 class="modal-title">Masukkan Alasan Pembatalan</h4>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-
-                    <br>
-                    <label><b>Alasan Pembatalan</b></label>
-                    <input class="w3-input w3-border" type="text" placeholder="" name="alasanPembatalan">
-                    <br>
-                    <br>
-                    <br>
-
-                    <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
-                    <input type="hidden" name="emailTujuan" value="<?php echo $row["email"]; ?>">
-                    
-
-                      <button class="w3-button w3-block w3-dark-grey w3-section w3-padding" type="submit" name="btnBatal">ENTER</button>
-                    </div>
-                </div>
-              </div>
-            </div>
+            <?php
+            }
+            ?>
+          </tbody>
+        </table>
       </div>
-        </form>
-       
-      
-    </table>
+
+
+
+
+    </div>
   </div>
+</div>
 
 
-
-</body>
-
-</html>
+<?php include('tmpadmin/footer.php') ?>
