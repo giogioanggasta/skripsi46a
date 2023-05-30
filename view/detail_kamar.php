@@ -175,15 +175,18 @@ if (!$result) {
 
           <?php
           $i = 1;
-          foreach ($fotoKamar as $f) {
+          if (count($fotoKamar) != 1) {
+
+            foreach ($fotoKamar as $f) {
           ?>
-            <div class="img-item">
-              <a href="#" data-id="<?= $i ?>">
-                <img src="../images/img-kamar/<?= $f ?>" alt="shoe image">
-              </a>
-            </div>
+              <div class="img-item">
+                <a href="#" data-id="<?= $i ?>">
+                  <img src="../images/img-kamar/<?= $f ?>" alt="shoe image">
+                </a>
+              </div>
           <?php
-            $i++;
+              $i++;
+            }
           }
           ?>
 
