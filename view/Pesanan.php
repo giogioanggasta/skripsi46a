@@ -39,10 +39,14 @@ include 'tmpuser/nav.php';
             <p style="margin-bottom: 8px;color: #0a2724;">ID transaksi: <?= $d->idTransaksi . "<br>"; ?> </p>
             <p style="margin-bottom: 8px;color: #0a2724;">Tanggal pemesanan: <?php $final_tanggal = date_create($d->tanggalWaktuTransaksi);
                                                                               echo date_format($final_tanggal, "Y-m-d") . "<br>"; ?> </p>
-            <p style="margin-bottom: 8px;color: #0a2724;">Waktu pemesanan: <?php $final_waktu = date_create($d->tanggalWaktuTransaksi);
-                                                                            echo date_format($final_waktu, "H:i") . "<br>"; ?> </p>
+            <p style="margin-bottom: 8px;color: #0a2724;">Jam pemesanan: <?php $final_waktu = date_create($d->tanggalWaktuTransaksi);
+                                                                          echo date_format($final_waktu, "H:i") . "<br>"; ?> </p>
+
+
+
             <p style="margin-bottom: 8px;color: #0a2724;">Nomor kamar: <?= $d->nomorKamar . "<br>"; ?> </p>
             <p style="margin-bottom: 8px;color: #0a2724;">Lama sewa: <?= $d->lamaSewa . "<br>"; ?></p>
+            <p style="margin-bottom: 8px;color: #0a2724;">Tanggal Lama Sewa: <br><?php echo $d->awalSewa . " sampai " . $d->akhirSewa . "<br>"; ?> </p>
             <p style="margin-bottom: 8px;color: #0a2724;">Total Harga: <?= formatRupiah($d->totalPembayaran) . "<br>"; ?></p>
             <p style="margin-bottom: 8px;color: #0a2724;"><b>Status Pemesanan:</b> <?= $d->status . "<br>"; ?></p>
 

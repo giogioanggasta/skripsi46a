@@ -79,7 +79,9 @@ class UserModel
         t.totalPembayaran,
         mtk.thumbnailKamar,
         t.reason,
-        t.buktiPembayaran
+        t.buktiPembayaran,
+        t.awalSewa,
+        t.akhirSewa
         FROM 
         transaksi t
         LEFT JOIN m_user u ON t.idUser = u.idUser
