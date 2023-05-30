@@ -1,15 +1,20 @@
 <?php
 include('../helper/flash_session.php');
-include('../model/kelolaModel.php');
+include('../model/dataModel.php');
 $title = "Data Transaksi";
 include('tmpadmin/header.php');
 include('tmpadmin/nav-data.php');
 // include('../model/adminModel.php');
 ?>
 
-  <a class="w3-display-middle" style="color:black;float: center; margin-top: -13%; margin-left:45%; text-decoration: none; font-size: 120%">Tabel Transaksi</a>
 
-  <a target="_blank" href="DownloadExcelTransaksi.php" style="margin-left: -48px;"> <button style="border: none;
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+
+      <a class="w3-display-middle" style="color:black;text-decoration: none; font-size: 120%">Data Transaksi</a>
+      <br>
+      <a target="_blank" href="DataExport.php"> <button style="border: none;
                 outline: 0;
                 padding: 6px;
                 color: white;
@@ -17,78 +22,94 @@ include('tmpadmin/nav-data.php');
                 text-align: center;
                 cursor: pointer;
                 font-size: 16px;
-                width: 15%;
-                margin-top: 45px;
+              
+             
                 margin-right: 35px;
-                float: right;">Download as Excel</button> </a>
+               ">Download as Excel</button> </a>
 
 
 
 
 
 
-  <div class="w3-container" style="margin-left: -10%; margin-top: 5%">
-    <table class="w3-table-all w3-center w3-hoverable" id="tabelcust" style="font-family: texts; font-size: 15px; width: 90%">
-      <thead>
-        <tr class="w3-light-grey">
-          <th>ID Transaksi</th>
-          <th>Tanggal Transaksi</th>
-          <th>Waktu Transaksi</th>
-          <th>Nomor Kamar</th>
-          <th>Lama Sewa</th>
-          <th>Total Harga</th>
-          <th>Bukti Pembayaran</th>
-        </tr>
 
 
-      </thead>
+      <div class="col-12 mt-4">
+        <div class="table-responsive">
+          <table class=" display" id="Table_ID" style="font-family: texts; font-size: 15px;">
+
+            <thead>
+
+              <tr>
+                <th>ID User</th>
+                <th>Nama User</th>
+                <th>Email User</th>
+                <th>Nomor Telp User</th>
+                <th>Jenis Kelamin User</th>
+                <th>ID Transaksi</th>
+                <th>Nama Tipe Kamar</th>
+                <th>Nomor Kamar</th>
+                <th>Fasilitas Kamar</th>
+                <th>Tgl Transaksi</th>
+                <th>Lama Sewa</th>
+                <th>Awal Sewa</th>
+                <th>Akhir Sewa</th>
+                <th>Total Pembayaran</th>
+                <th>Bukti Pembayaran</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <?php
 
 
-     
-        <form action="DataTransaksi.php" method="post">
-          <tr>
-          
+              foreach ($dataM->showDataTransaksi() as $s => $x) {
+              ?>
+
+                <!-- echo $x->idTipeKamar; -->
+                <tr>
+                  <td><?= $x->idUser ?></td>
+                  <td><?= $x->namaUser ?></td>
+                  <td><?= $x->email ?></td>
+                  <td><?= $x->nomorTelepon ?></td>
+                  <td><?= $x->jenisKelamin ?></td>
+                  <td><?= $x->idTransaksi ?></td>
+                  <td><?= $x->namaTipeKamar ?></td>
+                  <td><?= $x->nomorKamar ?></td>
+                  <td><?= $x->pilihanDetailFasilitas ?></td>
+                  <td><?= formatTgl($x->tanggalWaktuTransaksi) . " " . formatWaktu($x->tanggalWaktuTransaksi) ?></td>
+                  <td><?= $x->lamaSewa ?></td>
+                  <td><?= formatTgl($x->awalSewa) ?></td>
+                  <td><?= formatTgl($x->akhirSewa) ?></td>
+                  <td><?= formatRupiah($x->totalPembayaran) ?></td>
+                  <td><a target="_blank" style="font-size: 12px;" href="<?php
+                                                                        $actual_link = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+                                                                        echo str_replace('view/Data.php', 'images/bukti-bayar/', $actual_link) . $x->buktiPembayaran;
+
+                                                                        ?>"><?php
+                                                                            $actual_link = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+                                                                            echo str_replace('view/Data.php', 'images/bukti-bayar/', $actual_link) . $x->buktiPembayaran;
+
+                                                                            ?></a></td>
+                  <td><?= $x->status ?></td>
+                </tr>
 
 
-          </tr>
-          <div class="modal fade" id="modalPembatalan-<?= $row["idTransaksi"] ?>">
-            <div class="modal-dialog">
-              <div class="modal-content">
+              <?php
+              }
+              ?>
+            </tbody>
+          </table>
+        </div>
 
-                <!-- Modal Header -->
-                <div class="modal-header">
-                  <h4 class="modal-title">Masukkan Alasan Pembatalan</h4>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-
-                    <br>
-                    <label><b>Alasan Pembatalan</b></label>
-                    <input class="w3-input w3-border" type="text" placeholder="" name="alasanPembatalan">
-                    <br>
-                    <br>
-                    <br>
-
-                    <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
-                    <input type="hidden" name="emailTujuan" value="<?php echo $row["email"]; ?>">
-                    
-
-                      <button class="w3-button w3-block w3-dark-grey w3-section w3-padding" type="submit" name="btnBatal">ENTER</button>
-                    </div>
-                </div>
-              </div>
-            </div>
       </div>
-        </form>
-       
-      
-    </table>
+
+
+
+
+    </div>
   </div>
+</div>
 
-
-
-</body>
-
-</html>
+<?php include('tmpadmin/footer.php') ?>

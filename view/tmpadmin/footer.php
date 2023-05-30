@@ -10,7 +10,7 @@
 
 
             // "ordering": false
-            "order": []
+            "order": [],
 
 
         });

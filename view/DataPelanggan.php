@@ -1,15 +1,20 @@
 <?php
 include('../helper/flash_session.php');
-include('../model/kelolaModel.php');
+include('../model/dataModel.php');
 $title = "Data Pelanggan";
 include('tmpadmin/header.php');
 include('tmpadmin/nav-data.php');
 // include('../model/adminModel.php');
 ?>
 
-  <a class="w3-display-middle" style="color:black;float: center; margin-top: -13%; margin-left: 45%; text-decoration: none; font-size: 120%">Tabel Pelanggan</a>
 
-  <a target="_blank" href="DownloadExcelTransaksi.php" style="margin-left: -48px;"> <button style="border: none;
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+
+      <a class="w3-display-middle" style="color:black;text-decoration: none; font-size: 120%">Data Pelanggan</a>
+      <br>
+      <a target="_blank" href="DataPelangganExport.php"> <button style="border: none;
                 outline: 0;
                 padding: 6px;
                 color: white;
@@ -17,75 +22,67 @@ include('tmpadmin/nav-data.php');
                 text-align: center;
                 cursor: pointer;
                 font-size: 16px;
-                width: 15%;
-                margin-top: 45px;
+              
+             
                 margin-right: 35px;
-                float: right;">Download as Excel</button> </a>
+               ">Download as Excel</button> </a>
 
 
 
 
 
 
-  <div class="w3-container" style="margin-left: -10%; margin-top: 5%">
-    <table class="w3-table-all w3-center w3-hoverable" id="tabelcust" style="font-family: texts; font-size: 15px; width: 90%">
-      <thead>
-        <tr class="w3-light-grey">
-          <th>ID Pelanggan</th>
-          <th>Nama Pelanggan</th>
-          <th>Jenis Kelamin</th>
-          <th>Tanggal Lahir</th>
-          <th>Nomor Telepon</th>
-          <th>Email</th>
-        </tr>
 
 
-      </thead>
+      <div class="col-12 mt-4">
+
+        <table class=" display" id="Table_ID" style="font-family: texts; font-size: 15px;">
+
+          <thead>
+
+            <tr>
+              <th>ID Pelanggan</th>
+              <th>Nama Pelanggan</th>
+              <th>Jenis Kelamin Pelanggan</th>
+              <th>Tanggal Lahir Pelanggan</th>
+              <th>Nomor Telp Pelanggan</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <?php
 
 
-      
-        <form action="DataTransaksi.php" method="post">
-          <tr>
-            
-          </tr>
-          <div class="modal fade" id="modalPembatalan-<?= $row["idTransaksi"] ?>">
-            <div class="modal-dialog">
-              <div class="modal-content">
+            foreach ($dataM->showDataUser() as $s => $x) {
+            ?>
 
-                <!-- Modal Header -->
-                <div class="modal-header">
-                  <h4 class="modal-title">Masukkan Alasan Pembatalan</h4>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
+              <!-- echo $x->idTipeKamar; -->
+              <tr>
+                <td><?= $x->idUser ?></td>
+                <td><?= $x->namaUser ?></td>
+                <td><?= $x->jenisKelamin ?></td>
+                <td><?= formatTgl($x->tanggalLahir) ?></td>
+                <td><?= $x->nomorTelepon ?></td>
+                <td><?= $x->email ?></td>
 
-                <!-- Modal body -->
-                <div class="modal-body">
+              </tr>
 
-                    <br>
-                    <label><b>Alasan Pembatalan</b></label>
-                    <input class="w3-input w3-border" type="text" placeholder="" name="alasanPembatalan">
-                    <br>
-                    <br>
-                    <br>
 
-                    <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
-                    <input type="hidden" name="emailTujuan" value="<?php echo $row["email"]; ?>">
-                    
+            <?php
+            }
+            ?>
+          </tbody>
+        </table>
 
-                      <button class="w3-button w3-block w3-dark-grey w3-section w3-padding" type="submit" name="btnBatal">ENTER</button>
-                    </div>
-                </div>
-              </div>
-            </div>
+
       </div>
-        </form>
-       
-      
-    </table>
+
+
+
+
+    </div>
   </div>
+</div>
 
-
-
-</body>
-
-</html>
+<?php include('tmpadmin/footer.php') ?>
