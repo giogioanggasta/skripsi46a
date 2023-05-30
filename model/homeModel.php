@@ -109,7 +109,7 @@ class HomeModel
         AND t.nomorKamar = k.nomorKamar AND t.status = 'Diterima') IS NULL,'','disabled')
         html 
     FROM
-        kamar k WHERE k.idTipeKamar = '{$tipeKamar}'";
+        kamar k WHERE k.idTipeKamar = '{$tipeKamar}' AND k.status = 'Tersedia'";
 
         $this->db->query($cekKamar);
         return $this->db->resultAll();
