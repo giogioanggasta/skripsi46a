@@ -69,6 +69,7 @@ class UserModel
             exit;
         }
         $select = "SELECT
+        t.idTipeKamar,
         t.idTransaksi,
         t.namaTipeKamar,
         t.nomorKamar,

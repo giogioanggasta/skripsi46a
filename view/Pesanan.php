@@ -34,7 +34,7 @@ include 'tmpuser/nav.php';
 
 
           <div class="card-body">
-            <h5 class="card-title">Card title</h5>
+            <h5 class="card-title text-dark">Detail Sewa</h5>
             <p class="card-text">
             <p style="margin-bottom: 8px;color: #0a2724;">ID transaksi: <?= $d->idTransaksi . "<br>"; ?> </p>
             <p style="margin-bottom: 8px;color: #0a2724;">Tanggal pemesanan: <?php $final_tanggal = date_create($d->tanggalWaktuTransaksi);
@@ -76,6 +76,8 @@ include 'tmpuser/nav.php';
               <div class="card-bottom bg-success p-2 text-white">
                 <h4>Transaksi anda telah di <?= $d->status ?> oleh Admin terimakasih</h4>
               </div>
+
+              <a href="detail_kamar.php?<?= base64_encode('tipeKamar') ?>=<?= base64_encode($d->idTipeKamar) ?>" class="btn btn-secondary mt-2 btn-block">Perpanjangan Sewa Kamar</a>
             <?php
             } else if ($d->status == 'Ditolak') {
             ?>
@@ -84,6 +86,7 @@ include 'tmpuser/nav.php';
               <div class="card-bottom bg-danger p-2 text-white">
                 <h4>Mohon Maaf, Transaksi anda telah di <?= $d->status ?> oleh Admin.<br>Catatan : <br><?= $d->reason ?></h4>
               </div>
+              <a href="Kamar.php" class="btn btn-secondary mt-2 btn-block">Pilih Kamar Lainnya</a>
             <?php
             } else if ($d->status == 'Proses') {
             ?>

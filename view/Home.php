@@ -18,7 +18,7 @@ include 'tmpuser/nav.php';
   <div class="row">
 
     <?php
-    foreach ($homeM->showKamar() as $k => $v) {
+    foreach ($homeM->showKamarLimit() as $k => $v) {
 
     ?>
       <div class="col-4 col-md-6 col-lg-4 mt-2">
@@ -43,8 +43,11 @@ include 'tmpuser/nav.php';
 
 
 
-
   </div>
+  <center>
+
+    <a href="Kamar.php" class="mt-3 btn btn-secondary text-center">Kamar Lainnya</a>
+  </center>
 </div>
 </div>
 
@@ -113,8 +116,8 @@ include 'tmpuser/nav.php';
           height: 500px;
           width: 600px;
         }
-      <style>
-        .gmap_canvas {
+
+        <style>.gmap_canvas {
           overflow: hidden;
           background: none !important;
           height: 500px;

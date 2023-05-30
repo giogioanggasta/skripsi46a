@@ -20,6 +20,15 @@ class HomeModel
         $this->db->query($cekEmail);
         return $this->db->resultAll();
     }
+    public function showKamarLimit()
+    {
+        $cekEmail = "SELECT x.*,( SELECT z.hargaTipeKamar FROM m_tipekamar_pengelolaan z WHERE x.idTipeKamar = z.idTipeKamar ORDER BY z.created_at DESC LIMIT 1) harga
+        FROM
+            m_tipekamar x LIMIT 3";
+        $this->db->query($cekEmail);
+        return $this->db->resultAll();
+    }
+
 
     public function searchTipeKamar($idTipeKamar)
     {

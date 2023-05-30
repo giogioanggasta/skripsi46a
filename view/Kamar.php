@@ -3,29 +3,35 @@ include 'tmpuser/header.php';
 include 'tmpuser/nav.php';
 ?>
 
-
-<a style="color:black; float: center; margin-left: 47%; text-decoration: none;"><b>Kamar</b></a>
-
 <div class="container">
   <div class="row">
+    <div class="col-12">
+      <h3>Daftar Kamar</h3>
+    </div>
 
+    <?php
+    foreach ($homeM->showKamar() as $k => $v) {
 
-    <div class="col-lg-4 col-md-4 col-sm-6 mt-3">
-      <div class="card" style="border-width:none">
-        <img src="../images/kamarkos.png" style="width:100%"><br>
-        <div class="card-body">
-          <p class="card-title">Standard Room </p>
-          <p class="card-text">keterangan kamar</p>
-          <p class="card-text">Rp. 1.000.000 / bulan</p>
-          <div class="purchase-info">
-            <a href="detail_kamar.php"><button type="button" class="btn">
-                Pesan Kamar Disini <i class="fas fa-money-bill"></i></button>
-            </a>
+    ?>
+      <div class="col-4 col-md-6 col-lg-4 mt-2">
+        <div class="card" style="border-width:none">
+          <img class="img-fluid" style="width:726px; height:409px;" src="../images/thumbnail/<?= $v->thumbnailKamar ?>"><br>
+          <div class="card-body">
+            <p class="card-title"><?= $v->namaTipeKamar ?></p>
+            <!-- <p class="card-text">keterangan kamar</p> -->
+            <p class="card-text"><?= formatRupiah($v->harga) ?> / bulan</p>
+            <div class="purchase-info">
+              <a href="detail_kamar.php?<?= base64_encode('tipeKamar') ?>=<?= base64_encode($v->idTipeKamar) ?>"><button type="button" class="btn">
+                  Pesan Kamar Disini <i class="fas fa-money-bill"></i></button>
+              </a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    <?php
 
+    }
+    ?>
 
 
   </div>
