@@ -23,7 +23,35 @@ function redirect($location)
 }
 
 
-function formatRupiah($angka) {
+function formatRupiah($angka)
+{
     $rupiah = number_format($angka, 0, ',', '.');
     return 'Rp. ' . $rupiah;
+}
+
+function formatTgl($date)
+{
+
+    $cek = ltrim(date_format(date_create($date), "m"), 0);
+
+    $bulan = array(
+        '1' => 'Januari',
+        'Februari',
+        'Maret',
+        'April',
+        'Mei',
+        'Juni',
+        'Juli',
+        'Agustus',
+        'September',
+        'Oktober',
+        'November',
+        'Desember'
+    );
+    echo date_format(date_create($date), "d ") . $bulan[$cek] . date_format(date_create($date), " Y");
+}
+function formatWaktu($time)
+{
+
+    echo date("H:i:s A", strtotime($time));
 }
