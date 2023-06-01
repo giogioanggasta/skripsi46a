@@ -1,7 +1,19 @@
 <?php
 include 'tmpuser/header.php';
 include 'tmpuser/nav.php';
+
+if (!isset($_SESSION['session_login'])) {
 ?>
+  <script>
+    alert('Tidak dapat mengakses menu, silahkan login terlebih dahulu');
+    window.location.href = "Home.php";
+  </script>
+<?php
+  // header('Location:Login.php');
+  exit;
+}
+?>
+
 
 <div class="container">
   <a class="w3-display-middle" style="color:black;float: center; margin-top: -10%; text-decoration: none;">Pesanan Anda</a>

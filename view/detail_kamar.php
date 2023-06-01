@@ -212,9 +212,31 @@ if (!$result) {
           </div>
 
           <div class="purchase-info">
-            <button type="button" class="btn" data-toggle="modal" data-target="#myModal" id="btnFormSewa">
-              Pesan Kamar Disini <i class="fas fa-money-bill"></i>
-            </button>
+            <?php
+
+            if (!isset($_SESSION['session_login'])) {
+            ?>
+              <button type="button" class="btn" onclick="klikLogin()">
+                Pesan Kamar Disini <i class=" fas fa-money-bill"></i>
+              </button>
+              <script>
+                function klikLogin() {
+
+                  alert('Tidak dapat mengakses menu, silahkan login terlebih dahulu');
+                }
+              </script>
+            <?php
+              // header('Location:Login.php');
+
+            } else {
+            ?>
+              <button type="button" class="btn" data-toggle="modal" data-target="#myModal" id="btnFormSewa">
+                Pesan Kamar Disini <i class="fas fa-money-bill"></i>
+              </button>
+            <?php
+            }
+            ?>
+
           </div>
 
           <div id="myModal" class="modal">
