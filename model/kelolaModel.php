@@ -92,6 +92,37 @@ class kelolaModel
         header('Location: ../view/KelolaFasilitas.php');
     }
 
+    public function saveDiskon($idAdmin, $namaDiskon, $descDiskon, $potonganHarga, $limitDiskon, $tglAwal, $tglAkhir, $namaGambar)
+    {
+
+        $insert = "INSERT INTO diskon (gambarDiskon,
+        namaDiskon,
+        descDiskon,
+        potonganHarga,
+        `limit`,
+        tglAwal,
+        tglAkhir,
+        idAdmin
+        ) VALUES (
+        '{$namaGambar}',
+        UPPER('{$namaDiskon}'),
+        '{$descDiskon}',
+        '{$potonganHarga}',
+        '{$limitDiskon}',
+        '{$tglAwal}',
+        '{$tglAkhir}',
+        '{$idAdmin}')";
+        $this->db->query($insert);
+
+        if ($this->db->returnExecute()) {
+
+            flash('insert_alert', 'Berhasil menambah Diskon', 'green');
+        } else {
+            flash('insert_alert', 'Gagal menambah Diskon', 'red');
+        }
+        header('Location: ../view/KelolaDiskon.php');
+    }
+
     public function updateTipeKamar($idAdmin, $tipeKamar, $namaGambar, $idTipeKamar)
     {
         // JIKA NAMA GAMBAR KOSONG
@@ -181,6 +212,45 @@ class kelolaModel
         }
         header('Location: ../view/KelolaFasilitas.php');
     }
+    public function updateDiskon($idDiskon, $idAdmin, $namaDiskon, $descDiskon, $potonganHarga, $limitDiskon, $tglAwal, $tglAkhir, $namaGambar)
+    {
+        // JIKA NAMA GAMBAR KOSONG
+        if ($namaGambar == '') {
+            $update = "UPDATE diskon SET 
+            namaDiskon = '{$namaDiskon}',
+            descDiskon = '{$descDiskon}',
+            potonganHarga = '{$potonganHarga}',
+            `limit` = '{$limitDiskon}',
+            `tglAwal` = '{$tglAwal}',
+            `tglAkhir` = '{$tglAkhir}',
+            idAdmin = '{$idAdmin}' 
+            WHERE idDiskon ='{$idDiskon}'";
+        } else {
+            $update = "UPDATE diskon SET 
+            namaDiskon = '{$namaDiskon}',
+            descDiskon = '{$descDiskon}',
+            potonganHarga = '{$potonganHarga}',
+            `limit` = '{$limitDiskon}',
+            `tglAwal` = '{$tglAwal}',
+            `tglAkhir` = '{$tglAkhir}',
+            `gambarDiskon` = '{$namaGambar}',
+            idAdmin = '{$idAdmin}' 
+            WHERE idDiskon ='{$idDiskon}'";
+        }
+
+        $this->db->query($update);
+
+        if ($this->db->returnExecute()) {
+
+
+
+
+            flash('insert_alert', 'Berhasil mengubah diskon', 'green');
+        } else {
+            flash('insert_alert', 'Gagal mengubah diskon', 'red');
+        }
+        header('Location: ../view/KelolaDiskon.php');
+    }
 
     public function showKamar()
     {
@@ -235,6 +305,20 @@ class kelolaModel
         return $this->db->resultAll();
     }
 
+    public function showDiskon()
+    {
+
+        // CEK EMAIL
+        $getAllFasilitas = "SELECT
+        d.idDiskon,d.namaDiskon,d.descDiskon,d.limit,d.gambarDiskon,a.namaAdmin,d.potonganHarga,d.tglAwal,d.tglAkhir
+    FROM
+        diskon d
+        LEFT JOIN admin a ON d.idAdmin = a.idAdmin ORDER BY d.idDiskon DESC";
+        $this->db->query($getAllFasilitas);
+
+        return $this->db->resultAll();
+    }
+
     public function searchKamar($idTipeKamar)
     {
 
@@ -258,6 +342,14 @@ class kelolaModel
 
         $cariFasilitas = "SELECT * FROM fasilitas WHERE idFasilitas = '{$idFasilitas}'";
         $this->db->query($cariFasilitas);
+
+        return $this->db->single();
+    }
+    public function searchDiskon($idDiskon)
+    {
+
+        $cariDiskon = "SELECT * FROM diskon WHERE idDiskon = '{$idDiskon}'";
+        $this->db->query($cariDiskon);
 
         return $this->db->single();
     }
@@ -346,6 +438,31 @@ class kelolaModel
 
         header('Location: ../view/KelolaFasilitas.php');
     }
+    public function hapusDiskon($idDiskon)
+    {
+        $cariGambar = "SELECT * FROM diskon WHERE idDiskon = '{$idDiskon}'";
+        $this->db->query($cariGambar);
+
+        $cekGambar = $this->db->single();
+
+        if ($cekGambar) {
+            unlink('../images/thumbnail-diskon/' . $cekGambar->gambarDiskon);
+
+            $delete = "DELETE FROM diskon WHERE idDiskon ='{$idDiskon}'";
+            $this->db->query($delete);
+            if ($this->db->returnExecute()) {
+                flash('insert_alert', 'Berhasil menghapus diskon', 'green');
+            } else {
+                flash('insert_alert', 'Gagal menghapus diskon', 'red');
+            }
+        } else {
+            flash('insert_alert', 'Gagal menghapus diskon', 'red');
+        }
+
+
+
+        header('Location: ../view/KelolaDiskon.php');
+    }
 
     public function showAllFotoKamar($idTipeKamar)
     {
@@ -426,6 +543,25 @@ if (isset($_POST['btnInsertFasilitas'])) {
 
     $kelolaM->saveFasilitas($idAdmin, $namaFasilitas, $namaGambar);
 }
+if (isset($_POST['btnInsertDiskon'])) {
+
+    if (!(file_exists('../images/thumbnail-diskon'))) {
+        mkdir('../images/thumbnail-diskon', 0777, true);
+    }
+
+    $namaDiskon = $_POST['namaDiskon'];
+    $descDiskon = $_POST['descDiskon'];
+    $potonganHarga = $_POST['potonganHarga'];
+    $limitDiskon = $_POST['limitDiskon'];
+    $tglAwal = $_POST['tglAwal'];
+    $tglAkhir = $_POST['tglAkhir'];
+    $idAdmin = $_POST['idAdmin'];
+
+    $namaGambar = time() . "_" . $_FILES['gambarDiskon']['name'];
+    $simpanGambar =  move_uploaded_file($_FILES['gambarDiskon']['tmp_name'], '../images/thumbnail-diskon/' . $namaGambar);
+
+    $kelolaM->saveDiskon($idAdmin, $namaDiskon, $descDiskon, $potonganHarga, $limitDiskon, $tglAwal, $tglAkhir, $namaGambar);
+}
 
 // ACTION UPDATE
 if (isset($_POST['btnUpdateTipeKamar'])) {
@@ -494,6 +630,46 @@ if (isset($_POST['btnUpdateFasilitas'])) {
         }
     }
 }
+if (isset($_POST['btnUpdateDiskon'])) {
+
+    if (!(file_exists('../images/thumbnail-diskon'))) {
+        mkdir('../images/thumbnail', 0777, true);
+    }
+
+    $idDiskon = $_POST['idDiskon'];
+    $namaDiskon = $_POST['namaDiskon'];
+    $descDiskon = $_POST['descDiskon'];
+    $potonganHarga = $_POST['potonganHarga'];
+    $limitDiskon = $_POST['limitDiskon'];
+    $tglAwal = $_POST['tglAwal'];
+    $tglAkhir = $_POST['tglAkhir'];
+    $idAdmin = $_POST['idAdmin'];
+
+
+    // JIKA TIDAK ADA FILE GAMBAR KAMAR
+    if ($_FILES['gambarDiskon']['name'] == '') {
+
+        $namaGambar = '';
+        $kelolaM->updateDiskon($idDiskon, $idAdmin, $namaDiskon, $descDiskon, $potonganHarga, $limitDiskon, $tglAwal, $tglAkhir, $namaGambar);
+    } else {
+
+        $cekGambarNow = $kelolaM->searchDiskon($idDiskon);
+
+        if ($cekGambarNow) {
+
+            if (file_exists('../images/thumbnail-diskon/' .  $cekGambarNow->gambarDiskon)) {
+
+                unlink('../images/thumbnail-diskon/' .  $cekGambarNow->gambarDiskon);
+            }
+
+            $namaGambarBaru = time() . "_" . $_FILES['gambarDiskon']['name'];
+            $simpanGambar =  move_uploaded_file($_FILES['gambarDiskon']['tmp_name'], '../images/thumbnail-diskon/' . $namaGambarBaru);
+            $kelolaM->updateDiskon($idDiskon, $idAdmin, $namaDiskon, $descDiskon, $potonganHarga, $limitDiskon, $tglAwal, $tglAkhir, $namaGambarBaru);
+        } else {
+            flash('insert_alert', 'Gagal mengubah diskon', 'red');
+        }
+    }
+}
 
 if (isset($_POST['btnUpdateKamar'])) {
 
@@ -518,5 +694,11 @@ if (isset($_GET['actKamar'])) {
 if (isset($_GET['actFasilitas'])) {
     if ($_GET['actFasilitas'] == 'hapusFasilitas') {
         $kelolaM->hapusFasilitas($_GET['idFasilitas']);
+    }
+}
+
+if (isset($_GET['actDiskon'])) {
+    if ($_GET['actDiskon'] == 'hapusDiskon') {
+        $kelolaM->hapusDiskon($_GET['idDiskon']);
     }
 }

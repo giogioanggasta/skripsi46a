@@ -341,6 +341,10 @@ if (!$result) {
 
                 }
               </script>
+              <br>
+              <h3>Diskon</h3>
+              <input type="text" class="form-control w-25">
+              <br>
               <label for="harga">Harga : <span id="totalHarga"><?= formatRupiah($result->hargaTipeKamar) ?></span></label> <br><br>
 
               <button type="submit" name="saveDetailPesanan" style="background-color: rgb(0, 0, 46); color: white; padding: 10px;">Sewa Sekarang</button>
