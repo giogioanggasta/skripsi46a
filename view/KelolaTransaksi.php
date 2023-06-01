@@ -9,6 +9,57 @@ include('tmpadmin/nav-kelola.php');
 ?>
 .
 <a class="w3-display-middle" style="color:black;float: center; margin-top: -13%; margin-left: 45%; text-decoration: none; font-size: 120%;">Tabel Transaksi</a>
+<center>
+
+  <select name="status_filter" onchange="filterStatus(this.value)" class="form-control w-50">
+    <option value="" selected hidden>Filter Status</option>
+    <option <?php
+            if (isset($_GET['filter_status'])) {
+              if ($_GET['filter_status'] == 'Semua') {
+
+                echo "selected";
+              }
+            }
+            ?> value="Semua">Semua</option>
+    <option <?php
+            if (isset($_GET['filter_status'])) {
+              if ($_GET['filter_status'] == 'Proses') {
+
+                echo "selected";
+              }
+            }
+            ?> value="Proses">Proses</option>
+    <option <?php
+            if (isset($_GET['filter_status'])) {
+              if ($_GET['filter_status'] == 'Menunggu Pembayaran') {
+
+                echo "selected";
+              }
+            }
+            ?> value="Menunggu Pembayaran">Menunggu Pembayaran</option>
+    <option <?php
+            if (isset($_GET['filter_status'])) {
+              if ($_GET['filter_status'] == 'Ditolak') {
+
+                echo "selected";
+              }
+            }
+            ?> value="Ditolak">Ditolak</option>
+    <option <?php
+            if (isset($_GET['filter_status'])) {
+              if ($_GET['filter_status'] == 'Diterima') {
+
+                echo "selected";
+              }
+            }
+            ?> value="Diterima">Diterima</option>
+  </select>
+  <script>
+    function filterStatus(val) {
+      window.location.href = "?filter_status=" + val;
+    }
+  </script>
+</center>
 <?php
 if (isset($_SESSION['insert_alert']) && !isset($_GET['actTransaksi']) || isset($_SESSION['insert_alert']) && !isset($_POST['btnUpdateFasilitas'])) {
   echo $_SESSION['insert_alert'];
@@ -49,7 +100,9 @@ if (count($_POST) == 0) {
             <tr>
               <th>ID Transaksi</th>
               <th>Nama User</th>
+              <th>Status Transaksi</th>
               <th>Detail Kamar</th>
+              <th>Total Pembayaran</th>
               <th>Bukti Pembayaran</th>
               <th>Opsi</th>
             </tr>
@@ -58,23 +111,56 @@ if (count($_POST) == 0) {
 
             <?php
 
+            $defaultVal = array('Proses');
+            if (isset($_GET['filter_status'])) {
+              if ($_GET['filter_status'] == 'Semua') {
+                $defaultVal = array('Proses', 'Menunggu Pembayaran', 'Ditolak', 'Diterima');
+              } else {
+                $defaultVal = array($_GET['filter_status']);
+              }
+            }
 
-            foreach ($transaksiM->showTransaksi(array('Proses')) as $s => $x) {
+            foreach ($transaksiM->showTransaksi($defaultVal) as $s => $x) {
             ?>
 
               <!-- echo $x->idTipeKamar; -->
               <tr>
                 <td><?= $x->idTransaksi ?></td>
                 <td><?= $x->namaUser ?></td>
+                <td><?= $x->status ?></td>
                 <td>
                   Tipe Kamar : <?= $x->namaTipeKamar ?> - Nomor Kamar <?= $x->nomorKamar ?><br>
                   Fasilitas Kamar : <?= $x->pilihanDetailFasilitas ?><br>
                   Tgl Pemesanan : <?= formatTgl($x->tanggalWaktuTransaksi) ?> <?= formatWaktu($x->tanggalWaktuTransaksi) ?><br>
                   Lama Sewa : <?= $x->lamaSewa ?> (<?= formatTgl($x->awalSewa) ?> sampai <?= formatTgl($x->akhirSewa) ?>)<br>
                 </td>
-                <td><a style="font-size:15px" href="../images/bukti-bayar/<?= $x->buktiPembayaran ?>" class="text-danger" target="_blank">Lihat</a></td>
-                <td><a href="#" onclick="terimaTransaksi('<?= $x->idTransaksi ?>')" data-bs-toggle="modal" data-bs-target="#modalTambah<?= $x->idFasilitas ?>" class="btn btn-primary">Terima</a>
-                  <a onclick="tolakTransaksi('<?= $x->idTransaksi ?>')" href="#" class="btn btn-danger">Tolak</a>
+                <td><?= formatRupiah($x->totalPembayaran) ?></td>
+                <td>
+                  <?php
+                  if ($x->status != 'Menunggu Pembayaran') {
+                  ?>
+
+                    <a style="font-size:15px" href="../images/bukti-bayar/<?= $x->buktiPembayaran ?>" class="text-danger" target="_blank">Lihat</a>
+                  <?php
+                  } else {
+                    echo '-';
+                  }
+                  ?>
+
+                </td>
+                <td>
+                  <?php
+                  if ($x->status == 'Proses') {
+                  ?>
+                    <a href="#" onclick="terimaTransaksi('<?= $x->idTransaksi ?>')" data-bs-toggle="modal" data-bs-target="#modalTambah<?= $x->idFasilitas ?>" class="btn btn-primary">Terima</a>
+                    <a onclick="tolakTransaksi('<?= $x->idTransaksi ?>')" href="#" class="btn btn-danger">Tolak</a>
+
+                  <?php
+                  } else {
+                    echo '-';
+                  }
+                  ?>
+
                 </td>
               </tr>
 

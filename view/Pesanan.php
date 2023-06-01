@@ -34,7 +34,8 @@ include 'tmpuser/nav.php';
 
 
           <div class="card-body">
-            <h5 class="card-title text-dark">Detail Sewa</h5>
+            <h4 class="text-center card-title text-dark">Detail Sewa</h4>
+            <h6 class="text-center"><?= $d->namaTipeKamar; ?></h6>
             <p class="card-text">
             <p style="margin-bottom: 8px;color: #0a2724;">ID transaksi: <?= $d->idTransaksi . "<br>"; ?> </p>
             <p style="margin-bottom: 8px;color: #0a2724;">Tanggal pemesanan: <?php $final_tanggal = date_create($d->tanggalWaktuTransaksi);

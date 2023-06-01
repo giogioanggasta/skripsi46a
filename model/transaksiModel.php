@@ -23,9 +23,12 @@ class transaksiModel
        t.tanggalWaktuTransaksi,
        t.lamaSewa,
        t.buktiPembayaran,
+       t.totalPembayaran,
        t.awalSewa,
        t.akhirSewa,
-       t.pilihanDetailFasilitas
+       t.pilihanDetailFasilitas,
+       t.status
+       
        
    FROM
        `transaksi` t
