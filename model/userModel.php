@@ -117,6 +117,39 @@ class UserModel
 
         return $this->db->single();
     }
+
+
+    public function saveProfile($param)
+    {
+        if ($param['passwordBaru'] == '' && $param['passwordLama'] == '') {
+            $update = "UPDATE m_user SET namaUser = '{$param['namaUser']}', jenisKelamin = '{$param['jenisKelamin']}', tanggalLahir = '{$param['tanggalLahir']}', nomorTelepon = '{$param['nomorTelepon']}' WHERE idUser='{$param['idUser']}'";
+        }
+        // withupdate password
+        else {
+            $pwl = base64_encode($param['passwordLama']);
+            $pwb = base64_encode($param['passwordBaru']);
+            $select = "SELECT * FROM m_user WHERE idUser = '{$param['idUser']}' AND password = '{$pwl}'";
+            $this->db->query($select);
+            $cekPasswordLama = $this->db->resultAll();
+
+            if ($cekPasswordLama) {
+
+                $update = "UPDATE m_user SET namaUser = '{$param['namaUser']}', jenisKelamin = '{$param['jenisKelamin']}', tanggalLahir = '{$param['tanggalLahir']}', nomorTelepon = '{$param['nomorTelepon']}',password='{$pwb}' WHERE idUser='{$param['idUser']}'";
+            } else {
+                flash('profile_alert', 'Password lama salah', 'red');
+                header('Location: ../view/Profile.php');
+            }
+        }
+        $this->db->query($update);
+
+        if ($this->db->returnExecute()) {
+            flash('profile_alert', 'Berhasil update profile', 'green');
+            // $_POST
+        } else {
+            flash('profile_alert', 'Gagal upload profile', 'red');
+        }
+        header('Location: ../view/Profile.php');
+    }
 }
 
 $userM = new UserModel();
@@ -143,4 +176,10 @@ if (isset($_POST['btnSavePembayaran'])) {
     $namaGambar = time() . "_" . $_FILES['buktiPembayaran']['name'];
     $simpanGambar =  move_uploaded_file($_FILES['buktiPembayaran']['tmp_name'], '../images/bukti-bayar/' . $namaGambar);
     $userM->saveBuktiBayar($idTransaksi, $namaGambar);
+}
+
+
+if (isset($_POST['saveProfile'])) {
+
+    $userM->saveProfile($_POST);
 }
