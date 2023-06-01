@@ -11,7 +11,7 @@
  Target Server Version : 101100
  File Encoding         : 65001
 
- Date: 30/05/2023 22:04:22
+ Date: 01/06/2023 22:07:32
 */
 
 SET NAMES utf8mb4;
@@ -37,6 +37,29 @@ INSERT INTO `admin` VALUES (1, 'Gio', '087742037644', 'gio@gmail.com', 'YWRtaW5r
 INSERT INTO `admin` VALUES (2, 'Satria', '087742037644', 'satria@gmail.com', 'YWRtaW5rdQ==');
 
 -- ----------------------------
+-- Table structure for diskon
+-- ----------------------------
+DROP TABLE IF EXISTS `diskon`;
+CREATE TABLE `diskon`  (
+  `idDiskon` int(11) NOT NULL AUTO_INCREMENT,
+  `gambarDiskon` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `namaDiskon` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `descDiskon` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT current_timestamp(),
+  `potonganHarga` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `limit` int(11) NULL DEFAULT NULL,
+  `tglAwal` date NULL DEFAULT NULL,
+  `tglAkhir` date NULL DEFAULT NULL,
+  `created_at` datetime NULL DEFAULT current_timestamp(),
+  `idAdmin` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`idDiskon`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of diskon
+-- ----------------------------
+INSERT INTO `diskon` VALUES (14, '1685630257_msg-463887772-4920 (1).jpg', 'KEMERDEKAAN', 'Dapatkan potongan Rp. 50.000', '50000', 10, '2023-06-01', '2023-06-30', '2023-06-01 21:37:37', '2');
+
+-- ----------------------------
 -- Table structure for fasilitas
 -- ----------------------------
 DROP TABLE IF EXISTS `fasilitas`;
@@ -52,7 +75,7 @@ CREATE TABLE `fasilitas`  (
 -- ----------------------------
 -- Records of fasilitas
 -- ----------------------------
-INSERT INTO `fasilitas` VALUES (2, 'Parkir Motor', '', '2023-05-24 23:12:59', NULL);
+INSERT INTO `fasilitas` VALUES (2, 'Parkir Motor', '', '2023-05-24 23:12:59', 2);
 INSERT INTO `fasilitas` VALUES (3, 'Parkir Mobil', '', '2023-05-24 23:12:59', 2);
 INSERT INTO `fasilitas` VALUES (4, 'Televisi', '1684945874_20230522_083641_0000.png', '2023-05-24 23:12:59', 2);
 INSERT INTO `fasilitas` VALUES (7, 'AC', '1684945824_Frame 2.png', '2023-05-24 23:17:43', 2);
@@ -72,7 +95,7 @@ CREATE TABLE `fasilitas_pengelolaan`  (
   `deleted_at` datetime NULL DEFAULT NULL,
   `namaFasilitas` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`idPengelolaan`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 75 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 76 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of fasilitas_pengelolaan
@@ -88,6 +111,7 @@ INSERT INTO `fasilitas_pengelolaan` VALUES (71, 7, 2, 100000, '2023-05-24 23:30:
 INSERT INTO `fasilitas_pengelolaan` VALUES (72, 5, 2, 80000, '2023-05-24 23:30:37', '2023-05-24 23:30:37', NULL, 'Laundry');
 INSERT INTO `fasilitas_pengelolaan` VALUES (73, 4, 2, 60000, '2023-05-24 23:31:14', '2023-05-24 23:31:14', NULL, 'Televisi');
 INSERT INTO `fasilitas_pengelolaan` VALUES (74, 3, 2, 800000, '2023-05-25 20:33:21', '2023-05-25 20:33:21', NULL, 'Parkir Mobil');
+INSERT INTO `fasilitas_pengelolaan` VALUES (75, 2, 2, 800000, '2023-06-01 20:42:46', '2023-06-01 20:42:46', NULL, 'Parkir Motor');
 
 -- ----------------------------
 -- Table structure for kamar
@@ -108,8 +132,8 @@ CREATE TABLE `kamar`  (
 -- ----------------------------
 -- Records of kamar
 -- ----------------------------
-INSERT INTO `kamar` VALUES (15, 2, 64, '100', 'Tersedia', '2023-05-24 22:43:49', '2023-05-24 22:43:49', NULL);
-INSERT INTO `kamar` VALUES (16, 2, 65, '15', 'Tersedia', '2023-05-25 20:29:43', '2023-05-25 20:29:43', NULL);
+INSERT INTO `kamar` VALUES (15, 2, 69, '100', 'Tersedia', '2023-05-24 22:43:49', '2023-06-01 19:36:45', NULL);
+INSERT INTO `kamar` VALUES (16, 2, 69, '155', 'Tersedia', '2023-05-25 20:29:43', '2023-06-01 19:37:15', NULL);
 INSERT INTO `kamar` VALUES (17, 2, 65, '16', 'Tersedia', '2023-05-25 20:29:53', '2023-05-25 20:41:25', NULL);
 
 -- ----------------------------
@@ -217,7 +241,7 @@ CREATE TABLE `m_user`  (
 -- Records of m_user
 -- ----------------------------
 INSERT INTO `m_user` VALUES (39, 'Satria', 'Pria', '1999-01-20', '083832204284', 'satria@gmail.com', 'MTIzNDU2Nzg5');
-INSERT INTO `m_user` VALUES (41, 'Satria', 'Pria', '1999-01-20', '083832204284', 'satriags@gmail.com', 'MTIzNDU2Nzg5');
+INSERT INTO `m_user` VALUES (41, 'Satria Tes', 'Pria', '2000-01-20', '083832204284', 'satriags@gmail.com', 'MTIzNDU=');
 INSERT INTO `m_user` VALUES (42, 'Udin', 'Pria', '1999-01-20', '083838383883', 'yahi@gmail.com', 'MTIzNDU2Nzg5');
 INSERT INTO `m_user` VALUES (43, 'yoooo', 'Pria', '0002-02-22', '2222222', 'yahi2@gmail.com', 'MTIzNDU2Nzg5');
 INSERT INTO `m_user` VALUES (44, 'Giovanni', 'Pria', '2001-12-31', '083838388383', 'gio@gmail.com', 'MTIz');
@@ -244,7 +268,7 @@ CREATE TABLE `transaksi`  (
   `akhirSewa` date NULL DEFAULT NULL,
   `reason` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`idTransaksi`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of transaksi
@@ -254,6 +278,8 @@ INSERT INTO `transaksi` VALUES (5, 41, NULL, 65, '15', 'Small', '2023-05-29 19:5
 INSERT INTO `transaksi` VALUES (6, 41, NULL, 65, '15', 'Small', '2023-05-29 19:59:56', 3, NULL, 'Televisi Samsung,AC,Televisi,Parkir Mobil', 'Ditolak', '2023-05-29 21:59:51', '12840000', '2023-07-01', '2023-12-01', 'Testing bro');
 INSERT INTO `transaksi` VALUES (7, 41, '2', 65, '15', 'Small', '2023-05-29 19:59:56', 6, NULL, 'Televisi Samsung,AC,Televisi,Parkir Mobil', 'Diterima', '2023-05-30 19:58:04', '12840000', '2024-01-01', '2024-06-01', NULL);
 INSERT INTO `transaksi` VALUES (8, 41, '2', 65, '16', 'Small', '2023-05-29 21:31:54', 3, '1685373032_WhatsApp Image 2023-04-29 at 22.16.37.jpeg', 'Televisi Samsung,AC,Televisi,Parkir Mobil', 'Diterima', '2023-05-30 19:58:18', '6420000', '2023-06-03', '2023-09-03', NULL);
-INSERT INTO `transaksi` VALUES (9, 41, NULL, 64, '100', 'Delux', '2023-05-30 20:52:28', 3, NULL, 'Televisi Samsung,AC,Televisi,Parkir Mobil', 'Menunggu Pembayaran', NULL, '6120000', '2023-05-30', '2023-08-30', NULL);
+INSERT INTO `transaksi` VALUES (9, 41, NULL, 64, '100', 'Delux', '2023-05-30 20:52:28', 3, '1685621288_WhatsApp Image 2023-04-29 at 22.16.37 (1).jpeg', 'Televisi Samsung,AC,Televisi,Parkir Mobil', 'Proses', '2023-06-01 19:08:08', '6120000', '2023-05-30', '2023-08-30', NULL);
+INSERT INTO `transaksi` VALUES (10, 41, NULL, 64, '100', 'Delux', '2023-06-01 19:07:34', 3, '1685621268_WhatsApp Image 2023-04-29 at 22.16.37 (1).jpeg', 'Televisi Samsung,AC,Televisi', 'Proses', '2023-06-01 19:07:48', '3720000', '2023-06-01', '2023-09-01', NULL);
+INSERT INTO `transaksi` VALUES (11, 41, NULL, 64, '100', 'Delux', '2023-06-01 19:18:32', 1, NULL, 'Televisi Samsung,AC,Televisi', 'Menunggu Pembayaran', NULL, '1240000', '2023-06-01', '2023-07-01', NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;
