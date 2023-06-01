@@ -134,14 +134,17 @@ class kelolaModel
         }
     }
 
-    public function updateKamar($idAdmin, $nomorKamar, $status, $idKamar)
+    public function updateKamar($idAdmin, $nomorKamar, $idTipeKamar, $idKamar, $status)
     {
         // JIKA NAMA GAMBAR KOSONG
-        if ($namaGambar == '') {
-            $update = "UPDATE m_kamar SET nomorKamar = '{$nomorKamar}',idAdmin = '{$idAdmin}' WHERE idTipeKamar='{$idTipeKamar}'";
-        } else {
-            $update = "UPDATE m_kamar SET thumbnailKamar = '{$namaGambar}',namaTipeKamar = '{$tipeKamar}',idAdmin = '{$idAdmin}' WHERE idTipeKamar='{$idTipeKamar}'";
-        }
+
+        $update = "UPDATE kamar SET
+            idAdmin = '{$idAdmin}',
+            idTipeKamar = '{$idTipeKamar}',
+            nomorKamar  = '{$nomorKamar}',
+            status  = '{$status}'
+             WHERE idKamar='{$idKamar}'";
+
 
         $this->db->query($update);
 
@@ -150,7 +153,7 @@ class kelolaModel
         } else {
             flash('insert_alert', 'Gagal mengubah tipe kamar', 'red');
         }
-        header('Location: ../view/Kelola.php');
+        header('Location: ../view/KelolaKamar.php');
     }
 
     public function updateFasilitas($idAdmin, $namaFasilitas, $namaGambar, $idFasilitas)
@@ -204,7 +207,8 @@ class kelolaModel
         k.nomorKamar,
         k.status,
         a.namaAdmin,
-        mtp.namaTipeKamar
+        mtp.namaTipeKamar,
+        mtp.idTipeKamar
     FROM
         kamar k
         LEFT JOIN admin a ON k.idAdmin = a.idAdmin 
@@ -243,7 +247,7 @@ class kelolaModel
     public function searchNomorKamar($idKamar)
     {
 
-        $cariNomorKamar = "SELECT * FROM m_kamar WHERE idKamar = '{$idKamar}'";
+        $cariNomorKamar = "SELECT * FROM kamar WHERE idKamar = '{$idKamar}'";
         $this->db->query($cariNomorKamar);
 
         return $this->db->single();
@@ -491,6 +495,11 @@ if (isset($_POST['btnUpdateFasilitas'])) {
     }
 }
 
+if (isset($_POST['btnUpdateKamar'])) {
+
+
+    $kelolaM->updateKamar($_POST['idAdmin'], $_POST['nomorKamar'], $_POST['tipeKamar'], $_POST['idKamar'], $_POST['status']);
+}
 // ACTION HAPUS
 if (isset($_GET['actTipeKamar'])) {
     if ($_GET['actTipeKamar'] == 'hapusTipeKamar') {

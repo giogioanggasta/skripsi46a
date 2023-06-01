@@ -77,7 +77,7 @@ if (count($_POST) == 0) {
                     </select>
                     <!-- <input type="text" class="form-control" name="tipeKamar"> -->
                   </div>
-              
+
                   <div class="form-group">
                     <label for="status">Status</label>
 
@@ -156,6 +156,7 @@ if (count($_POST) == 0) {
                           <input type="number" class="form-control" value="<?= $x->nomorKamar ?>" name="nomorKamar">
                         </div>
                         <input type="hidden" name="idAdmin" value="<?= $_SESSION['admin_session_login']->idAdmin; ?>">
+                        <input type="hidden" name="idKamar" value="<?= $x->idKamar; ?>">
                         <div class="form-group">
                           <label for="tipeKamar">Tipe Kamar</label>
                           <select name="tipeKamar" class="form-select">
@@ -163,7 +164,12 @@ if (count($_POST) == 0) {
                             <?php
                             foreach ($kelolaM->showKamar() as $k => $d) {
                             ?>
-                              <option value="<?= $d->idTipeKamar ?>"><?= $d->namaTipeKamar ?></option>
+                              <option <?php
+                                      // echo $x->idTipeKamar;exit;
+                                      if ($d->idTipeKamar == $x->idTipeKamar) {
+                                        echo "selected";
+                                      }
+                                      ?> value="<?= $d->idTipeKamar ?>"><?= $d->namaTipeKamar ?></option>
                             <?php
                             }
                             ?>
@@ -176,8 +182,16 @@ if (count($_POST) == 0) {
 
                           <select name="status" class="form-select">
                             <option value="" selected hidden>Pilih Status Kamar</option>
-                            <option value="Tersedia">Tersedia</option>
-                            <option value="Tidak Tersedia">Tidak Tersedia</option>
+                            <option <?php
+                                    if ($x->status == 'Tersedia') {
+                                      echo "selected";
+                                    }
+                                    ?> value="Tersedia">Tersedia</option>
+                            <option <?php
+                                    if ($x->status == 'Tidak Tersedia') {
+                                      echo "selected";
+                                    }
+                                    ?> value="Tidak Tersedia">Tidak Tersedia</option>
                           </select>
                         </div>
 
