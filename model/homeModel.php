@@ -114,6 +114,22 @@ class HomeModel
         $this->db->query($cekKamar);
         return $this->db->resultAll();
     }
+
+
+    public function showDiskonKamar()
+    {
+        $select = "SELECT
+        * 
+    FROM
+        diskon 
+    WHERE
+        CURRENT_DATE BETWEEN tglAwal 
+        AND tglAkhir 
+        AND `limit` != 0";
+
+        $this->db->query($select);
+        return $this->db->resultAll();
+    }
 }
 
 $homeM = new HomeModel();

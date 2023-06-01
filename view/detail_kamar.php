@@ -243,111 +243,157 @@ if (!$result) {
 
             <!-- Modal content -->
             <div class="modal-content">
-              <span class="close">&times;</span>
-              <h2>Sewa Kamar <?= $result->namaTipeKamar ?></h2> <br>
-              <label for="kamar">Tanggal Awal Sewa:</label> <br>
-              <input type="date" min="<?php echo date("Y-m-d") ?>" id="cekTanggal" onchange="pilihTanggalSewa()" name="awalSewa">
+              <div class="modal-header">
 
-              <script>
-                function pilihTanggalSewa() {
 
-                  // $('#pilihKamar').hide()
-                  cekKamar()
-                }
-                // $(document).ready(function() {
+                <span class="close">&times;</span>
+              </div>
+              <div class="modal-body">
+                <table class="">
+                  <tr>
+                    <td>
+                      <h2>Sewa Kamar <?= $result->namaTipeKamar ?></h2> <br>
+                      <label for="kamar">Tanggal Awal Sewa:</label> <br>
+                      <input type="date" min="<?php echo date("Y-m-d") ?>" id="cekTanggal" onchange="pilihTanggalSewa()" name="awalSewa">
 
-                //   $('#pilihKamar').hide()
-                // });
-              </script>
-              <br>
+                      <script>
+                        function pilihTanggalSewa() {
 
-              <label for="lamaSewa">Pilih Lama Sewa:</label> <br>
-              <select required name="lamaSewa" onchange="changeSewa(this.value)" id="lamaSewa">
-                <!-- <option value="">Pilih Lama Sewa</option> -->
-                <option value="1">1 Bulan</option>
-                <option value="3">3 Bulan</option>
-                <option value="6">6 Bulan</option>
-                <option value="12">12 Bulan</option>
-              </select>
-              <br>
-              <!-- <button onclick="cekKamar()">Cek Ketersediaan Kamar</button> -->
-              <script>
-                function cekKamar() {
-                  var tgl = document.getElementById('cekTanggal').value;
-                  var lamaSewa = document.getElementById('lamaSewa').value;
+                          // $('#pilihKamar').hide()
+                          cekKamar()
+                        }
+                        // $(document).ready(function() {
 
-                  var result = getJSON('../model/ajax_group.php', {
-                    act: 'cekTanggalBooking',
-                    tanggal: tgl,
-                    idTipeKamar: '<?= $_GET['dGlwZUthbWFy'] ?>',
-                    lamaSewa: lamaSewa
-                  })
+                        //   $('#pilihKamar').hide()
+                        // });
+                      </script>
+                      <br>
 
-                  $('#selectKamar').html(result);
-                  $('#pilihKamar').show();
-                }
-              </script>
-              <br>
-              <div id="pilihKamar">
+                      <label for="lamaSewa">Pilih Lama Sewa:</label> <br>
+                      <select required name="lamaSewa" onchange="changeSewa(this.value)" id="lamaSewa">
+                        <!-- <option value="">Pilih Lama Sewa</option> -->
+                        <option value="1">1 Bulan</option>
+                        <option value="3">3 Bulan</option>
+                        <option value="6">6 Bulan</option>
+                        <option value="12">12 Bulan</option>
+                      </select>
+                      <br>
+                      <!-- <button onclick="cekKamar()">Cek Ketersediaan Kamar</button> -->
+                      <script>
+                        function cekKamar() {
+                          var tgl = document.getElementById('cekTanggal').value;
+                          var lamaSewa = document.getElementById('lamaSewa').value;
 
-                <label for=" kamar">Pilih Kamar:</label> <br>
-                <div id="selectKamar"></div>
+                          var result = getJSON('../model/ajax_group.php', {
+                            act: 'cekTanggalBooking',
+                            tanggal: tgl,
+                            idTipeKamar: '<?= $_GET['dGlwZUthbWFy'] ?>',
+                            lamaSewa: lamaSewa
+                          })
+
+                          $('#selectKamar').html(result);
+                          $('#pilihKamar').show();
+                        }
+                      </script>
+                      <br>
+                      <div id="pilihKamar">
+
+                        <label for=" kamar">Pilih Kamar:</label> <br>
+                        <div id="selectKamar"></div>
+
+                      </div>
+
+                      <br>
+                      <p>Fasilitas Tambahan:</p>
+                      <?php
+                      $dataFasi = $homeM->showFasilitas();
+                      foreach ($dataFasi as $f) {
+                      ?>
+                        <div class="form-group">
+                          <label class="checkbox-inline">
+                            <input type="checkbox" onclick="klikpilihFasilitas()" name="pilihFasilitas" value="<?= $f->idFasilitas ?>|<?= $f->hargaFasilitas ?>|<?= $f->namaFasilitas ?>"><?= $f->namaFasilitas ?>-<?= formatRupiah($f->hargaFasilitas) ?>
+                          </label>&nbsp;&nbsp;
+                        </div>
+                      <?php
+                      }
+                      ?>
+
+                      <script>
+                        function klikpilihFasilitas() {
+                          var checkboxes = document.getElementsByName("pilihFasilitas");
+                          var selectedFasilitas = [];
+                          var selectedDetailFasilitas = [];
+                          for (var i = 0; i < checkboxes.length; i++) {
+                            if (checkboxes[i].checked) {
+                              selectedFasilitas.push(checkboxes[i].value.split("|")[1]);
+                              selectedDetailFasilitas.push(checkboxes[i].value.split("|")[2]);
+                            }
+                          }
+                          globalpilihDetailFasilitas = selectedDetailFasilitas
+                          globalpilihFasilitas = selectedFasilitas
+                          totalKeseluruhan()
+                        }
+                      </script>
+                      <br>
+                      <input type="hidden" name="pilihanDetailFasilitas" id="pilihanDetailFasilitas">
+                      <input type="hidden" name="totalHargaTransaksi" id="totalHargaTransaksi">
+                      <br> <br>
+                      <script>
+                        function changeSewa(pilihan) {
+                          // $('#pilihKamar').hide()
+                          cekKamar()
+                          if (pilihan != '') {
+                            globalpilihanSewa = pilihan
+                            totalKeseluruhan()
+                          }
+
+                        }
+                      </script>
+                      <br>
+                      <h3>Diskon</h3>
+                      <input type="text" class="form-control w-25">
+                      <br>
+                      <label for="harga">Harga : <span id="totalHarga"><?= formatRupiah($result->hargaTipeKamar) ?></span></label> <br><br>
+
+                      <button type="submit" name="saveDetailPesanan" style="background-color: rgb(0, 0, 46); color: white; padding: 10px;">Sewa Sekarang</button>
+
+                    </td>
+                    <td>
+                      <div class="container-fluid">
+
+                        <div class="row">
+                          <div class="col-lg-12">
+
+                            <table class="table table-primary" style="width:100%;    overflow: scroll;">
+                              <?php
+                              foreach ($homeM->showDiskonKamar() as $k => $v) {
+                              ?>
+                                <tr colspan="3">
+                                  <td><img style="width:100px !important;" src="../images/thumbnail-diskon/<?= $v->gambarDiskon ?>" alt=""></td>
+                                </tr>
+                                <tr>
+                                  <td><button>Terapkan</button></td>
+                                  <td><?= $v->namaDiskon ?></td>
+                                  <td><?= $v->descDiskon ?></td>
+                                </tr>
+
+                              <?php
+                              }
+                              ?>
+
+
+                            </table>
+
+
+
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
 
               </div>
-
-              <br>
-              <p>Fasilitas Tambahan:</p>
-              <?php
-              $dataFasi = $homeM->showFasilitas();
-              foreach ($dataFasi as $f) {
-              ?>
-                <div class="form-group">
-                  <label class="checkbox-inline">
-                    <input type="checkbox" onclick="klikpilihFasilitas()" name="pilihFasilitas" value="<?= $f->idFasilitas ?>|<?= $f->hargaFasilitas ?>|<?= $f->namaFasilitas ?>"><?= $f->namaFasilitas ?>-<?= formatRupiah($f->hargaFasilitas) ?>
-                  </label>&nbsp;&nbsp;
-                </div>
-              <?php
-              }
-              ?>
-
-              <script>
-                function klikpilihFasilitas() {
-                  var checkboxes = document.getElementsByName("pilihFasilitas");
-                  var selectedFasilitas = [];
-                  var selectedDetailFasilitas = [];
-                  for (var i = 0; i < checkboxes.length; i++) {
-                    if (checkboxes[i].checked) {
-                      selectedFasilitas.push(checkboxes[i].value.split("|")[1]);
-                      selectedDetailFasilitas.push(checkboxes[i].value.split("|")[2]);
-                    }
-                  }
-                  globalpilihDetailFasilitas = selectedDetailFasilitas
-                  globalpilihFasilitas = selectedFasilitas
-                  totalKeseluruhan()
-                }
-              </script>
-              <br>
-              <input type="hidden" name="pilihanDetailFasilitas" id="pilihanDetailFasilitas">
-              <input type="hidden" name="totalHargaTransaksi" id="totalHargaTransaksi">
-              <br> <br>
-              <script>
-                function changeSewa(pilihan) {
-                  // $('#pilihKamar').hide()
-                  cekKamar()
-                  if (pilihan != '') {
-                    globalpilihanSewa = pilihan
-                    totalKeseluruhan()
-                  }
-
-                }
-              </script>
-              <br>
-              <h3>Diskon</h3>
-              <input type="text" class="form-control w-25">
-              <br>
-              <label for="harga">Harga : <span id="totalHarga"><?= formatRupiah($result->hargaTipeKamar) ?></span></label> <br><br>
-
-              <button type="submit" name="saveDetailPesanan" style="background-color: rgb(0, 0, 46); color: white; padding: 10px;">Sewa Sekarang</button>
             </div>
 
 
