@@ -93,6 +93,7 @@ if (!$result) {
   <script>
     var globalhargaTipeKamar = <?= $result->hargaTipeKamar ?>;
     var globalpilihanSewa = 1;
+    var globalpilihanDiskon = 0;
     var globalpilihFasilitas = [];
     var globalpilihDetailFasilitas = [];
 
@@ -105,11 +106,20 @@ if (!$result) {
         totalFasilitas = totalFasilitas + parseInt(item)
       })
       console.log(totalFasilitas)
+
       var total = (parseInt(globalhargaTipeKamar) + totalFasilitas) * parseInt(globalpilihanSewa)
 
-      $('#totalHargaTransaksi').val(total)
+      var totalDiskon = total - globalpilihanDiskon;
+
+      $('#totalHargaTransaksi').val(totalDiskon)
       $('#pilihanDetailFasilitas').val(globalpilihDetailFasilitas)
-      $('#totalHarga').text(formatRupiah(total))
+      
+      $('#totalHargaTransaksiDiskon').val(globalpilihanDiskon)
+      $('#totalHargaTransaksiNormal').val(total)
+
+      $('#hargaDiskon').text(formatRupiah(globalpilihanDiskon))
+      $('#totalHargaNormal').text(formatRupiah(total))
+      $('#totalHarga').text(formatRupiah(totalDiskon))
     }
 
     // document.getElementById('totalHarga').innerHTML = hargaTipeKamar
@@ -337,6 +347,8 @@ if (!$result) {
                       <br>
                       <input type="hidden" name="pilihanDetailFasilitas" id="pilihanDetailFasilitas">
                       <input type="hidden" name="totalHargaTransaksi" id="totalHargaTransaksi">
+                      <input type="hidden" name="totalHargaTransaksiNormal" id="totalHargaTransaksiNormal">
+                      <input type="hidden" name="totalHargaTransaksiDiskon" id="totalHargaTransaksiDiskon">
                       <br> <br>
                       <script>
                         function changeSewa(pilihan) {
@@ -351,44 +363,93 @@ if (!$result) {
                       </script>
                       <br>
                       <h3>Diskon</h3>
-                      <input type="text" class="form-control w-25">
+                      <input type="text" oninput="kalkukasiUlangDiskon()" onchange="kalkukasiUlangDiskon()" name="namaDiskon" id="namaDiskon" class="form-control w-25">
                       <br>
-                      <label for="harga">Harga : <span id="totalHarga"><?= formatRupiah($result->hargaTipeKamar) ?></span></label> <br><br>
+                      <span style="color:red;" id="alert_diskon"></span>
+                      <br>
+                      <label for="harga">Potongan Diskon: <span id="hargaDiskon"><?= formatRupiah(0) ?></span></label> <br>
+                      <label for="harga">Harga Normal: <span id="totalHargaNormal"><?= formatRupiah($result->hargaTipeKamar) ?></span></label> <br>
+                      <label for="harga">Total Harga: <span id="totalHarga"><?= formatRupiah($result->hargaTipeKamar) ?></span></label> <br><br>
 
                       <button type="submit" name="saveDetailPesanan" style="background-color: rgb(0, 0, 46); color: white; padding: 10px;">Sewa Sekarang</button>
 
                     </td>
                     <td>
-                      <div class="container-fluid">
+                      <style>
+                        div.gfg {
+                          margin: 5px;
+                          padding: 5px;
+                          width: 450px;
+                          height: 600px;
+                          overflow: auto;
+                          text-align: justify;
+                        }
+                      </style>
+                      <h3>
+                        <center>Ambil Promo</center>
+                      </h3>
+                      <div class="gfg">
+                        <?php
+                        foreach ($homeM->showDiskonKamar() as $k => $v) {
+                        ?>
+                          <table class="table table-primary" style="width:100%;    overflow: scroll;">
+                            <tr>
+                              <td colspan="3">
+                                <img style="width:400px !important;" src="../images/thumbnail-diskon/<?= $v->gambarDiskon ?>" alt="">
+                                <h3><?= $v->namaDiskon ?></h3>
+                                <p>
+                                  <?= $v->descDiskon ?>
+                                </p>
+                                <button type="button" onclick="pakaiDiskon('<?= $v->namaDiskon ?>','<?= $v->potonganHarga ?>')">Pakai Promo</button>
+                                <br>
+                                <br>
+                              </td>
+                            </tr>
+                          </table>
 
-                        <div class="row">
-                          <div class="col-lg-12">
-
-                            <table class="table table-primary" style="width:100%;    overflow: scroll;">
-                              <?php
-                              foreach ($homeM->showDiskonKamar() as $k => $v) {
-                              ?>
-                                <tr colspan="3">
-                                  <td><img style="width:100px !important;" src="../images/thumbnail-diskon/<?= $v->gambarDiskon ?>" alt=""></td>
-                                </tr>
-                                <tr>
-                                  <td><button>Terapkan</button></td>
-                                  <td><?= $v->namaDiskon ?></td>
-                                  <td><?= $v->descDiskon ?></td>
-                                </tr>
-
-                              <?php
-                              }
-                              ?>
-
-
-                            </table>
+                          <hr>
 
 
 
-                          </div>
-                        </div>
+                        <?php
+                        }
+                        ?>
                       </div>
+
+                      <script>
+                        function kalkukasiUlangDiskon() {
+                          var varDiskon = document.getElementById('namaDiskon').value
+                          if (varDiskon == '') {
+                            $('#alert_diskon').hide()
+
+                            globalpilihanDiskon = 0;
+                          } else {
+                            var result = getJSON('../model/ajax_group.php', {
+                              act: 'cekListDiskon',
+                              namaDiskon: varDiskon
+                            })
+                            if (result.status) {
+
+                              globalpilihanDiskon = result.dataResult.potonganHarga;
+                              $('#alert_diskon').hide()
+                            } else {
+                              globalpilihanDiskon = 0;
+                              document.getElementById('alert_diskon').innerHTML = 'Kode Diskon tidak valid';
+                              // $('#alert_diskon').val('Kode Diskon tidak valid')
+                              $('#alert_diskon').show()
+                            }
+                          }
+                          totalKeseluruhan()
+                        }
+
+                        function pakaiDiskon(namaDiskon, potonganHarga) {
+                          document.getElementById('namaDiskon').value = namaDiskon;
+                          kalkukasiUlangDiskon()
+                          totalKeseluruhan()
+                        }
+                      </script>
+
+
                     </td>
                   </tr>
                 </table>

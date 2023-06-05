@@ -19,4 +19,12 @@ if (isset($_POST['act'])) {
 
         echo json_encode($html);
     }
+    if ($_POST['act'] == 'cekListDiskon') {
+        $result = $homeM->searchDiskonKamar($_POST['namaDiskon']);
+        if ($result) {
+            echo json_encode(['status' => true, 'dataResult' => $result]);
+        } else {
+            echo json_encode(['status' => false]);
+        }
+    }
 }

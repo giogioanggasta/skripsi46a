@@ -69,7 +69,7 @@ class HomeModel
 
         $create_akhirSewa = date("Y-m-d", strtotime($_POST['awalSewa'] . " +{$_POST['lamaSewa']} month"));
         $detailTipeKamar = $this->searchTipeKamar(base64_decode($_GET['dGlwZUthbWFy']));
-        $insert = "INSERT INTO transaksi (idUser,idTipeKamar,nomorKamar,namaTipeKamar,lamaSewa,pilihanDetailFasilitas,totalPembayaran,awalSewa,akhirSewa) VALUES ('{$_SESSION['session_login']->idUser}','{$detailTipeKamar->idTipeKamar}','{$_POST['kamar']}','{$detailTipeKamar->namaTipeKamar}','{$_POST['lamaSewa']}','{$_POST['pilihanDetailFasilitas']}','{$_POST['totalHargaTransaksi']}','{$_POST['awalSewa']}','{$create_akhirSewa}')";
+        $insert = "INSERT INTO transaksi (idUser,idTipeKamar,nomorKamar,namaTipeKamar,lamaSewa,pilihanDetailFasilitas,namaDiskon,potonganHarga,totalPembayaranNormal,totalPembayaran,awalSewa,akhirSewa) VALUES ('{$_SESSION['session_login']->idUser}','{$detailTipeKamar->idTipeKamar}','{$_POST['kamar']}','{$detailTipeKamar->namaTipeKamar}','{$_POST['lamaSewa']}','{$_POST['pilihanDetailFasilitas']}','{$_POST['namaDiskon']}','{$_POST['totalHargaTransaksiDiskon']}','{$_POST['totalHargaTransaksiNormal']}','{$_POST['totalHargaTransaksi']}','{$_POST['awalSewa']}','{$create_akhirSewa}')";
 
         $this->db->query($insert);
 
@@ -130,6 +130,21 @@ class HomeModel
         $this->db->query($select);
         return $this->db->resultAll();
     }
+
+    public function searchDiskonKamar($var)
+    {
+        $select = "SELECT
+        * 
+    FROM
+        diskon 
+    WHERE
+        CURRENT_DATE BETWEEN tglAwal 
+        AND tglAkhir 
+        AND `limit` != 0 AND namaDiskon= '{$var}'";
+
+        $this->db->query($select);
+        return $this->db->single();
+    }
 }
 
 $homeM = new HomeModel();
@@ -148,7 +163,7 @@ if (isset($_POST['saveDetailPesanan'])) {
     // var_dump($_SESSION);
     // var_dump($_POST);
     // var_dump($_GET);
-    // // exit;
+    // exit;
 
     $homeM->savePesanan();
 }
