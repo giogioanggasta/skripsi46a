@@ -60,6 +60,26 @@ if (!isset($_SESSION['session_login'])) {
             <p style="margin-bottom: 8px;color: #0a2724;">Nomor kamar: <?= $d->nomorKamar . "<br>"; ?> </p>
             <p style="margin-bottom: 8px;color: #0a2724;">Lama sewa: <?= $d->lamaSewa . "<br>"; ?></p>
             <p style="margin-bottom: 8px;color: #0a2724;">Tanggal Lama Sewa: <br><?php echo $d->awalSewa . " sampai " . $d->akhirSewa . "<br>"; ?> </p>
+            <p style="margin-bottom: 8px;color: #0a2724;">Potongan Diskon:
+              <?php
+              if ($d->potonganHarga != 0) {
+              ?>
+                <?= formatRupiah($d->potonganHarga) . " (" . $d->namaDiskon . ")<br>"; ?>
+
+              <?php
+              } else {
+                echo 'tidak memakai diskon';
+              }
+              ?>
+            </p>
+            <?php
+            if ($d->potonganHarga != 0) {
+            ?>
+              <p style="margin-bottom: 8px;color: #0a2724;">Total Harga Normal: <del><?= formatRupiah($d->totalPembayaranNormal) . "</del><br>"; ?></p>
+            <?php
+            }
+            ?>
+
             <p style="margin-bottom: 8px;color: #0a2724;">Total Harga: <?= formatRupiah($d->totalPembayaran) . "<br>"; ?></p>
             <p style="margin-bottom: 8px;color: #0a2724;"><b>Status Pemesanan:</b> <?= $d->status . "<br>"; ?></p>
 
