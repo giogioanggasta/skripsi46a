@@ -54,6 +54,9 @@ include('tmpadmin/nav-data.php');
                 <th>Lama Sewa</th>
                 <th>Awal Sewa</th>
                 <th>Akhir Sewa</th>
+                <th>Kode Diskon</th>
+                <th>Potongan Harga Diskon</th>
+                <th>Total Pembayaran Normal</th>
                 <th>Total Pembayaran</th>
                 <th>Bukti Pembayaran</th>
                 <th>Status</th>
@@ -82,6 +85,9 @@ include('tmpadmin/nav-data.php');
                   <td><?= $x->lamaSewa ?></td>
                   <td><?= formatTgl($x->awalSewa) ?></td>
                   <td><?= formatTgl($x->akhirSewa) ?></td>
+                  <td><?= ($x->potonganHarga == 0) ? '-' : $x->namaDiskon ?></td>
+                  <td><?= formatRupiah($x->potonganHarga) ?></td>
+                  <td><?= formatRupiah($x->totalPembayaranNormal) ?></td>
                   <td><?= formatRupiah($x->totalPembayaran) ?></td>
                   <td><a target="_blank" style="font-size: 12px;" href="<?php
                                                                         $actual_link = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";

@@ -36,6 +36,9 @@ class dataModel
             
         -- 	INFO PEMBAYARAN
         t.totalPembayaran,
+        t.totalPembayaranNormal,
+        t.namaDiskon,
+        t.potonganHarga,
             t.buktiPembayaran,
             t.`status`
             
@@ -52,7 +55,7 @@ class dataModel
     public function exportDataTransaksi()
     {
         header("Content-type: application/vnd-ms-excel");
-        header("Content-Disposition: attachment; filename=Laporan_Fasilitas_" . date('d-m-Y') . ".xls");
+        header("Content-Disposition: attachment; filename=Laporan_Transaksi_" . date('d-m-Y') . ".xls");
         $html = "<table border='1'>";
 
 
@@ -70,7 +73,10 @@ class dataModel
                 <th>Tgl Transaksi</th>
                 <th>Lama Sewa</th>
                 <th>Awal Sewa</th>
-                <th>Akhir Sewa</th>
+                <th>Akhir Sewa</th>                
+                <th>Kode Diskon</th>
+                <th>Potongan Harga Diskon</th>
+                <th>Total Pembayaran Normal</th>
                 <th>Total Pembayaran</th>
                 <th>Bukti Pembayaran</th>
                 <th>Status</th>
@@ -90,10 +96,13 @@ class dataModel
             <td>" . $x->namaTipeKamar . "</td>
             <td>" . $x->nomorKamar . "</td>
             <td>" . $x->pilihanDetailFasilitas . "</td>
-            <td>" . formatTgl($x->tanggalWaktuTransaksi) . " " . formatWaktu($x->tanggalWaktuTransaksi) . "</td>
+            <td>" . ($x->tanggalWaktuTransaksi). "</td>
             <td>" . $x->lamaSewa . "</td>
-            <td>" . formatTgl($x->awalSewa) . "</td>
-            <td>" . formatTgl($x->akhirSewa) . "</td>
+            <td>" . ($x->awalSewa) . "</td>
+            <td>" . ($x->akhirSewa) . "</td>
+            <td>" . ($x->namaDiskon) . "</td>
+            <td>" . formatRupiah($x->potonganHarga) . "</td>
+            <td>" . formatRupiah($x->totalPembayaranNormal) . "</td>
             <td>" . formatRupiah($x->totalPembayaran) . "</td>
             <td><a target=\"_blank\" style=\"font-size: 12px;\" href=\"$urlBuktiBayar\">" . $urlBuktiBayar . "</a></td>
             <td>" . $x->status . "</td>
@@ -143,7 +152,7 @@ class dataModel
             <td>" . $x->idUser . "</td>
             <td>" . $x->namaUser . "</td>
             <td>" . $x->jenisKelamin . "</td>
-            <td>" . formatTgl($x->tanggalLahir) . "</td>
+            <td>" . ($x->tanggalLahir) . "</td>
             <td>" . $x->nomorTelepon . "</td>
             <td>" . $x->email . "</td>
             </tr>
