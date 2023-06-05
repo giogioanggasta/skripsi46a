@@ -16,8 +16,9 @@ function formatRupiah(angka) {
 }
 
 function formatRupiahFungsi(angka, id, target) {
+
     document.getElementById(id).value = formatRupiahListener(angka);
-    document.getElementById(target).value = angka.replace('.', '')
+    document.getElementById(target).value = angka.replace(/\./g, '');
 }
 
 function formatRupiahListener(angka, prefix) {
