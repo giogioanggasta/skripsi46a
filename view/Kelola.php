@@ -64,7 +64,8 @@ if (count($_POST) == 0) {
                   </div>
                   <div class="form-group">
                     <label for="tipeKamar">Harga Tipe Kamar (Rp.)</label>
-                    <input type="number" class="form-control" name="hargaTipeKamar" required>
+                    <input type="text" id="hargaTipeKamarFormat" oninput="formatRupiahFungsi(this.value,'hargaTipeKamarFormat','hargaTipeKamar')" class="form-control" name="hargaTipeKamarFormat" required>
+                    <input type="hidden" class="form-control" id="hargaTipeKamar" name="hargaTipeKamar" required>
                   </div>
                   <input type="hidden" name="idAdmin" value="<?= $_SESSION['admin_session_login']->idAdmin; ?>">
                   <div class="form-group">
