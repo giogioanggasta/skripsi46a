@@ -14,6 +14,15 @@ class dataModel
 
     public function showDataTransaksi()
     {
+        $where = "";
+        if (isset($_GET['startDate']) && isset($_GET['endDate'])) {
+            $startDate = ($_GET['startDate'] != '') ? $_GET['startDate'] : '';
+            $endDate = ($_GET['endDate'] != '') ? $_GET['endDate'] : '';
+
+            if (!empty($startDate) && !empty($endDate)) {
+                $where .= " WHERE DATE(t.tanggalWaktuTransaksi) BETWEEN '{$startDate}' AND '{$endDate}'";
+            }
+        }
 
         $select = "SELECT
         -- INFO USER
@@ -45,7 +54,7 @@ class dataModel
         FROM
             `transaksi` t
             LEFT JOIN m_user u ON t.idUser = u.idUser
-            
+            $where
         ";
         $this->db->query($select);
 
@@ -96,7 +105,7 @@ class dataModel
             <td>" . $x->namaTipeKamar . "</td>
             <td>" . $x->nomorKamar . "</td>
             <td>" . $x->pilihanDetailFasilitas . "</td>
-            <td>" . ($x->tanggalWaktuTransaksi). "</td>
+            <td>" . ($x->tanggalWaktuTransaksi) . "</td>
             <td>" . $x->lamaSewa . "</td>
             <td>" . ($x->awalSewa) . "</td>
             <td>" . ($x->akhirSewa) . "</td>

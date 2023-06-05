@@ -14,7 +14,7 @@ include('tmpadmin/nav-data.php');
 
       <a class="w3-display-middle" style="color:black;text-decoration: none; font-size: 120%">Data Transaksi</a>
       <br>
-      <a target="_blank" href="DataExport.php"> <button style="border: none;
+      <a target="_blank" id="targetHrefExport" href="DataExport.php?startDate=<?= (isset($_GET['startDate']) ? $_GET['startDate'] : '') ?>&endDate=<?= (isset($_GET['endDate']) ? $_GET['endDate'] : '') ?>"> <button style="border: none;
                 outline: 0;
                 padding: 6px;
                 color: white;
@@ -30,11 +30,56 @@ include('tmpadmin/nav-data.php');
 
 
 
-
-
-
-
       <div class="col-12 mt-4">
+        <div class="row">
+          <div class="col-lg-3 col-sm-6">
+
+            <div class="form-group">
+              <label for="">Start Date</label>
+              <input type="date" class="form-control " value="<?= (isset($_GET['startDate']) ? $_GET['startDate'] : '') ?>" id="startDate" name="start_date">
+            </div>
+          </div>
+          <div class="col-lg-3 col-sm-6">
+
+            <div class="form-group">
+              <label for="">End Date</label>
+              <input type="date" class="form-control " value="<?= (isset($_GET['endDate']) ? $_GET['endDate'] : '') ?>" id="endDate" name="end_date">
+            </div>
+          </div>
+          <script>
+            function filterDate() {
+              var startDate = document.getElementById('startDate').value;
+              var endDate = document.getElementById('endDate').value;
+
+              window.location.href = "?startDate=" + startDate + '&endDate=' + endDate;
+
+            }
+          </script>
+          <div class="col-lg-3 col-sm-6">
+
+            <div class="form-group">
+              <label for="">&nbsp;</label>
+              <input type="button" name="filter_date" onclick="filterDate()" class="form-control btn-primary" value="Filter Date">
+
+            </div>
+
+          </div>
+          <div class="col-lg-3 col-sm-6">
+
+            <div class="form-group">
+              <label for="">&nbsp;</label>
+              <input type="button" onclick="window.location.href='Data.php'" name="showAll" class="form-control btn-primary" value="Show All">
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+
+
+      <div class="col-12">
         <div class="table-responsive">
           <table class=" display" id="Table_ID" style="font-family: texts; font-size: 15px;">
 
