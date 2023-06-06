@@ -11,7 +11,7 @@
  Target Server Version : 101100
  File Encoding         : 65001
 
- Date: 06/06/2023 23:44:52
+ Date: 06/06/2023 23:54:58
 */
 
 SET NAMES utf8mb4;
@@ -44,7 +44,7 @@ CREATE TABLE `diskon`  (
   `idDiskon` int(11) NOT NULL AUTO_INCREMENT,
   `gambarDiskon` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `namaDiskon` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `descDiskon` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT current_timestamp(),
+  `descDiskon` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `potonganHarga` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `limit` int(11) NULL DEFAULT NULL,
   `tglAwal` date NULL DEFAULT NULL,
