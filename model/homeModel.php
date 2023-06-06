@@ -165,7 +165,7 @@ Total Yang Harus Dibayar : " . formatRupiah($_POST['totalHargaTransaksi']));
 
 $homeM = new HomeModel();
 
-// TRIGGER LOGUT
+// TRIGGER LOGOUT
 if (isset($_GET['logOut']) && isset($_SESSION['session_login'])) {
 
     unset($_SESSION['session_login']);
