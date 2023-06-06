@@ -150,9 +150,13 @@ class kelolaModel
             // UPLOAD GAMBAR DETAIL KAMAR TIPE KAMAR
 
             // INSERT HARGA
-            $insertFoto = "INSERT INTO m_tipekamar_pengelolaan (idTipeKamar,namaTipeKamar,idAdmin,hargaTipeKamar) VALUES ('{$idTipeKamar}','{$tipeKamar}','{$idAdmin}','{$_POST['hargaTipeKamar']}')";
-            $this->db->query($insertFoto);
-            $this->db->returnExecute();
+            $cekPengelolaanTipeKamar = $this->searchTipeKamarPengelolaan($idTipeKamar);
+            if ($cekPengelolaanTipeKamar->hargaTipeKamar != $_POST['hargaTipeKamar']) {
+
+                $insertFoto = "INSERT INTO m_tipekamar_pengelolaan (idTipeKamar,namaTipeKamar,idAdmin,hargaTipeKamar) VALUES ('{$idTipeKamar}','{$tipeKamar}','{$idAdmin}','{$_POST['hargaTipeKamar']}')";
+                $this->db->query($insertFoto);
+                $this->db->returnExecute();
+            }
 
 
             flash('insert_alert', 'Berhasil mengubah tipe kamar', 'green');
@@ -202,9 +206,13 @@ class kelolaModel
 
 
             // INSERT HARGA
-            $insertHargaFasilitas = "INSERT INTO fasilitas_pengelolaan (idFasilitas,namaFasilitas,idAdmin,hargaFasilitas) VALUES ('{$idFasilitas}','{$namaFasilitas}','{$idAdmin}','{$_POST['hargaFasilitas']}')";
-            $this->db->query($insertHargaFasilitas);
-            $this->db->returnExecute();
+            $cekHargaFasilitas = $this->searchFasilitasPengelolaan($idFasilitas);
+            if ($cekHargaFasilitas->hargaFasilitas != $_POST['hargaFasilitas']) {
+
+                $insertHargaFasilitas = "INSERT INTO fasilitas_pengelolaan (idFasilitas,namaFasilitas,idAdmin,hargaFasilitas) VALUES ('{$idFasilitas}','{$namaFasilitas}','{$idAdmin}','{$_POST['hargaFasilitas']}')";
+                $this->db->query($insertHargaFasilitas);
+                $this->db->returnExecute();
+            }
 
             flash('insert_alert', 'Berhasil mengubah fasilitas', 'green');
         } else {
@@ -342,6 +350,22 @@ class kelolaModel
 
         $cariFasilitas = "SELECT * FROM fasilitas WHERE idFasilitas = '{$idFasilitas}'";
         $this->db->query($cariFasilitas);
+
+        return $this->db->single();
+    }
+    public function searchFasilitasPengelolaan($idFasilitas)
+    {
+
+        $cariFasilitas = "SELECT * FROM fasilitas_pengelolaan WHERE idFasilitas = '{$idFasilitas}' ORDER BY idPengelolaan DESC";
+        $this->db->query($cariFasilitas);
+
+        return $this->db->single();
+    }
+    public function searchTipeKamarPengelolaan($idTipeKamar)
+    {
+
+        $cariTipeKamar = "SELECT * FROM m_tipekamar_pengelolaan WHERE idTipeKamar = '{$idTipeKamar}' ORDER BY idPengelolaan DESC";
+        $this->db->query($cariTipeKamar);
 
         return $this->db->single();
     }

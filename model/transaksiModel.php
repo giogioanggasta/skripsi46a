@@ -49,7 +49,7 @@ class transaksiModel
         if ($this->db->returnExecute()) {
 
 
-       
+
 
             $cekTrans = "SELECT * FROM transaksi WHERE idTransaksi = '{$idTransaksi}' ";
             $this->db->query($cekTrans);
@@ -87,10 +87,20 @@ Terimakasih.");
         if ($this->db->returnExecute()) {
 
 
-         
+
             $cekTrans = "SELECT * FROM transaksi WHERE idTransaksi = '{$idTransaksi}' ";
             $this->db->query($cekTrans);
             $infoTans = $this->db->single();
+
+            // KURANGI DISKON
+            $cekDiskon = "SELECT * FROM diskon WHERE namaDiskon = '{$infoTans->namaDiskon}'";
+            $this->db->query($cekDiskon);
+            $infoDiskon = $this->db->single();
+            if ($infoDiskon) {
+                $updateDiskon = "UPDATE diskon SET `limit`='" . ($infoDiskon->limit - 1) . "' WHERE idDiskon = '{$infoDiskon->idDiskon}'";
+                $this->db->query($updateDiskon);
+                $this->db->returnExecute();
+            }
 
             $cekUser = "SELECT * FROM m_user WHERE idUser='{$infoTans->idUser}'";
             $this->db->query($cekUser);

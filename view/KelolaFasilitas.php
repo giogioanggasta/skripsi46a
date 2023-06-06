@@ -65,7 +65,8 @@ if (count($_POST) == 0) {
                   <div class="form-group">
                     <label for="namaFasilitas">Harga Fasilitas</label>
 
-                    <input type="number" required class="form-control" name="hargaFasilitas">
+                    <input type="text" required oninput="formatRupiahFungsi(this.value,'hargaFasilitasFormat','hargaFasilitas')" id="hargaFasilitasFormat" class="form-control">
+                    <input type="hidden" required id="hargaFasilitas" name="hargaFasilitas">
                   </div>
                   <input type="hidden" name="idAdmin" value="<?= $_SESSION['admin_session_login']->idAdmin; ?>">
 
@@ -148,7 +149,8 @@ if (count($_POST) == 0) {
                         <div class="form-group">
                           <label for="namaFasilitas">Harga Fasilitas</label>
 
-                          <input type="number" required value="<?= $x->hargaFasilitas ?>" class="form-control" name="hargaFasilitas">
+                          <input type="text" oninput="formatRupiahFungsi(this.value,'hargaFasilitasFormatUbah<?= $x->idFasilitas ?>','hargaFasilitasUbah<?= $x->idFasilitas ?>')"  required id="hargaFasilitasFormatUbah<?= $x->idFasilitas ?>" value="<?= formatDot($x->hargaFasilitas) ?>" class="form-control">
+                          <input type="hidden" required id="hargaFasilitasUbah<?= $x->idFasilitas ?>" value="<?= $x->hargaFasilitas ?>" name="hargaFasilitas">
                         </div>
 
                         <input type="hidden" name="idAdmin" value="<?= $_SESSION['admin_session_login']->idAdmin; ?>">

@@ -70,7 +70,8 @@ if (count($_POST) == 0) {
                   <div class="form-group">
                     <label for="namaDiskon">Potongan Harga Diskon</label>
 
-                    <input type="number" required class="form-control" name="potonganHarga">
+                    <input type="text" id="potonganHargaFormat" oninput="formatRupiahFungsi(this.value,'potonganHargaFormat','potonganHarga')" required class="form-control">
+                    <input type="hidden" required id="potonganHarga" name="potonganHarga">
                   </div>
                   <div class="form-group">
                     <label for="namaDiskon">Limit Diskon</label>
@@ -176,7 +177,8 @@ if (count($_POST) == 0) {
                         <div class="form-group">
                           <label for="namaDiskon">Ubah Potongan Harga Diskon</label>
 
-                          <input type="number" required class="form-control" value="<?= $x->potonganHarga ?>" name="potonganHarga">
+                          <input type="text" required oninput="formatRupiahFungsi(this.value,'potonganHargaFormatUbah<?= $x->idDiskon ?>','potonganHargaUbah<?= $x->idDiskon ?>')" id="potonganHargaFormatUbah<?= $x->idDiskon ?>" class="form-control" value="<?= formatDot($x->potonganHarga) ?>">
+                          <input type="hidden" required id="potonganHargaUbah<?= $x->idDiskon ?>" value="<?= $x->potonganHarga ?>" name="potonganHarga">
                         </div>
                         <div class="form-group">
                           <label for="namaDiskon">Ubah Limit Diskon</label>
@@ -187,7 +189,7 @@ if (count($_POST) == 0) {
                         <input type="hidden" name="idDiskon" value="<?= $x->idDiskon ?>">
                         <div class="form-group">
                           <label for="fotoDiskon">Ubah Banner Diskon</label>
-                          <input type="file"  class="form-control" name="gambarDiskon">
+                          <input type="file" class="form-control" name="gambarDiskon">
                           <div class="form-text fw-bold text-dark">*Jika tidak ingin mengubah gambar silahkan dikosongi</div>
                           <center>
 
