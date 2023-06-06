@@ -11,7 +11,7 @@
  Target Server Version : 101100
  File Encoding         : 65001
 
- Date: 05/06/2023 22:18:48
+ Date: 06/06/2023 23:44:52
 */
 
 SET NAMES utf8mb4;
@@ -33,8 +33,8 @@ CREATE TABLE `admin`  (
 -- ----------------------------
 -- Records of admin
 -- ----------------------------
-INSERT INTO `admin` VALUES (1, 'Gio', '087742037644', 'gio@gmail.com', 'YWRtaW5rdQ==');
-INSERT INTO `admin` VALUES (2, 'Satria', '087742037644', 'satria@gmail.com', 'YWRtaW5rdQ==');
+INSERT INTO `admin` VALUES (1, 'Gio', '6287742036248', 'gio@gmail.com', 'YWRtaW5rdQ==');
+INSERT INTO `admin` VALUES (2, 'Satria', '083832204284', 'satria@gmail.com', 'YWRtaW5rdQ==');
 
 -- ----------------------------
 -- Table structure for diskon
@@ -52,14 +52,15 @@ CREATE TABLE `diskon`  (
   `created_at` datetime NULL DEFAULT current_timestamp(),
   `idAdmin` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`idDiskon`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of diskon
 -- ----------------------------
 INSERT INTO `diskon` VALUES (14, '1685630257_msg-463887772-4920 (1).jpg', 'KEMERDEKAAN', 'Dapatkan potongan Rp. 50.000', '50000', 10, '2023-06-01', '2023-06-30', '2023-06-01 21:37:37', '2');
 INSERT INTO `diskon` VALUES (15, '1685630257_msg-463887772-4920 (1).jpg', 'MERDEKA', 'Dapatkan potongan Rp. 50.000', '100000', 10, '2023-06-01', '2023-06-30', '2023-06-01 21:37:37', '2');
-INSERT INTO `diskon` VALUES (16, '1685630257_msg-463887772-4920 (1).jpg', 'KOSANYAR', 'Dapatkan potongan Rp. 50.000', '50000', 10, '2023-06-01', '2023-06-30', '2023-06-01 21:37:37', '2');
+INSERT INTO `diskon` VALUES (16, '1685630257_msg-463887772-4920 (1).jpg', 'KOSANYAR', 'Dapatkan potongan Rp. 50.000', '50000', 10, '2023-06-06', '2023-06-30', '2023-06-01 21:37:37', '2');
+INSERT INTO `diskon` VALUES (17, '1686067527_89bd7ab5a5101874c911cef0a663780e.png', 'SEMBILANSEMBILAN', 'Dapatkan potongan 99.999', '99999', 0, '2023-06-06', '2023-07-08', '2023-06-06 23:05:27', '2');
 
 -- ----------------------------
 -- Table structure for fasilitas
@@ -72,16 +73,17 @@ CREATE TABLE `fasilitas`  (
   `created_at` datetime NULL DEFAULT current_timestamp(),
   `idAdmin` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`idFasilitas`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of fasilitas
 -- ----------------------------
-INSERT INTO `fasilitas` VALUES (2, 'Parkir Motor', '', '2023-05-24 23:12:59', 2);
-INSERT INTO `fasilitas` VALUES (3, 'Parkir Mobil', '', '2023-05-24 23:12:59', 2);
+INSERT INTO `fasilitas` VALUES (2, 'Parkir Motor', '1686067196_89bd7ab5a5101874c911cef0a663780e.png', '2023-05-24 23:12:59', 2);
+INSERT INTO `fasilitas` VALUES (3, 'Parkir Mobil', '1686067187_89bd7ab5a5101874c911cef0a663780e.png', '2023-05-24 23:12:59', 2);
 INSERT INTO `fasilitas` VALUES (4, 'Televisi', '1684945874_20230522_083641_0000.png', '2023-05-24 23:12:59', 2);
 INSERT INTO `fasilitas` VALUES (7, 'AC', '1684945824_Frame 2.png', '2023-05-24 23:17:43', 2);
 INSERT INTO `fasilitas` VALUES (8, 'Televisi Samsung', '1684945800_3011d8ae-986e-4831-ae73-3decbdc02f6e.jpg', '2023-05-24 23:21:02', 2);
+INSERT INTO `fasilitas` VALUES (9, 'tessss', '1686067321_89bd7ab5a5101874c911cef0a663780e.png', '2023-06-06 23:02:01', 2);
 
 -- ----------------------------
 -- Table structure for fasilitas_pengelolaan
@@ -97,7 +99,7 @@ CREATE TABLE `fasilitas_pengelolaan`  (
   `deleted_at` datetime NULL DEFAULT NULL,
   `namaFasilitas` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`idPengelolaan`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 76 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 83 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of fasilitas_pengelolaan
@@ -114,6 +116,13 @@ INSERT INTO `fasilitas_pengelolaan` VALUES (72, 5, 2, 80000, '2023-05-24 23:30:3
 INSERT INTO `fasilitas_pengelolaan` VALUES (73, 4, 2, 60000, '2023-05-24 23:31:14', '2023-05-24 23:31:14', NULL, 'Televisi');
 INSERT INTO `fasilitas_pengelolaan` VALUES (74, 3, 2, 800000, '2023-05-25 20:33:21', '2023-05-25 20:33:21', NULL, 'Parkir Mobil');
 INSERT INTO `fasilitas_pengelolaan` VALUES (75, 2, 2, 800000, '2023-06-01 20:42:46', '2023-06-01 20:42:46', NULL, 'Parkir Motor');
+INSERT INTO `fasilitas_pengelolaan` VALUES (76, 3, 2, 800000, '2023-06-06 22:59:47', '2023-06-06 22:59:47', NULL, 'Parkir Mobil');
+INSERT INTO `fasilitas_pengelolaan` VALUES (77, 2, 2, 800000, '2023-06-06 22:59:56', '2023-06-06 22:59:56', NULL, 'Parkir Motor');
+INSERT INTO `fasilitas_pengelolaan` VALUES (78, 9, 2, 2321233, '2023-06-06 23:02:01', '2023-06-06 23:02:01', NULL, 'tessss');
+INSERT INTO `fasilitas_pengelolaan` VALUES (79, 9, 2, 1000000, '2023-06-06 23:03:38', '2023-06-06 23:03:38', NULL, 'tessss');
+INSERT INTO `fasilitas_pengelolaan` VALUES (80, 9, 2, 1000001, '2023-06-06 23:23:05', '2023-06-06 23:23:05', NULL, 'tessss');
+INSERT INTO `fasilitas_pengelolaan` VALUES (81, 9, 2, 1000002, '2023-06-06 23:23:28', '2023-06-06 23:23:28', NULL, 'tessss');
+INSERT INTO `fasilitas_pengelolaan` VALUES (82, 9, 2, 2321233, '2023-06-06 23:23:37', '2023-06-06 23:23:37', NULL, 'tessss');
 
 -- ----------------------------
 -- Table structure for kamar
@@ -152,7 +161,7 @@ CREATE TABLE `m_tipekamar`  (
   `deleted_at` datetime NULL DEFAULT NULL,
   `descTipeKamar` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`idTipeKamar`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 71 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 72 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of m_tipekamar
@@ -160,9 +169,10 @@ CREATE TABLE `m_tipekamar`  (
 INSERT INTO `m_tipekamar` VALUES (64, 'Delux', '1684942578_kamar2.jpg', 2, '2023-05-24 22:48:53', '2023-05-25 19:36:29', NULL, '<ul>\r\n	<li>Kamar Luas</li>\r\n	<li>Kasur Tumpuk</li>\r\n</ul>\r\n');
 INSERT INTO `m_tipekamar` VALUES (65, 'Small', '1684943059_kamar1.jpg', 2, '2023-05-24 22:44:19', '2023-05-24 22:44:19', NULL, NULL);
 INSERT INTO `m_tipekamar` VALUES (66, 'Reguler', '1684943084_kamar2.jpg', 2, '2023-05-24 22:44:44', '2023-05-24 22:44:44', NULL, NULL);
-INSERT INTO `m_tipekamar` VALUES (68, 'Big', '1684943648_kamar5.jpg', 2, '2023-05-24 22:54:08', '2023-05-24 22:54:08', NULL, NULL);
+INSERT INTO `m_tipekamar` VALUES (68, 'Big', '1684943648_kamar5.jpg', 2, '2023-05-24 22:54:08', '2023-06-06 23:27:30', NULL, '');
 INSERT INTO `m_tipekamar` VALUES (69, 'Medium', '1685018335_20230522_083641_0000.png', 2, '2023-05-25 19:38:55', '2023-05-25 19:38:55', NULL, '<p>Dalam rangka meningkatkan ketahanan nasional, Pemerintah Desa Tanggulrejo bekerja sama dengan Badan Pangan Nasional melaksanakan program pembagian beras kepada masyarakat Desa Tanggulrejo yang berstatus ekonomi rendah. Program ini dilakukan untuk memenuhi kebutuhan pokok masyarakat Indonesia dalam hal pangan dan menstabilkan harga bahan pokok di pasar.</p>\r\n\r\n<p>Dengan dibarengi oleh bapak Syaifuddin Zuhri selaku petugas Kantor Pos Manyar, program ini dapat berjalan lancar dan masyarakat datang beramai-ramai untuk mendapatkan bantuan beras.</p>\r\n\r\n<p>Selain itu, pihak Pemerintah Desa Tanggulrejo turut membantu melaksanakan program ini mulai dari menyiapkan lokasi yang bertempat di Gedung Serbaguna RT. 04, RW. 01 Dusun Tanggulrejo Utara, waktu pelaksanaan program pembagian beras, hingga pendataan masyarakat desa yang telah mendapatkan beras.</p>\r\n\r\n<p>Dengan membagikan beras sebanyak 10kg kepada 287 orang, Pemerintah berharap dapat menstabilkan harga pokok pangan pada kuartal ke-2 tahun ini.</p>\r\n');
 INSERT INTO `m_tipekamar` VALUES (70, 'Kamar Kaya', '1685977916_40940701_292197488041925_2337109043983679488_n.jpg', 2, '2023-06-05 22:11:56', '2023-06-05 22:11:56', NULL, '<p>tes ting</p>\r\n');
+INSERT INTO `m_tipekamar` VALUES (71, 'TES', '1685979856_3011d8ae-986e-4831-ae73-3decbdc02f6e.jpg', 2, '2023-06-05 22:44:16', '2023-06-05 22:44:16', NULL, '<p>ASDASDAS</p>\r\n');
 
 -- ----------------------------
 -- Table structure for m_tipekamar_foto
@@ -176,7 +186,7 @@ CREATE TABLE `m_tipekamar_foto`  (
   `created_at` datetime NULL DEFAULT current_timestamp(),
   `updated_at` datetime NULL DEFAULT current_timestamp() ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`idFotoKamar`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 116 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 117 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of m_tipekamar_foto
@@ -196,6 +206,7 @@ INSERT INTO `m_tipekamar_foto` VALUES (112, 68, '1684943648_header.jpg', 2, '202
 INSERT INTO `m_tipekamar_foto` VALUES (113, 68, '1684943648_itb.png', 2, '2023-05-24 22:54:08', '2023-05-24 22:54:08');
 INSERT INTO `m_tipekamar_foto` VALUES (114, 69, '1685018335_iconapp (1) (1).jpg', 2, '2023-05-25 19:38:55', '2023-05-25 19:38:55');
 INSERT INTO `m_tipekamar_foto` VALUES (115, 70, '1685977916_iconapp (1).jpg', 2, '2023-06-05 22:11:56', '2023-06-05 22:11:56');
+INSERT INTO `m_tipekamar_foto` VALUES (116, 71, '1685979856_iconapp.png', 2, '2023-06-05 22:44:16', '2023-06-05 22:44:16');
 
 -- ----------------------------
 -- Table structure for m_tipekamar_pengelolaan
@@ -211,7 +222,7 @@ CREATE TABLE `m_tipekamar_pengelolaan`  (
   `deleted_at` datetime NULL DEFAULT NULL,
   `namaTipeKamar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`idPengelolaan`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 68 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 72 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of m_tipekamar_pengelolaan
@@ -226,6 +237,10 @@ INSERT INTO `m_tipekamar_pengelolaan` VALUES (64, 64, 2, 900000, '2023-05-25 19:
 INSERT INTO `m_tipekamar_pengelolaan` VALUES (65, 64, 2, 900000, '2023-05-25 19:36:29', '2023-05-25 19:36:29', NULL, 'Delux');
 INSERT INTO `m_tipekamar_pengelolaan` VALUES (66, 69, 2, 1400000, '2023-05-25 19:38:55', '2023-05-25 19:38:55', NULL, 'Medium');
 INSERT INTO `m_tipekamar_pengelolaan` VALUES (67, 70, 2, 1500, '2023-06-05 22:11:56', '2023-06-05 22:11:56', NULL, 'Kamar Kaya');
+INSERT INTO `m_tipekamar_pengelolaan` VALUES (68, 71, 2, 15000000, '2023-06-05 22:44:16', '2023-06-05 22:44:16', NULL, 'TES');
+INSERT INTO `m_tipekamar_pengelolaan` VALUES (69, 71, 2, 15000000, '2023-06-06 22:59:12', '2023-06-06 22:59:12', NULL, 'TES');
+INSERT INTO `m_tipekamar_pengelolaan` VALUES (70, 70, 2, 15004444, '2023-06-06 23:33:58', '2023-06-06 23:33:58', NULL, 'Kamar Kaya');
+INSERT INTO `m_tipekamar_pengelolaan` VALUES (71, 68, 2, 2500000444, '2023-06-06 23:34:10', '2023-06-06 23:34:10', NULL, 'Big');
 
 -- ----------------------------
 -- Table structure for m_user
@@ -276,7 +291,7 @@ CREATE TABLE `transaksi`  (
   `akhirSewa` date NULL DEFAULT NULL,
   `reason` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`idTransaksi`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of transaksi
@@ -286,10 +301,24 @@ INSERT INTO `transaksi` VALUES (5, 41, NULL, 65, '15', 'Small', '2023-05-29 19:5
 INSERT INTO `transaksi` VALUES (6, 41, NULL, 65, '15', 'Small', '2023-05-29 19:59:56', 3, NULL, 'Televisi Samsung,AC,Televisi,Parkir Mobil', 'Ditolak', '2023-06-05 20:00:47', '12840000', '0', NULL, '12840000', '2023-07-01', '2023-12-01', 'Testing bro');
 INSERT INTO `transaksi` VALUES (7, 41, '2', 65, '15', 'Small', '2023-05-29 19:59:56', 6, NULL, 'Televisi Samsung,AC,Televisi,Parkir Mobil', 'Diterima', '2023-06-05 20:00:47', '12840000', '0', NULL, '12840000', '2024-01-01', '2024-06-01', NULL);
 INSERT INTO `transaksi` VALUES (8, 41, '2', 65, '16', 'Small', '2023-05-29 21:31:54', 3, '1685373032_WhatsApp Image 2023-04-29 at 22.16.37.jpeg', 'Televisi Samsung,AC,Televisi,Parkir Mobil', 'Diterima', '2023-06-05 20:00:47', '6420000', '0', NULL, '6420000', '2023-06-03', '2023-09-03', NULL);
-INSERT INTO `transaksi` VALUES (9, 41, NULL, 64, '100', 'Delux', '2023-05-30 20:52:28', 3, '1685621288_WhatsApp Image 2023-04-29 at 22.16.37 (1).jpeg', 'Televisi Samsung,AC,Televisi,Parkir Mobil', 'Proses', '2023-06-05 20:00:47', '6120000', '0', NULL, '6120000', '2023-05-30', '2023-08-30', NULL);
-INSERT INTO `transaksi` VALUES (10, 41, NULL, 64, '100', 'Delux', '2023-06-01 19:07:34', 3, '1685621268_WhatsApp Image 2023-04-29 at 22.16.37 (1).jpeg', 'Televisi Samsung,AC,Televisi', 'Proses', '2023-06-05 20:00:47', '3720000', '0', NULL, '3720000', '2023-06-01', '2023-09-01', NULL);
+INSERT INTO `transaksi` VALUES (9, 41, '2', 64, '100', 'Delux', '2023-05-30 20:52:28', 3, '1685621288_WhatsApp Image 2023-04-29 at 22.16.37 (1).jpeg', 'Televisi Samsung,AC,Televisi,Parkir Mobil', 'Ditolak', '2023-06-06 22:38:11', '6120000', '0', NULL, '6120000', '2023-05-30', '2023-08-30', 'Kamar telah penuh');
+INSERT INTO `transaksi` VALUES (10, 41, '2', 64, '100', 'Delux', '2023-06-01 19:07:34', 3, '1685621268_WhatsApp Image 2023-04-29 at 22.16.37 (1).jpeg', 'Televisi Samsung,AC,Televisi', 'Ditolak', '2023-06-06 22:38:51', '3720000', '0', NULL, '3720000', '2023-06-01', '2023-09-01', 'kamar telah penuh');
 INSERT INTO `transaksi` VALUES (11, 41, NULL, 64, '100', 'Delux', '2023-06-01 19:18:32', 1, NULL, 'Televisi Samsung,AC,Televisi', 'Menunggu Pembayaran', '2023-06-05 20:00:47', '1240000', '0', NULL, '1240000', '2023-06-01', '2023-07-01', NULL);
 INSERT INTO `transaksi` VALUES (12, 41, '2', 65, '16', 'Small', '2023-06-05 20:03:15', 1, '1685970811_40940701_292197488041925_2337109043983679488_n.jpg', 'Televisi Samsung', 'Diterima', '2023-06-05 20:15:20', '1180000', '100000', 'MERDEKA', '1080000', '2023-06-05', '2023-07-05', NULL);
-INSERT INTO `transaksi` VALUES (13, 41, NULL, 65, '16', 'Small', '2023-06-05 20:09:58', 1, '1685970805_40940701_292197488041925_2337109043983679488_n.jpg', 'Televisi Samsung', 'Proses', '2023-06-05 20:13:25', '1180000', '0', '', '1180000', '2023-06-06', '2023-07-06', NULL);
+INSERT INTO `transaksi` VALUES (13, 41, '2', 65, '16', 'Small', '2023-06-05 20:09:58', 1, '1685970805_40940701_292197488041925_2337109043983679488_n.jpg', 'Televisi Samsung', 'Ditolak', '2023-06-06 22:41:03', '1180000', '0', '', '1180000', '2023-06-06', '2023-07-06', 'kamar telah penuh, silahkan pilih kamar yang lain');
+INSERT INTO `transaksi` VALUES (14, 41, NULL, 69, '100', 'Medium', '2023-06-06 22:03:34', 3, NULL, '', 'Menunggu Pembayaran', NULL, '4200000', '100000', 'MERDEKA', '4100000', '2023-06-06', '2023-09-06', NULL);
+INSERT INTO `transaksi` VALUES (15, 41, NULL, 69, '100', 'Medium', '2023-06-06 22:05:27', 3, '1686066513_131e8d77-4f25-43a5-aaf0-722e924ad773.jpeg', '', 'Proses', '2023-06-06 22:48:33', '4200000', '100000', 'MERDEKA', '4100000', '2023-06-06', '2023-09-06', NULL);
+INSERT INTO `transaksi` VALUES (16, 41, NULL, 69, '100', 'Medium', '2023-06-06 22:10:16', 3, NULL, '', 'Menunggu Pembayaran', NULL, '4200000', '100000', 'MERDEKA', '4100000', '2023-06-06', '2023-09-06', NULL);
+INSERT INTO `transaksi` VALUES (17, 41, NULL, 69, '100', 'Medium', '2023-06-06 22:11:10', 1, NULL, 'Televisi', 'Menunggu Pembayaran', NULL, '1460000', '100000', 'MERDEKA', '1360000', '2023-06-14', '2023-07-14', NULL);
+INSERT INTO `transaksi` VALUES (18, 41, NULL, 69, '100', 'Medium', '2023-06-06 22:11:30', 1, NULL, 'AC', 'Menunggu Pembayaran', NULL, '1500000', '50000', 'KEMERDEKAAN', '1450000', '2023-06-20', '2023-07-20', NULL);
+INSERT INTO `transaksi` VALUES (19, 41, NULL, 69, '100', 'Medium', '2023-06-06 22:11:55', 1, NULL, 'AC', 'Menunggu Pembayaran', NULL, '1500000', '50000', 'KEMERDEKAAN', '1450000', '2023-06-20', '2023-07-20', NULL);
+INSERT INTO `transaksi` VALUES (20, 41, NULL, 69, '100', 'Medium', '2023-06-06 22:13:53', 1, '1686066790_89bd7ab5a5101874c911cef0a663780e.png', 'AC', 'Proses', '2023-06-06 22:53:10', '1500000', '50000', 'KEMERDEKAAN', '1450000', '2023-06-20', '2023-07-20', NULL);
+INSERT INTO `transaksi` VALUES (21, 41, NULL, 69, '100', 'Medium', '2023-06-06 22:16:24', 1, '1686066339_2f990bf5-95ff-4d92-b973-7db312148429.jpg', 'AC', 'Proses', '2023-06-06 22:45:39', '1500000', '50000', 'KEMERDEKAAN', '1450000', '2023-06-20', '2023-07-20', NULL);
+INSERT INTO `transaksi` VALUES (22, 41, '2', 69, '100', 'Medium', '2023-06-06 22:19:58', 1, '1686065478_1632799789925.jpg', 'AC', 'Ditolak', '2023-06-06 22:41:37', '1500000', '50000', 'KEMERDEKAAN', '1450000', '2023-06-20', '2023-07-20', 'kamar telah penuh');
+INSERT INTO `transaksi` VALUES (23, 41, '2', 69, '100', 'Medium', '2023-06-06 22:20:38', 1, '1686065409_09032023.png', 'AC', 'Ditolak', '2023-06-06 22:42:03', '1500000', '50000', 'KEMERDEKAAN', '1450000', '2023-06-20', '2023-07-20', 'kamar telah penuh, silahkan pilih yang lain');
+INSERT INTO `transaksi` VALUES (24, 41, '2', 69, '100', 'Medium', '2023-06-06 22:20:48', 1, '1686065352_1629794995703.jpg', 'AC', 'Diterima', '2023-06-06 22:43:40', '1500000', '50000', 'KEMERDEKAAN', '1450000', '2023-06-20', '2023-07-20', NULL);
+INSERT INTO `transaksi` VALUES (25, 41, '2', 69, '100', 'Medium', '2023-06-06 22:22:03', 3, '1686065325_131e8d77-4f25-43a5-aaf0-722e924ad773.jpeg', 'Televisi Samsung,AC,Televisi,Parkir Mobil', 'Diterima', '2023-06-06 22:44:51', '7620000', '50000', 'KOSANYAR', '7570000', '2023-06-07', '2023-09-07', NULL);
+INSERT INTO `transaksi` VALUES (26, 41, '2', 65, '16', 'Small', '2023-06-06 22:24:36', 1, '1686065297_89bd7ab5a5101874c911cef0a663780e.png', 'Televisi Samsung,AC,Televisi,Parkir Motor', 'Ditolak', '2023-06-06 22:45:04', '2140000', '100000', 'MERDEKA', '2040000', '2023-09-06', '2023-10-06', 'tes tolak');
+INSERT INTO `transaksi` VALUES (27, 41, '2', 65, '16', 'Small', '2023-06-06 23:14:23', 1, '1686068150_1629794995703.jpg', 'tessss,Televisi Samsung,AC,Televisi,Parkir Mobil,Parkir Motor', 'Diterima', '2023-06-06 23:16:17', '3940000', '99999', 'SEMBILANSEMBILAN', '3840001', '2023-11-20', '2023-12-20', NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;
