@@ -104,6 +104,25 @@ class UserModel
         $this->db->query($upd);
 
         if ($this->db->returnExecute()) {
+            $cekUser = "SELECT * FROM m_user WHERE idUser='{$_SESSION['session_login']->idUser}'";
+            $this->db->query($cekUser);
+            $infoUser = $this->db->single();
+
+
+            $cekAdmin = "SELECT * FROM admin WHERE idAdmin='{$_SESSION['admin_session_login']->idAdmin}'";
+            $this->db->query($cekAdmin);
+            $infoAdmin = $this->db->single();
+
+
+            sendWhatsApp($infoAdmin->nomorTelepon, "===== Admin Notification Order Kos46A =====
+Ada pesanan kamar detail sebagai berikut :
+ID Pesanan : {$idTransaksi}
+Tanggal Upload Bukti Pembayaran : " . date('d-m-Y H:i:s'));
+
+
+            sendWhatsApp($infoUser->nomorTelepon, "===== Notification Kos46A =====
+Terimakasih {$infoUser->namaUser}, telah melakukan upload bukti pembayaran. Mohon menunggu respon admin");
+
             flash('pesanan_alert', 'Berhasil upload bukti pembayaran', 'green');
             // $_POST
         } else {
