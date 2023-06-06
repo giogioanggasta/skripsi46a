@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set("Asia/Jakarta");
 
 require_once '../libraries/Database.php';
 
@@ -10,7 +11,38 @@ class HomeModel
     {
         $this->db = new Database();
     }
+    function sendWhatsApp($sendTo, $msg)
+    {
 
+        $api_key   = 'ScHUzvVCAylxCqye00Pg2JX7nyKxMw'; // API KEY Anda 
+        $url   = "https://wa.srv1.wapanels.com/send-message"; // URL API
+        $sender = "6287742036248"; // No.HP yang dikirim (No.HP Penerima)
+        $no_hp = $sendTo; // No.HP yang dikirim (No.HP Penerima)
+        $pesan = ($msg); // Pesan yang dikirim
+
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_HEADER, 0);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 0); // batas waktu response
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($curl, CURLOPT_POST, 1);
+
+        $data_post = [
+            'api_key' => $api_key,
+            'sender' => $sender,
+            'number' => $no_hp,
+            'message' => $pesan
+        ];
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data_post));
+        curl_setopt($curl, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        $response = curl_exec($curl);
+        curl_close($curl);
+        echo $response;
+    }
 
     public function showKamar()
     {
@@ -74,6 +106,21 @@ class HomeModel
         $this->db->query($insert);
 
         if ($this->db->returnExecute()) {
+            $cekUser = "SELECT * FROM m_user WHERE idUser='{$_SESSION['session_login']->idUser}'";
+            $this->db->query($cekUser);
+            $infoUser = $this->db->single();
+
+            // notif wa
+
+            $result =      $this->sendWhatsApp($infoUser->nomorTelepon, "===== Notification Kos46A =====
+Terimakasih telah melakukan pemesanan, jangan lupa melakukan pembayaran, detail pesanan anda sebagai berikut :
+- Nama Pemesan : {$infoUser->namaUser}
+- Tanggal Pemesanan : " . date('d-m-Y H:i:s') . "
+- Tipe Kamar : {$detailTipeKamar->namaTipeKamar}
+- Nomor Kamar : {$_POST['kamar']}
+- Lama Sewa : {$_POST['awalSewa']} sampai {$create_akhirSewa} ({$_POST['lamaSewa']} bulan)
+Total Yang Harus Dibayar : " . formatRupiah($_POST['totalHargaTransaksi']));
+
             header('Location: ../view/Pesanan.php');
         }
     }

@@ -633,7 +633,7 @@ if (isset($_POST['btnUpdateFasilitas'])) {
 if (isset($_POST['btnUpdateDiskon'])) {
 
     if (!(file_exists('../images/thumbnail-diskon'))) {
-        mkdir('../images/thumbnail', 0777, true);
+        mkdir('../images/thumbnail-diskon', 0777, true);
     }
 
     $idDiskon = $_POST['idDiskon'];
