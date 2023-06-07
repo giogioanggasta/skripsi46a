@@ -154,7 +154,7 @@ if (count($_POST) == 0) {
                           <input type="text" required value="<?= $x->namaTipeKamar ?>" class="form-control" name="tipeKamar">
                         </div>
                         <div class="form-group">
-                          <label for="tipeKamar">Ubah Harga Kamar</label>
+                          <label for="tipeKamar">Ubah Harga Kamar (Rp.)</label>
 
 
                           <input type="text" id="hargaTipeKamarFormatUbah<?= $x->idTipeKamar ?>" oninput="formatRupiahFungsi(this.value,'hargaTipeKamarFormatUbah<?= $x->idTipeKamar ?>','hargaTipeKamarUbah<?= $x->idTipeKamar ?>')" required value="<?= formatDot($x->hargaTipeKamar) ?>" class="form-control">

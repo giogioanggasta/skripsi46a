@@ -20,7 +20,7 @@ include 'tmpuser/nav.php';
           <img src="../images/thumbnail-fasilitas/<?= $v->fotoFasilitas ?>" style="width:100%"><br>
           <div class="card-body">
             <p class="card-title"><?= $v->namaFasilitas; ?></p>
-            <p class="card-text"><?= formatRupiah($v->hargaFasilitas); ?></p>
+            <p class="card-text"><?= formatRupiah($v->hargaFasilitas); ?> / bulan</p>
           </div>
         </div>
       </div>

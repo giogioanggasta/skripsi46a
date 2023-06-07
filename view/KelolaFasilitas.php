@@ -63,7 +63,7 @@ if (count($_POST) == 0) {
                     <input type="text" class="form-control" required name="namaFasilitas">
                   </div>
                   <div class="form-group">
-                    <label for="namaFasilitas">Harga Fasilitas</label>
+                    <label for="namaFasilitas">Harga Fasilitas (Rp.)</label>
 
                     <input type="text" required oninput="formatRupiahFungsi(this.value,'hargaFasilitasFormat','hargaFasilitas')" id="hargaFasilitasFormat" class="form-control">
                     <input type="hidden" required id="hargaFasilitas" name="hargaFasilitas">
@@ -147,7 +147,7 @@ if (count($_POST) == 0) {
                           <input type="text" required value="<?= $x->namaFasilitas ?>" class="form-control" name="namaFasilitas">
                         </div>
                         <div class="form-group">
-                          <label for="namaFasilitas">Harga Fasilitas</label>
+                          <label for="namaFasilitas">Harga Fasilitas (Rp.)</label>
 
                           <input type="text" oninput="formatRupiahFungsi(this.value,'hargaFasilitasFormatUbah<?= $x->idFasilitas ?>','hargaFasilitasUbah<?= $x->idFasilitas ?>')"  required id="hargaFasilitasFormatUbah<?= $x->idFasilitas ?>" value="<?= formatDot($x->hargaFasilitas) ?>" class="form-control">
                           <input type="hidden" required id="hargaFasilitasUbah<?= $x->idFasilitas ?>" value="<?= $x->hargaFasilitas ?>" name="hargaFasilitas">

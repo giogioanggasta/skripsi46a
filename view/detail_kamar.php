@@ -489,15 +489,7 @@ if (!$result) {
           </script>
 
 
-          <div class="social-links">
-            <p>Share At: </p>
-            <a href="#">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="#">
-              <i class="fab fa-instagram"></i>
-            </a>
-          </div>
+          
         </div>
 
       </form>
