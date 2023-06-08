@@ -11,7 +11,7 @@ class HomeModel
     {
         $this->db = new Database();
     }
-  
+
 
     public function showKamar()
     {
@@ -30,6 +30,13 @@ class HomeModel
         return $this->db->resultAll();
     }
 
+    public function detailTransaksi($idTransaksi)
+    {
+        $sql = "SELECT * FROM transaksi WHERE idTransaksi = '{$idTransaksi}'";
+
+        $this->db->query($sql);
+        return $this->db->single();
+    }
 
     public function searchTipeKamar($idTipeKamar)
     {
@@ -89,6 +96,34 @@ Terimakasih telah melakukan pemesanan, jangan lupa melakukan pembayaran, detail 
 - Nomor Kamar : {$_POST['kamar']}
 - Lama Sewa : {$_POST['awalSewa']} sampai {$create_akhirSewa} ({$_POST['lamaSewa']} bulan)
 Total Yang Harus Dibayar : " . formatRupiah($_POST['totalHargaTransaksi']));
+
+            header('Location: ../view/Pesanan.php');
+        }
+    }
+    public function savePesananPerpanjangan()
+    {
+
+        $create_akhirSewa = date("Y-m-d", strtotime($_POST['awalSewa'] . " +{$_POST['lamaSewa']} month"));
+        $detailTipeKamar = $this->searchTipeKamar(base64_decode($_GET['dGlwZUthbWFy']));
+        $insert = "INSERT INTO transaksi_pembaharuan (idTransaksi,idUser,idTipeKamar,nomorKamar,namaTipeKamar,lamaSewa,pilihanDetailFasilitas,namaDiskon,potonganHarga,totalPembayaranNormal,totalPembayaran,awalSewa,akhirSewa,status) VALUES ('{$_POST['idTransaksi']}','{$_SESSION['session_login']->idUser}','{$detailTipeKamar->idTipeKamar}','{$_POST['kamar']}','{$detailTipeKamar->namaTipeKamar}','{$_POST['lamaSewa']}','{$_POST['pilihanDetailFasilitas']}','{$_POST['namaDiskon']}','{$_POST['totalHargaTransaksiDiskon']}','{$_POST['totalHargaTransaksiNormal']}','{$_POST['totalHargaTransaksi']}','{$_POST['awalSewa']}','{$create_akhirSewa}','Menunggu Pembayaran Perpanjangan')";
+
+        $this->db->query($insert);
+
+        if ($this->db->returnExecute()) {
+            $cekUser = "SELECT * FROM m_user WHERE idUser='{$_SESSION['session_login']->idUser}'";
+            $this->db->query($cekUser);
+            $infoUser = $this->db->single();
+
+            // notif wa
+
+            $result = sendWhatsApp($infoUser->nomorTelepon, "===== Notification Perpanjangan Kos46A =====
+Terimakasih telah melakukan perpanjangan pemesanan, jangan lupa melakukan pembayaran, detail pesanan anda sebagai berikut :
+- Nama Pemesan : {$infoUser->namaUser}
+- Tanggal Pemesanan : " . date('d-m-Y H:i:s') . "
+- Tipe Kamar : {$detailTipeKamar->namaTipeKamar}
+- Nomor Kamar : {$_POST['kamar']}
+- Lama Sewa : {$_POST['awalSewa']} sampai {$create_akhirSewa} ({$_POST['lamaSewa']} bulan)
+Total Perpanjangan yang Harus Dibayar : " . formatRupiah($_POST['totalHargaTransaksi']));
 
             header('Location: ../view/Pesanan.php');
         }
@@ -182,4 +217,10 @@ if (isset($_POST['saveDetailPesanan'])) {
     // exit;
 
     $homeM->savePesanan();
+}
+
+
+if (isset($_POST['saveDetailPesananPerpanjangan'])) {
+
+    $homeM->savePesananPerpanjangan();
 }

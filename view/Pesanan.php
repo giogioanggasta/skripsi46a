@@ -50,39 +50,39 @@ if (!isset($_SESSION['session_login'])) {
             <h4 class="text-center card-title text-dark">Detail Sewa</h4>
             <h6 class="text-center"><?= $d->namaTipeKamar; ?></h6>
             <p class="card-text">
-              <p style="margin-bottom: 8px;color: #0a2724;">ID transaksi: <?= $d->idTransaksi . "<br>"; ?> </p>
-              <p style="margin-bottom: 8px;color: #0a2724;">Tanggal pemesanan: <?php $final_tanggal = date_create($d->tanggalWaktuTransaksi);
-                                                                                echo date_format($final_tanggal, "Y-m-d") . "<br>"; ?> </p>
-              <p style="margin-bottom: 8px;color: #0a2724;">Jam pemesanan: <?php $final_waktu = date_create($d->tanggalWaktuTransaksi);
-                                                                            echo date_format($final_waktu, "H:i") . "<br>"; ?> </p>
+            <p style="margin-bottom: 8px;color: #0a2724;">ID transaksi: <?= $d->idTransaksi . "<br>"; ?> </p>
+            <p style="margin-bottom: 8px;color: #0a2724;">Tanggal pemesanan: <?php $final_tanggal = date_create($d->tanggalWaktuTransaksi);
+                                                                              echo date_format($final_tanggal, "Y-m-d") . "<br>"; ?> </p>
+            <p style="margin-bottom: 8px;color: #0a2724;">Jam pemesanan: <?php $final_waktu = date_create($d->tanggalWaktuTransaksi);
+                                                                          echo date_format($final_waktu, "H:i") . "<br>"; ?> </p>
 
 
 
-              <p style="margin-bottom: 8px;color: #0a2724;">Nomor kamar: <?= $d->nomorKamar . "<br>"; ?> </p>
-              <p style="margin-bottom: 8px;color: #0a2724;">Lama sewa: <?= $d->lamaSewa . "<br>"; ?></p>
-              <p style="margin-bottom: 8px;color: #0a2724;">Tanggal Lama Sewa: <br><?php echo $d->awalSewa . " sampai " . $d->akhirSewa . "<br>"; ?> </p>
-              <p style="margin-bottom: 8px;color: #0a2724;">Potongan Diskon:
-                <?php
-                if ($d->potonganHarga != 0) {
-                ?>
-                  <?= formatRupiah($d->potonganHarga) . " (" . $d->namaDiskon . ")<br>"; ?>
-
-                <?php
-                } else {
-                  echo 'tidak memakai diskon';
-                }
-                ?>
-              </p>
+            <p style="margin-bottom: 8px;color: #0a2724;">Nomor kamar: <?= $d->nomorKamar . "<br>"; ?> </p>
+            <p style="margin-bottom: 8px;color: #0a2724;">Lama sewa: <?= $d->lamaSewa . "<br>"; ?></p>
+            <p style="margin-bottom: 8px;color: #0a2724;">Tanggal Lama Sewa: <br><?php echo $d->awalSewa . " sampai " . $d->akhirSewa . "<br>"; ?> </p>
+            <p style="margin-bottom: 8px;color: #0a2724;">Potongan Diskon:
               <?php
               if ($d->potonganHarga != 0) {
               ?>
-                <p style="margin-bottom: 8px;color: #0a2724;">Total Harga Normal: <del><?= formatRupiah($d->totalPembayaranNormal) . "</del><br>"; ?></p>
+                <?= formatRupiah($d->potonganHarga) . " (" . $d->namaDiskon . ")<br>"; ?>
+
               <?php
+              } else {
+                echo 'tidak memakai diskon';
               }
               ?>
+            </p>
+            <?php
+            if ($d->potonganHarga != 0) {
+            ?>
+              <p style="margin-bottom: 8px;color: #0a2724;">Total Harga Normal: <del><?= formatRupiah($d->totalPembayaranNormal) . "</del><br>"; ?></p>
+            <?php
+            }
+            ?>
 
-              <p style="margin-bottom: 8px;color: #0a2724;">Total Harga: <?= formatRupiah($d->totalPembayaran) . "<br>"; ?></p>
-              <p style="margin-bottom: 8px;color: #0a2724;"><b>Status Pemesanan:</b> <?= $d->status . "<br>"; ?></p>
+            <p style="margin-bottom: 8px;color: #0a2724;">Total Harga: <?= formatRupiah($d->totalPembayaran) . "<br>"; ?></p>
+            <p style="margin-bottom: 8px;color: #0a2724;"><b>Status Pemesanan:</b> <?= $d->status . "<br>"; ?></p>
 
             </p>
             <?php
@@ -103,7 +103,7 @@ if (!isset($_SESSION['session_login'])) {
               </div>
 
             <?php
-            } else if ($d->status == 'Diterima') {
+            } else if ($d->status == 'Diterima' || $d->status == 'Diterima dengan Pembaharuan') {
             ?>
               <p>Bukti Pembayaran :&nbsp;<a style="font-size:15px" href="../images/bukti-bayar/<?= $d->buktiPembayaran ?>" class="text-danger" target="_blank">Lihat</a></p>
 
@@ -111,7 +111,11 @@ if (!isset($_SESSION['session_login'])) {
                 <h4>Transaksi anda telah di <?= $d->status ?> oleh Admin terimakasih</h4>
               </div>
 
-              <a href="detail_kamar.php?<?= base64_encode('tipeKamar') ?>=<?= base64_encode($d->idTipeKamar) ?>" class="btn btn-secondary mt-2 btn-block">Perpanjang Sewa Kamar</a>
+              <!-- <a href="detail_kamar.php?<?= base64_encode('tipeKamar') ?>=<?= base64_encode($d->idTipeKamar) ?>" class="btn btn-secondary mt-2 btn-block">Perpanjang Sewa Kamar</a> -->
+              <a href="PembaharuanTransaksiPerpanjangan.php?<?= base64_encode('type') ?>=<?= base64_encode('perpanjangan') ?>&<?= base64_encode('idTransaksi') ?>=<?= base64_encode($d->idTransaksi) ?>&<?= base64_encode('tipeKamar') ?>=<?= base64_encode($d->idTipeKamar) ?>" class="btn btn-primary mt-2 btn-block">Ajukan <b>Perpanjangan</b> Transaksi</a>
+              <a href="PembaharuanTransaksi.php?<?= base64_encode('type') ?>=<?= base64_encode('pengembalian') ?>&<?= base64_encode('idTransaksi') ?>=<?= base64_encode($d->idTransaksi) ?>&<?= base64_encode('tipeKamar') ?>=<?= base64_encode($d->idTipeKamar) ?>" class="btn btn-warning mt-2 btn-block">Ajukan <b>Pengembalian</b> Transaksi</a>
+
+
             <?php
             } else if ($d->status == 'Ditolak') {
             ?>

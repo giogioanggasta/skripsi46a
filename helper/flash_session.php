@@ -96,3 +96,9 @@ function sendWhatsApp($sendTo, $msg)
     curl_close($curl);
     echo $response;
 }
+
+
+function tambah1Hari($tgl)
+{
+    return date('Y-m-d', strtotime($tgl . ' +1 day'));
+}
