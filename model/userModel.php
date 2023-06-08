@@ -20,13 +20,6 @@ class UserModel
 
             $_SESSION['session_login'] = $row;
             header('Location: ../view/Home.php');
-
-            // echo $_SESSION['session_login']->namaUser;
-            // var_dump($_SESSION['session']);
-            // exit;
-            // flash('login_alert', 'Email sudah digunakan', 'red');
-            // header('Location: ../view/Login.php');
-            // exit;
         } else {
             flash('login_alert', 'Akun tidak valid', 'red');
             header('Location: ../view/Login.php');
@@ -109,12 +102,7 @@ class UserModel
             $infoUser = $this->db->single();
 
 
-            $cekAdmin = "SELECT * FROM admin WHERE idAdmin='{$_SESSION['admin_session_login']->idAdmin}'";
-            $this->db->query($cekAdmin);
-            $infoAdmin = $this->db->single();
-
-
-            sendWhatsApp($infoAdmin->nomorTelepon, "===== Admin Notification Order Kos46A =====
+            sendWhatsApp('087742036248', "===== Admin Notification Order Kos46A =====
 Ada pesanan kamar detail sebagai berikut :
 ID Pesanan : {$idTransaksi}
 Tanggal Upload Bukti Pembayaran : " . date('d-m-Y H:i:s'));

@@ -1,8 +1,6 @@
 <?php
 include('../helper/flash_session.php');
 include('../model/homeModel.php');
-// var_dump($_SESSION);
-// tipeKamar
 $tipeKamar = base64_decode($_GET['dGlwZUthbWFy']);
 $result = $homeM->searchTipeKamar($tipeKamar);
 if (!$result) {

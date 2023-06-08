@@ -46,7 +46,7 @@ $u = $userM->profileUser();
                         <div class="form-group">
                             <label for="">Email</label>
                             <input type="text" name="email" value="<?= $u->email ?>" disabled class="bg-dark text-white form-control">
-                            <div class="form-text">email tidak dapat di ganti</div>
+                            <div class="form-text">Email tidak dapat di ganti</div>
                         </div>
                         <div class="form-group">
                             <label for="">Password Baru<span id="wajibPB"></span></label>
