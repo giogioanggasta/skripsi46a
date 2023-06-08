@@ -43,7 +43,7 @@ class pembaharuanModel
     public function rejectTrans($idTransaksi, $reason)
     {
 
-        $update = "UPDATE transaksi SET status='Ditolak',reason='{$reason}',idAdmin='{$_SESSION['admin_session_login']->idAdmin}' WHERE idTransaksi = '{$idTransaksi}'";
+        $update = "UPDATE transaksi_pembaharuan SET status='Ditolak Perpanjangan',reason='{$reason}',idAdmin='{$_SESSION['admin_session_login']->idAdmin}' WHERE idTransaksi = '{$idTransaksi}'";
         $this->db->query($update);
 
         if ($this->db->returnExecute()) {
@@ -51,15 +51,15 @@ class pembaharuanModel
 
 
 
-            $cekTrans = "SELECT * FROM transaksi WHERE idTransaksi = '{$idTransaksi}' ";
+            $cekTrans = "SELECT * FROM transaksi_pembaharuan WHERE idTransaksi = '{$idTransaksi}' ";
             $this->db->query($cekTrans);
             $infoTans = $this->db->single();
             $cekUser = "SELECT * FROM m_user WHERE idUser='{$infoTans->idUser}'";
             $this->db->query($cekUser);
             $infoUser = $this->db->single();
             // notif wa
-            sendWhatsApp($infoUser->nomorTelepon, "===== Notification Reject Kos46A =====
-Mohon Maaf transaksi anda dengan detail berikut :
+            sendWhatsApp($infoUser->nomorTelepon, "===== Notification Reject Perpanjangan Kos46A =====
+Mohon Maaf transaksi perpanjangan anda dengan detail berikut :
 - Nama Pemesan : {$infoUser->namaUser}
 - Tanggal Pemesanan : {$infoTans->tanggalWaktuTransaksi}
 - Tipe Kamar : {$infoTans->namaTipeKamar}
