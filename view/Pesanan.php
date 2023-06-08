@@ -17,7 +17,8 @@ if (!isset($_SESSION['session_login'])) {
 
 <div class="container">
 
-  <center><b><a class="w3-display-middle" style="color:black;float: center; margin-top: -10%; text-decoration: none;">Pesanan Anda</a></center></b>
+  <center><b><a class="w3-display-middle" style="color:black;float: center; margin-top: -10%; text-decoration: none;">Daftar Transaksi Anda</a></center></b>
+
   <?php
   if (isset($_SESSION['pesanan_alert']) && !isset($_POST['btnSavePembayaran']) || isset($_SESSION['pesanan_alert']) && !isset($_POST['btnUpdateFasilitas'])) {
     echo $_SESSION['pesanan_alert'];
@@ -28,11 +29,30 @@ if (!isset($_SESSION['session_login'])) {
 
   ?>
   <div class="row">
+    <div class="col-6 ">
+      <a class="btn btn-secondary float-right <?= isset($_GET['tab']) ? (($_GET['tab'] == 'pesanan') ? 'active' : '') : 'active' ?>" href="?tab=<?= 'pesanan' ?>">Pesanan </a>
+    </div>
+    <div class="col-6 ">
+      <a class="btn btn-secondary float-left <?= isset($_GET['tab']) ? (($_GET['tab'] == 'pembaharuan') ? 'active' : '') : '' ?>" href="?tab=<?= 'pembaharuan' ?>">Pembaharuan</a>
+    </div>
+  </div>
+  <div class="row">
 
 
 
     <?php
-    $pesanan = $userM->showPesanan();
+
+    if (isset($_GET['tab'])) {
+      if ($_GET['tab'] == 'pembaharuan') {
+
+        $pesanan = $userM->showPesananPembaharuan();
+      } else if ($_GET['tab'] == 'pesanan') {
+        $pesanan = $userM->showPesanan();
+      }
+    } else {
+
+      $pesanan = $userM->showPesanan();
+    }
 
     foreach ($pesanan as $k => $d) {
 
@@ -86,7 +106,7 @@ if (!isset($_SESSION['session_login'])) {
 
             </p>
             <?php
-            if ($d->status == 'Menunggu Pembayaran') {
+            if ($d->status == 'Menunggu Pembayaran' || $d->status == 'Menunggu Pembayaran Perpanjangan') {
             ?>
               <div class="card-bottom bg-secondary p-2 text-white">
 
@@ -98,7 +118,17 @@ if (!isset($_SESSION['session_login'])) {
                     <div class="form-text">Bayar ke nomor rekening : Mandiri 106-00-1178850-5 a/n Kos 46A. <br>
                       Bukti Pembayaran akan di proses maksimal 1x24 jam setelah upload. Anda akan menerima email jika pembayaran sudah diterima.<br></div>
                   </div>
-                  <button type="submit" class="w3-button w3-blue btn btn-primary" name="btnSavePembayaran">Upload Pembayaran</button>
+                  <?php
+                  if ($d->status == 'Menunggu Pembayaran') {
+                  ?>
+                    <button type="submit" class="w3-button w3-blue btn btn-primary" name="btnSavePembayaran">Upload Pembayaran</button>
+                  <?php
+                  } else if ($d->status == 'Menunggu Pembayaran Perpanjangan') {
+                  ?>
+                    <button type="submit" class="w3-button w3-blue btn btn-primary" name="btnSavePembayaranPerpanjangan">Upload Pembayaran Perpanjangan</button>
+                  <?php
+                  }
+                  ?>
                 </form>
               </div>
 

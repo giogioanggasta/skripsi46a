@@ -91,6 +91,43 @@ class UserModel
 
         return $this->db->resultAll();
     }
+
+    public function showPesananPembaharuan()
+    {
+        if (!isset($_SESSION['session_login'])) {
+            header('Location:Login.php');
+            exit;
+        }
+        $select = "SELECT
+        t.idTipeKamar,
+        t.idTransaksi,
+        t.namaTipeKamar,
+        t.nomorKamar,
+        t.pilihanDetailFasilitas,
+        t.status,
+        t.lamaSewa,
+       t.tanggalWaktuTransaksi,
+        t.totalPembayaran,
+        t.totalPembayaranNormal,
+        t.potonganHarga,
+        t.namaDiskon,
+        mtk.thumbnailKamar,
+        t.reason,
+        t.buktiPembayaran,
+        t.awalSewa,
+        t.akhirSewa
+        FROM 
+        transaksi_pembaharuan t
+        LEFT JOIN m_user u ON t.idUser = u.idUser
+        LEFT JOIN m_tipekamar mtk ON t.idTipeKamar = mtk.idTipeKamar
+        
+         WHERE t.idUser = '{$_SESSION['session_login']->idUser}' ORDER BY t.tanggalWaktuTransaksi DESC
+        ";
+        // echo $select;exit;
+        $this->db->query($select);
+
+        return $this->db->resultAll();
+    }
     public function saveBuktiBayar($idTransaksi, $namaGambar)
     {
         $upd = "UPDATE transaksi SET buktiPembayaran='$namaGambar',status = 'Proses' WHERE idTransaksi = '{$idTransaksi}'";
@@ -119,6 +156,33 @@ Terimakasih {$infoUser->namaUser}, telah melakukan upload bukti pembayaran. Moho
         header('Location: ../view/Pesanan.php');
     }
 
+    public function saveBuktiBayarPerpanjangan($idTransaksi, $namaGambar)
+    {
+        $upd = "UPDATE transaksi_pembaharuan SET buktiPembayaran='$namaGambar',status = 'Proses' WHERE idTransaksi = '{$idTransaksi}'";
+        $this->db->query($upd);
+
+        if ($this->db->returnExecute()) {
+            $cekUser = "SELECT * FROM m_user WHERE idUser='{$_SESSION['session_login']->idUser}'";
+            $this->db->query($cekUser);
+            $infoUser = $this->db->single();
+
+
+            sendWhatsApp('087742036248', "===== Admin Notification Order Perpanjangan Kos46A =====
+Ada pesanan perpanjangan kamar detail sebagai berikut :
+ID Pesanan : {$idTransaksi}
+Tanggal Upload Bukti Pembayaran : " . date('d-m-Y H:i:s'));
+
+
+            sendWhatsApp($infoUser->nomorTelepon, "===== Notification Perpanjangan Kos46A =====
+Terimakasih {$infoUser->namaUser}, telah melakukan upload bukti pembayaran. Mohon menunggu respon admin");
+
+            flash('pesanan_alert', 'Berhasil upload bukti pembayaran', 'green');
+            // $_POST
+        } else {
+            flash('pesanan_alert', 'Gagal upload bukti pembayaran', 'red');
+        }
+        header('Location: ../view/Pesanan.php?tab=pembaharuan');
+    }
     public function profileUser()
     {
         $select = "SELECT * FROM m_user WHERE idUser='{$_SESSION['session_login']->idUser}'";
@@ -186,6 +250,17 @@ if (isset($_POST['btnSavePembayaran'])) {
     $namaGambar = time() . "_" . $_FILES['buktiPembayaran']['name'];
     $simpanGambar =  move_uploaded_file($_FILES['buktiPembayaran']['tmp_name'], '../images/bukti-bayar/' . $namaGambar);
     $userM->saveBuktiBayar($idTransaksi, $namaGambar);
+}
+
+
+if (isset($_POST['btnSavePembayaranPerpanjangan'])) {
+    if (!(file_exists('../images/bukti-bayar'))) {
+        mkdir('../images/bukti-bayar', 0777, true);
+    }
+    $idTransaksi = $_POST['idTransaksi'];
+    $namaGambar = time() . "_" . $_FILES['buktiPembayaran']['name'];
+    $simpanGambar =  move_uploaded_file($_FILES['buktiPembayaran']['tmp_name'], '../images/bukti-bayar/' . $namaGambar);
+    $userM->saveBuktiBayarPerpanjangan($idTransaksi, $namaGambar);
 }
 
 

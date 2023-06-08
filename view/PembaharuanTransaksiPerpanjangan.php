@@ -374,7 +374,7 @@ $detailTransaksi = $homeM->detailTransaksi($idTransaksi);
                       <input type="hidden" name="pilihanDetailFasilitas" id="pilihanDetailFasilitas">
                       <input type="hidden" name="totalHargaTransaksi" id="totalHargaTransaksi">
                       <input type="hidden" name="totalHargaTransaksiNormal" id="totalHargaTransaksiNormal">
-                      <input type="hidden" name="idTransaksi" value="<?= $idTransaksi ?>">
+                      <input type="hidden" name="idTransaksiRefrensi" value="<?= $idTransaksi ?>">
                       <input type="hidden" name="totalHargaTransaksiDiskon" id="totalHargaTransaksiDiskon">
                       <br> <br>
                       <script>

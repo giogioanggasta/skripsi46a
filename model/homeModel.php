@@ -105,7 +105,7 @@ Total Yang Harus Dibayar : " . formatRupiah($_POST['totalHargaTransaksi']));
 
         $create_akhirSewa = date("Y-m-d", strtotime($_POST['awalSewa'] . " +{$_POST['lamaSewa']} month"));
         $detailTipeKamar = $this->searchTipeKamar(base64_decode($_GET['dGlwZUthbWFy']));
-        $insert = "INSERT INTO transaksi_pembaharuan (idTransaksi,idUser,idTipeKamar,nomorKamar,namaTipeKamar,lamaSewa,pilihanDetailFasilitas,namaDiskon,potonganHarga,totalPembayaranNormal,totalPembayaran,awalSewa,akhirSewa,status) VALUES ('{$_POST['idTransaksi']}','{$_SESSION['session_login']->idUser}','{$detailTipeKamar->idTipeKamar}','{$_POST['kamar']}','{$detailTipeKamar->namaTipeKamar}','{$_POST['lamaSewa']}','{$_POST['pilihanDetailFasilitas']}','{$_POST['namaDiskon']}','{$_POST['totalHargaTransaksiDiskon']}','{$_POST['totalHargaTransaksiNormal']}','{$_POST['totalHargaTransaksi']}','{$_POST['awalSewa']}','{$create_akhirSewa}','Menunggu Pembayaran Perpanjangan')";
+        $insert = "INSERT INTO transaksi_pembaharuan (idTransaksiRefrensi,idUser,idTipeKamar,nomorKamar,namaTipeKamar,lamaSewa,pilihanDetailFasilitas,namaDiskon,potonganHarga,totalPembayaranNormal,totalPembayaran,awalSewa,akhirSewa,status) VALUES ('{$_POST['idTransaksiRefrensi']}','{$_SESSION['session_login']->idUser}','{$detailTipeKamar->idTipeKamar}','{$_POST['kamar']}','{$detailTipeKamar->namaTipeKamar}','{$_POST['lamaSewa']}','{$_POST['pilihanDetailFasilitas']}','{$_POST['namaDiskon']}','{$_POST['totalHargaTransaksiDiskon']}','{$_POST['totalHargaTransaksiNormal']}','{$_POST['totalHargaTransaksi']}','{$_POST['awalSewa']}','{$create_akhirSewa}','Menunggu Pembayaran Perpanjangan')";
 
         $this->db->query($insert);
 
@@ -125,7 +125,7 @@ Terimakasih telah melakukan perpanjangan pemesanan, jangan lupa melakukan pembay
 - Lama Sewa : {$_POST['awalSewa']} sampai {$create_akhirSewa} ({$_POST['lamaSewa']} bulan)
 Total Perpanjangan yang Harus Dibayar : " . formatRupiah($_POST['totalHargaTransaksi']));
 
-            header('Location: ../view/Pesanan.php');
+            header('Location: ../view/Pesanan.php?tab=pembaharuan');
         }
     }
 
