@@ -105,7 +105,7 @@ Total Yang Harus Dibayar : " . formatRupiah($_POST['totalHargaTransaksi']));
 
         $create_akhirSewa = date("Y-m-d", strtotime($_POST['awalSewa'] . " +{$_POST['lamaSewa']} month"));
         $detailTipeKamar = $this->searchTipeKamar(base64_decode($_GET['dGlwZUthbWFy']));
-        $insert = "INSERT INTO transaksi_pembaharuan (idTransaksiRefrensi,idUser,idTipeKamar,nomorKamar,namaTipeKamar,lamaSewa,pilihanDetailFasilitas,namaDiskon,potonganHarga,totalPembayaranNormal,totalPembayaran,awalSewa,akhirSewa,status) VALUES ('{$_POST['idTransaksiRefrensi']}','{$_SESSION['session_login']->idUser}','{$detailTipeKamar->idTipeKamar}','{$_POST['kamar']}','{$detailTipeKamar->namaTipeKamar}','{$_POST['lamaSewa']}','{$_POST['pilihanDetailFasilitas']}','{$_POST['namaDiskon']}','{$_POST['totalHargaTransaksiDiskon']}','{$_POST['totalHargaTransaksiNormal']}','{$_POST['totalHargaTransaksi']}','{$_POST['awalSewa']}','{$create_akhirSewa}','Menunggu Pembayaran Perpanjangan')";
+        $insert = "INSERT INTO transaksi_pembaharuan (type,idTransaksiRefrensi,idUser,idTipeKamar,nomorKamar,namaTipeKamar,lamaSewa,pilihanDetailFasilitas,namaDiskon,potonganHarga,totalPembayaranNormal,totalPembayaran,awalSewa,akhirSewa,status) VALUES ('Perpanjangan','{$_POST['idTransaksiRefrensi']}','{$_SESSION['session_login']->idUser}','{$detailTipeKamar->idTipeKamar}','{$_POST['kamar']}','{$detailTipeKamar->namaTipeKamar}','{$_POST['lamaSewa']}','{$_POST['pilihanDetailFasilitas']}','{$_POST['namaDiskon']}','{$_POST['totalHargaTransaksiDiskon']}','{$_POST['totalHargaTransaksiNormal']}','{$_POST['totalHargaTransaksi']}','{$_POST['awalSewa']}','{$create_akhirSewa}','Menunggu Pembayaran Perpanjangan')";
 
         $this->db->query($insert);
 
@@ -141,14 +141,14 @@ Total Perpanjangan yang Harus Dibayar : " . formatRupiah($_POST['totalHargaTrans
     WHERE
     (t.awalSewa BETWEEN '{$awalSewa}' AND DATE_FORMAT(DATE_ADD('{$awalSewa}', INTERVAL {$lamaSewa} MONTH), '%Y-%m-%d') OR
     t.akhirSewa BETWEEN '{$awalSewa}' AND DATE_FORMAT(DATE_ADD('{$awalSewa}', INTERVAL {$lamaSewa} MONTH), '%Y-%m-%d'))
-        AND t.nomorKamar = k.nomorKamar AND t.status = 'Diterima') IS NULL,'kosong',(SELECT
+        AND t.nomorKamar = k.nomorKamar AND t.status  IN ('Diterima','Diterima dengan Pembaharuan')) IS NULL,'kosong',(SELECT
         GROUP_CONCAT(concat('(',t.awalSewa,' sampai ',t.akhirSewa,')')) sewa
     FROM
         `transaksi` t
     WHERE
     (t.awalSewa BETWEEN '{$awalSewa}' AND DATE_FORMAT(DATE_ADD('{$awalSewa}', INTERVAL {$lamaSewa} MONTH), '%Y-%m-%d') OR
     t.akhirSewa BETWEEN '{$awalSewa}' AND DATE_FORMAT(DATE_ADD('{$awalSewa}', INTERVAL {$lamaSewa} MONTH), '%Y-%m-%d'))
-        AND t.nomorKamar = k.nomorKamar AND t.status = 'Diterima'))
+        AND t.nomorKamar = k.nomorKamar AND t.status  IN ('Diterima','Diterima dengan Pembaharuan')))
         ketersediaan,
         IF((SELECT
         GROUP_CONCAT(concat('(',t.awalSewa,' sampai ',t.akhirSewa,')')) sewa
@@ -157,7 +157,42 @@ Total Perpanjangan yang Harus Dibayar : " . formatRupiah($_POST['totalHargaTrans
     WHERE
     (t.awalSewa BETWEEN '{$awalSewa}' AND DATE_FORMAT(DATE_ADD('{$awalSewa}', INTERVAL {$lamaSewa} MONTH), '%Y-%m-%d') OR
     t.akhirSewa BETWEEN '{$awalSewa}' AND DATE_FORMAT(DATE_ADD('{$awalSewa}', INTERVAL {$lamaSewa} MONTH), '%Y-%m-%d'))
-        AND t.nomorKamar = k.nomorKamar AND t.status = 'Diterima') IS NULL,'','disabled')
+        AND t.nomorKamar = k.nomorKamar AND t.status  IN ('Diterima','Diterima dengan Pembaharuan')) IS NULL,'','disabled')
+        html 
+    FROM
+        kamar k WHERE k.idTipeKamar = '{$tipeKamar}' AND k.status = 'Tersedia'
+				
+				UNION
+				
+				
+				
+				SELECT
+        k.nomorKamar,
+        k.status,
+        IF((SELECT
+        GROUP_CONCAT(concat('(',t.awalSewa,' sampai ',t.akhirSewa,')')) sewa
+    FROM
+        `transaksi` t
+    WHERE
+    (t.awalSewa BETWEEN '{$awalSewa}' AND DATE_FORMAT(DATE_ADD('{$awalSewa}', INTERVAL {$lamaSewa} MONTH), '%Y-%m-%d') OR
+    t.akhirSewa BETWEEN '{$awalSewa}' AND DATE_FORMAT(DATE_ADD('{$awalSewa}', INTERVAL {$lamaSewa} MONTH), '%Y-%m-%d'))
+        AND t.nomorKamar = k.nomorKamar AND t.status IN ('Diterima Perpanjangan','Diterima Pengembalian')) IS NULL,'kosong',(SELECT
+        GROUP_CONCAT(concat('(',t.awalSewa,' sampai ',t.akhirSewa,')')) sewa
+    FROM
+        `transaksi` t
+    WHERE
+    (t.awalSewa BETWEEN '{$awalSewa}' AND DATE_FORMAT(DATE_ADD('{$awalSewa}', INTERVAL {$lamaSewa} MONTH), '%Y-%m-%d') OR
+    t.akhirSewa BETWEEN '{$awalSewa}' AND DATE_FORMAT(DATE_ADD('{$awalSewa}', INTERVAL {$lamaSewa} MONTH), '%Y-%m-%d'))
+        AND t.nomorKamar = k.nomorKamar AND t.status  IN ('Diterima Perpanjangan','Diterima Pengembalian')))
+        ketersediaan,
+        IF((SELECT
+        GROUP_CONCAT(concat('(',t.awalSewa,' sampai ',t.akhirSewa,')')) sewa
+    FROM
+        `transaksi` t
+    WHERE
+    (t.awalSewa BETWEEN '{$awalSewa}' AND DATE_FORMAT(DATE_ADD('{$awalSewa}', INTERVAL {$lamaSewa} MONTH), '%Y-%m-%d') OR
+    t.akhirSewa BETWEEN '{$awalSewa}' AND DATE_FORMAT(DATE_ADD('{$awalSewa}', INTERVAL {$lamaSewa} MONTH), '%Y-%m-%d'))
+        AND t.nomorKamar = k.nomorKamar AND t.status IN ('Diterima Perpanjangan','Diterima Pengembalian')) IS NULL,'','disabled')
         html 
     FROM
         kamar k WHERE k.idTipeKamar = '{$tipeKamar}' AND k.status = 'Tersedia'";

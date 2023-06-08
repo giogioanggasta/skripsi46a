@@ -41,7 +41,7 @@ if (!isset($_SESSION['session_login'])) {
 
 
     <?php
-
+    $htmlRef = "";
     if (isset($_GET['tab'])) {
       if ($_GET['tab'] == 'pembaharuan') {
 
@@ -71,6 +71,17 @@ if (!isset($_SESSION['session_login'])) {
             <h6 class="text-center"><?= $d->namaTipeKamar; ?></h6>
             <p class="card-text">
             <p style="margin-bottom: 8px;color: #0a2724;">ID transaksi: <?= $d->idTransaksi . "<br>"; ?> </p>
+            <?php
+            if (isset($_GET['tab'])) {
+
+              if ($_GET['tab'] == 'pembaharuan') {
+            ?>
+                <p style="margin-bottom: 8px;color: #0a2724;">ID Refrensi Transaksi: <?= $d->idTransaksiRefrensi . "<br>"; ?> </p>
+
+            <?php
+              }
+            }
+            ?>
             <p style="margin-bottom: 8px;color: #0a2724;">Tanggal pemesanan: <?php $final_tanggal = date_create($d->tanggalWaktuTransaksi);
                                                                               echo date_format($final_tanggal, "Y-m-d") . "<br>"; ?> </p>
             <p style="margin-bottom: 8px;color: #0a2724;">Jam pemesanan: <?php $final_waktu = date_create($d->tanggalWaktuTransaksi);

@@ -9,6 +9,7 @@
 
     <a href="KelolaDiskon.php" class="w3-bar-item <?= ($title == 'Kelola Diskon') ? 'fw-bold' : '' ?>" style="float: right; margin-top:4%; margin-right: 2.5%; text-decoration: none; color: white">Diskon</a>
 
+    <a href="KelolaPembaharuan.php" class="w3-bar-item <?= ($title == 'Kelola Transaksi') ? 'fw-bold' : '' ?>" style="float: right; margin-top:4%; margin-right: 2.5%; text-decoration: none; color: white">Pembaharuan</a>
     <a href="KelolaTransaksi.php" class="w3-bar-item <?= ($title == 'Kelola Transaksi') ? 'fw-bold' : '' ?>" style="float: right; margin-top:4%; margin-right: 2.5%; text-decoration: none; color: white">Transaksi</a>
 </div>
 <br><br>
