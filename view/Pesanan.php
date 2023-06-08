@@ -154,7 +154,7 @@ if (!isset($_SESSION['session_login'])) {
 
               <!-- <a href="detail_kamar.php?<?= base64_encode('tipeKamar') ?>=<?= base64_encode($d->idTipeKamar) ?>" class="btn btn-secondary mt-2 btn-block">Perpanjang Sewa Kamar</a> -->
               <a href="PembaharuanTransaksiPerpanjangan.php?<?= base64_encode('type') ?>=<?= base64_encode('perpanjangan') ?>&<?= base64_encode('idTransaksi') ?>=<?= base64_encode($d->idTransaksi) ?>&<?= base64_encode('tipeKamar') ?>=<?= base64_encode($d->idTipeKamar) ?>" class="btn btn-primary mt-2 btn-block">Ajukan <b>Perpanjangan</b> Transaksi</a>
-              <a href="PembaharuanTransaksi.php?<?= base64_encode('type') ?>=<?= base64_encode('pengembalian') ?>&<?= base64_encode('idTransaksi') ?>=<?= base64_encode($d->idTransaksi) ?>&<?= base64_encode('tipeKamar') ?>=<?= base64_encode($d->idTipeKamar) ?>" class="btn btn-warning mt-2 btn-block">Ajukan <b>Pengembalian</b> Transaksi</a>
+              <a href="PembaharuanTransaksiPengembalian.php?<?= base64_encode('type') ?>=<?= base64_encode('pengembalian') ?>&<?= base64_encode('idTransaksi') ?>=<?= base64_encode($d->idTransaksi) ?>&<?= base64_encode('tipeKamar') ?>=<?= base64_encode($d->idTipeKamar) ?>" class="btn btn-warning mt-2 btn-block">Ajukan <b>Pengembalian</b> Transaksi</a>
 
 
             <?php
