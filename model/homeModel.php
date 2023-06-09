@@ -71,6 +71,23 @@ class HomeModel
         return $this->db->resultAll();
     }
 
+    public function searchFasilitas($cari)
+    {
+
+        // CEK EMAIL
+        $getAllFasilitas = "SELECT
+        mf.idFasilitas,mf.namaFasilitas,mf.fotoFasilitas,a.namaAdmin,
+        ( SELECT z.hargaFasilitas FROM fasilitas_pengelolaan z WHERE mf.idFasilitas = z.idFasilitas ORDER BY z.created_at DESC LIMIT 1) hargaFasilitas
+    FROM
+        fasilitas mf
+        LEFT JOIN admin a ON mf.idAdmin = a.idAdmin WHERE mf.namaFasilitas = '{$cari}' ORDER BY mf.idFasilitas DESC";
+        // echo $getAllFasilitas;
+        // exit;
+        $this->db->query($getAllFasilitas);
+
+        return $this->db->single();
+    }
+
 
     public function savePesanan()
     {
@@ -231,6 +248,62 @@ Total Perpanjangan yang Harus Dibayar : " . formatRupiah($_POST['totalHargaTrans
         $this->db->query($select);
         return $this->db->single();
     }
+    public function savePenguranganFasilitas($idTransaksi, $pilihanFasilitasBaru, $totalPembayaranBaru)
+    {
+        $dtl = $this->detailTransaksi($idTransaksi);
+        $insert = "INSERT INTO transaksi_pembaharuan (
+        idTransaksiRefrensi,
+        idUser,
+        idTipeKamar,
+        nomorKamar,
+        namaTipeKamar,
+        lamaSewa,
+        pilihanDetailFasilitas,
+        namaDiskon,
+        potonganHarga,
+        totalPembayaranNormal,
+        totalPembayaran,
+        awalSewa,
+        akhirSewa,
+        type,
+        status,
+        detailLainnya) VALUES (
+        '{$idTransaksi}',
+        '{$_SESSION['session_login']->idUser}',
+        '{$dtl->idTipeKamar}',
+        '{$dtl->nomorKamar}',
+        '{$dtl->namaTipeKamar}',
+        '{$dtl->lamaSewa}',
+        '{$pilihanFasilitasBaru}',
+        '',
+        0,
+        '{$totalPembayaranBaru}',
+        '{$totalPembayaranBaru}',
+        '{$dtl->awalSewa}',
+        '{$dtl->awalSewa}',
+        'Pengurangan Fasilitas',
+        'Proses',
+        '" . json_encode($_POST) . "')";
+        // echo $insert;
+        // exit;
+        $this->db->query($insert);
+        if ($this->db->returnExecute()) {
+            $cekUser = "SELECT * FROM m_user WHERE idUser='{$_SESSION['session_login']->idUser}'";
+            $this->db->query($cekUser);
+            $infoUser = $this->db->single();
+
+            // notif wa
+
+            $result = sendWhatsApp($infoUser->nomorTelepon, "===== Notification Pengurangan Fasilitas Kos46A =====
+Terimakasih telah melakukan pengajuan pengurangan fasilitas, detail pengembalian anda sebesar " . formatRupiah($_POST['totalPengembalianValue']));
+
+
+            $result = sendWhatsApp('087742036248', "===== Notification Pengurangan Fasilitas Kos46A =====
+Terdapat pengajuan pengurangan fasilitas, sebesar " . formatRupiah($_POST['totalPengembalianValue'])) . " harap cek pengajuannya ";
+
+            header('Location: ../view/Pesanan.php?tab=pembaharuan');
+        }
+    }
 }
 
 $homeM = new HomeModel();
@@ -258,4 +331,28 @@ if (isset($_POST['saveDetailPesanan'])) {
 if (isset($_POST['saveDetailPesananPerpanjangan'])) {
 
     $homeM->savePesananPerpanjangan();
+}
+
+
+if (isset($_POST['BtnPenguranganFasilitas'])) {
+
+    $arFasilitas = array();
+    $fasilitas = (explode(',', (implode(',', $_POST['fasilitas']))));
+    foreach ($fasilitas as $d) {
+        $data = explode('|', $d)[0];
+        array_push($arFasilitas, $data);
+    }
+    $arFasilitasMatang = implode(',', $arFasilitas);
+
+    $idTransaksi = $_POST['idTransaksi'];
+    $totalBayarUtuh = $_POST['totalPembayaranUtuh'];
+    $pilihanFasilitasBaru = $arFasilitasMatang;
+    $totalPengembalianValue = $_POST['totalPengembalianValue'];
+    $totalPembayaranBaru = $totalBayarUtuh - $totalPengembalianValue;
+
+
+    $homeM->savePenguranganFasilitas($idTransaksi, $pilihanFasilitasBaru, $totalPembayaranBaru);
+    // $totalBayarUtuh = implode(',', ));
+    echo "<pre>";
+    var_dump($_POST);
 }

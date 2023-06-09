@@ -27,7 +27,9 @@ class pembaharuanModel
        t.awalSewa,
        t.akhirSewa,
        t.pilihanDetailFasilitas,
-       t.status
+       t.status,
+       t.type,
+       REPLACE(JSON_EXTRACT(detailLainnya,'$.totalPengembalianValue'),'\"','') pengembalian
        
        
    FROM

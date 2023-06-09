@@ -6,6 +6,7 @@
 </div>
 
 
+<script src="script.js?time=<?= time() ?>"></script>
 </body>
 
 </html>

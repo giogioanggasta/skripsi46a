@@ -67,7 +67,19 @@ if (!isset($_SESSION['session_login'])) {
 
 
           <div class="card-body">
-            <h4 class="text-center card-title text-dark">Detail Sewa</h4>
+            <?php
+            if (isset($d->type)) {
+            ?>
+              <h4 class="text-center card-title text-dark">
+                Detail Transaksi Jenis <b><?= $d->type ?></b>
+              </h4>
+            <?php
+            } else {
+            ?>
+              <h4 class="text-center card-title text-dark">Detail Sewa</h4>
+            <?php
+            }
+            ?>
             <h6 class="text-center"><?= $d->namaTipeKamar; ?></h6>
             <p class="card-text">
             <p style="margin-bottom: 8px;color: #0a2724;">ID transaksi: <?= $d->idTransaksi . "<br>"; ?> </p>
@@ -153,8 +165,8 @@ if (!isset($_SESSION['session_login'])) {
               </div>
 
               <!-- <a href="detail_kamar.php?<?= base64_encode('tipeKamar') ?>=<?= base64_encode($d->idTipeKamar) ?>" class="btn btn-secondary mt-2 btn-block">Perpanjang Sewa Kamar</a> -->
-              <a href="PembaharuanTransaksiPerpanjangan.php?<?= base64_encode('type') ?>=<?= base64_encode('perpanjangan') ?>&<?= base64_encode('idTransaksi') ?>=<?= base64_encode($d->idTransaksi) ?>&<?= base64_encode('tipeKamar') ?>=<?= base64_encode($d->idTipeKamar) ?>" class="btn btn-primary mt-2 btn-block">Ajukan <b>Perpanjangan</b> Transaksi</a>
-              <a href="PembaharuanTransaksiPengembalian.php?<?= base64_encode('type') ?>=<?= base64_encode('pengembalian') ?>&<?= base64_encode('idTransaksi') ?>=<?= base64_encode($d->idTransaksi) ?>&<?= base64_encode('tipeKamar') ?>=<?= base64_encode($d->idTipeKamar) ?>" class="btn btn-warning mt-2 btn-block">Ajukan <b>Pengembalian</b> Transaksi</a>
+              <a href="PembaharuanTransaksiPerpanjangan.php?<?= base64_encode('type') ?>=<?= base64_encode('perpanjangan') ?>&<?= base64_encode('idTransaksi') ?>=<?= base64_encode($d->idTransaksi) ?>&<?= base64_encode('tipeKamar') ?>=<?= base64_encode($d->idTipeKamar) ?>" class="btn btn-primary mt-2 btn-block">Ajukan <b>Perpanjangan</b> Sewa</a>
+              <a href="PembaharuanFasilitas.php?<?= base64_encode('idTransaksi') ?>=<?= base64_encode($d->idTransaksi) ?>" class="btn btn-warning mt-2 btn-block">Ajukan <b>Perubahan</b> Fasilitas</a>
 
 
             <?php
@@ -169,11 +181,22 @@ if (!isset($_SESSION['session_login'])) {
             <?php
             } else if ($d->status == 'Proses') {
             ?>
-              <p>Bukti Pembayaran :&nbsp;<a style="font-size:15px" href="../images/bukti-bayar/<?= $d->buktiPembayaran ?>" class="text-danger" target="_blank">Lihat</a></p>
 
-              <div class="card-bottom bg-primary p-2 text-white">
-                <h4>Transaksi sedang di <?= $d->status ?> oleh Admin Mohon sabar menunggu</h4>
-              </div>
+              <?php
+              if (isset($d->type)) {
+                if ($d->type == 'Pengurangan Fasilitas') {
+                } else {
+              ?>
+                  <p>Bukti Pembayaran :&nbsp;<a style="font-size:15px" href="../images/bukti-bayar/<?= $d->buktiPembayaran ?>" class="text-danger" target="_blank">Lihat</a></p>
+
+                  <div class="card-bottom bg-primary p-2 text-white">
+                    <h4>Transaksi sedang di <?= $d->status ?> oleh Admin Mohon sabar menunggu</h4>
+                  </div>
+              <?php
+                }
+              }
+              ?>
+
             <?php
             }
             ?>

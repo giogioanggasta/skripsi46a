@@ -101,8 +101,9 @@ if (count($_POST) == 0) {
               <th>ID Transaksi</th>
               <th>Nama User</th>
               <th>Status Transaksi</th>
+              <th>Type Transaksi</th>
               <th>Detail Kamar</th>
-              <th>Total Pembayaran</th>
+              <th>Total </th>
               <th>Bukti Pembayaran</th>
               <th>Opsi</th>
             </tr>
@@ -128,40 +129,51 @@ if (count($_POST) == 0) {
                 <td><?= $x->idTransaksi ?></td>
                 <td><?= $x->namaUser ?></td>
                 <td><?= $x->status ?></td>
+                <td><?= $x->type ?></td>
                 <td>
                   Tipe Kamar : <?= $x->namaTipeKamar ?> - Nomor Kamar <?= $x->nomorKamar ?><br>
                   Fasilitas Kamar : <?= $x->pilihanDetailFasilitas ?><br>
                   Tgl Pemesanan : <?= formatTgl($x->tanggalWaktuTransaksi) ?> <?= formatWaktu($x->tanggalWaktuTransaksi) ?><br>
                   Lama Sewa : <?= $x->lamaSewa ?> (<?= formatTgl($x->awalSewa) ?> sampai <?= formatTgl($x->akhirSewa) ?>)<br>
                 </td>
-                <td><?= formatRupiah($x->totalPembayaran) ?></td>
                 <td>
                   <?php
-                  if ($x->status != 'Menunggu Pembayaran') {
-                  ?>
-
-                    <a style="font-size:15px" href="../images/bukti-bayar/<?= $x->buktiPembayaran ?>" class="text-danger" target="_blank">Lihat</a>
-                  <?php
+                  if ($x->type == 'Pengurangan Fasilitas') {
+                    echo "Pengembalian : " . formatRupiah($x->pengembalian);
                   } else {
-                    echo '-';
+                  ?>
+                    Perlu Dibayar : <?= formatRupiah($x->totalPembayaran) ?></td>
+
+              <?php
                   }
-                  ?>
+              ?>
+              <td>
+                <?php
+                if ($x->status != 'Menunggu Pembayaran') {
+                ?>
 
-                </td>
-                <td>
-                  <?php
-                  if ($x->status == 'Proses') {
-                  ?>
-                    <a href="#" onclick="terimaTransaksi('<?= $x->idTransaksi ?>')" data-bs-toggle="modal" data-bs-target="#modalTambah<?= $x->idFasilitas ?>" class="btn btn-primary">Terima</a>
-                    <a onclick="tolakTransaksi('<?= $x->idTransaksi ?>')" href="#" class="btn btn-danger">Tolak</a>
+                  <a style="font-size:15px" href="../images/bukti-bayar/<?= $x->buktiPembayaran ?>" class="text-danger" target="_blank">Lihat</a>
+                <?php
+                } else {
+                  echo '-';
+                }
+                ?>
 
-                  <?php
-                  } else {
-                    echo '-';
-                  }
-                  ?>
+              </td>
+              <td>
+                <?php
+                if ($x->status == 'Proses') {
+                ?>
+                  <a href="#" onclick="terimaTransaksi('<?= $x->idTransaksi ?>')" data-bs-toggle="modal" data-bs-target="#modalTambah<?= $x->idFasilitas ?>" class="btn btn-primary">Terima</a>
+                  <a onclick="tolakTransaksi('<?= $x->idTransaksi ?>')" href="#" class="btn btn-danger">Tolak</a>
 
-                </td>
+                <?php
+                } else {
+                  echo '-';
+                }
+                ?>
+
+              </td>
               </tr>
 
 
