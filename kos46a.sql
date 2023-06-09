@@ -11,7 +11,7 @@
  Target Server Version : 101100
  File Encoding         : 65001
 
- Date: 08/06/2023 22:15:36
+ Date: 09/06/2023 21:17:41
 */
 
 SET NAMES utf8mb4;
@@ -348,13 +348,15 @@ CREATE TABLE `transaksi_pembaharuan`  (
   `reason` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `idTransaksiRefrensi` int(11) NULL DEFAULT NULL,
   `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `detailLainnya` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`idTransaksi`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of transaksi_pembaharuan
 -- ----------------------------
-INSERT INTO `transaksi_pembaharuan` VALUES (28, 41, '2', 69, '100', 'Medium', '2023-06-08 20:39:59', 3, '1686232896_satriags-api.png', 'AC', 'Diterima Perpanjangan', '2023-06-08 21:16:42', '4500000', '50000', 'KEMERDEKAAN', '4450000', '2023-09-08', '2023-12-08', NULL, 25, 'Perpanjangan');
-INSERT INTO `transaksi_pembaharuan` VALUES (29, 41, '2', 69, '155', 'Medium', '2023-06-08 21:09:59', 1, '1686233423_Screen Shot 2023-04-14 at 01.11.35.png', 'AC,Televisi', 'Ditolak Perpanjangan', '2023-06-08 21:35:40', '1560000', '50000', 'KOSANYAR', '1510000', '2023-07-21', '2023-08-21', 'tolak perpanjangan', 24, 'Perpanjangan');
+INSERT INTO `transaksi_pembaharuan` VALUES (28, 41, '2', 69, '100', 'Medium', '2023-06-08 20:39:59', 3, '1686232896_satriags-api.png', 'AC', 'Proses', '2023-06-09 21:02:10', '4500000', '50000', 'KEMERDEKAAN', '4450000', '2023-09-08', '2023-12-08', NULL, 25, 'Perpanjangan', NULL);
+INSERT INTO `transaksi_pembaharuan` VALUES (29, 41, '2', 69, '155', 'Medium', '2023-06-08 21:09:59', 1, '1686233423_Screen Shot 2023-04-14 at 01.11.35.png', 'AC,Televisi', 'Proses', '2023-06-09 21:02:10', '1560000', '50000', 'KOSANYAR', '1510000', '2023-07-21', '2023-08-21', 'tolak perpanjangan', 24, 'Perpanjangan', NULL);
+INSERT INTO `transaksi_pembaharuan` VALUES (30, 41, '2', 69, '100', 'Medium', '2023-06-09 20:53:25', 3, NULL, 'Televisi Samsung,AC', 'Diterima Perpanjangan', '2023-06-09 21:09:18', '5850000', '0', '', '5850000', '2023-06-07', '2023-06-07', NULL, 25, 'Pengurangan Fasilitas', '{\"idTransaksi\":\"25\",\"totalPembayaranUtuh\":\"7570000\",\"fasilitas\":[\"Televisi Samsung|360000\",\"AC|200000\"],\"totalPengembalianValue\":\"1720000\",\"BtnPenguranganFasilitas\":\"\"}');
 
 SET FOREIGN_KEY_CHECKS = 1;

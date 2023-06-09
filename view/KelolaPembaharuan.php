@@ -150,10 +150,16 @@ if (count($_POST) == 0) {
               <td>
                 <?php
                 if ($x->status != 'Menunggu Pembayaran') {
+                  if ($x->type == 'Pengurangan Fasilitas') {
                 ?>
 
-                  <a style="font-size:15px" href="../images/bukti-bayar/<?= $x->buktiPembayaran ?>" class="text-danger" target="_blank">Lihat</a>
+                    -
+                  <?php
+                  } else {
+                  ?>
+                    <a style="font-size:15px" href="../images/bukti-bayar/<?= $x->buktiPembayaran ?>" class="text-danger" target="_blank">Lihat</a>
                 <?php
+                  }
                 } else {
                   echo '-';
                 }

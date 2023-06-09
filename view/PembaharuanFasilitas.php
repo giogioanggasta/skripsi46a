@@ -27,8 +27,13 @@ $interval = $date1->diff($date2);
 $selisih_bulan = ($interval->y * 12) + $interval->m;
 
 if ($detailTransaksi->lamaSewa == 1) {
-  header('Location: Pesanan.php');
   flash('pesanan_alert', 'Maaf, transaksi anda tidak dapat melakukan pengembalian', 'red');
+
+?>
+  <script>
+    window.location.href = "Pesanan.php";
+  </script>
+<?php
   exit;
 }
 

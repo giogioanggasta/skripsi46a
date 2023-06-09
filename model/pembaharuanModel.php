@@ -82,7 +82,8 @@ Terimakasih.");
     }
     public function approveTrans($idTransaksi)
     {
-
+// PENGECAKAN TYPE AGAR PENGURANGAN DPT DI SETUJUI DAN DITOLAK BLM
+        
         $update = "UPDATE transaksi_pembaharuan SET status='Diterima Perpanjangan',idAdmin='{$_SESSION['admin_session_login']->idAdmin}' WHERE idTransaksi = '{$idTransaksi}'";
         $this->db->query($update);
 
