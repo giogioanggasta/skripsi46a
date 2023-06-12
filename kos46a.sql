@@ -11,7 +11,7 @@
  Target Server Version : 101100
  File Encoding         : 65001
 
- Date: 09/06/2023 21:17:41
+ Date: 12/06/2023 23:36:36
 */
 
 SET NAMES utf8mb4;
@@ -57,7 +57,7 @@ CREATE TABLE `diskon`  (
 -- ----------------------------
 -- Records of diskon
 -- ----------------------------
-INSERT INTO `diskon` VALUES (14, '1685630257_msg-463887772-4920 (1).jpg', 'KEMERDEKAAN', 'Dapatkan potongan Rp. 50.000', '50000', 9, '2023-06-01', '2023-06-30', '2023-06-01 21:37:37', '2');
+INSERT INTO `diskon` VALUES (14, '1685630257_msg-463887772-4920 (1).jpg', 'KEMERDEKAAN', 'Dapatkan potongan Rp. 50.000', '50000', 8, '2023-06-01', '2023-06-30', '2023-06-01 21:37:37', '2');
 INSERT INTO `diskon` VALUES (15, '1685630257_msg-463887772-4920 (1).jpg', 'MERDEKA', 'Dapatkan potongan Rp. 50.000', '100000', 10, '2023-06-01', '2023-06-30', '2023-06-01 21:37:37', '2');
 INSERT INTO `diskon` VALUES (16, '1685630257_msg-463887772-4920 (1).jpg', 'KOSANYAR', 'Dapatkan potongan Rp. 50.000', '50000', 10, '2023-06-06', '2023-06-30', '2023-06-01 21:37:37', '2');
 INSERT INTO `diskon` VALUES (17, '1686067527_89bd7ab5a5101874c911cef0a663780e.png', 'SEMBILANSEMBILAN', 'Dapatkan potongan 99.999', '99999', 0, '2023-06-06', '2023-07-08', '2023-06-06 23:05:27', '2');
@@ -300,7 +300,7 @@ CREATE TABLE `transaksi`  (
 INSERT INTO `transaksi` VALUES (3, 41, '2', 65, '15', 'Small', '2023-05-26 00:00:00', 3, '1685448809_20230522_083641_0000.png', 'Televisi Samsung,AC,Televisi,Parkir Mobil', 'Ditolak', '2023-06-05 20:00:47', '6420000', '0', NULL, '6420000', '2023-07-01', '2023-12-01', 'mohon maaf notanya salah');
 INSERT INTO `transaksi` VALUES (5, 41, NULL, 65, '15', 'Small', '2023-05-29 19:59:56', 1, NULL, 'Televisi Samsung,AC,Televisi,Parkir Mobil', 'Diterima', '2023-06-05 20:00:47', '12840000', '0', NULL, '12840000', '2023-06-01', '2023-06-30', NULL);
 INSERT INTO `transaksi` VALUES (6, 41, NULL, 65, '15', 'Small', '2023-05-29 19:59:56', 3, NULL, 'Televisi Samsung,AC,Televisi,Parkir Mobil', 'Ditolak', '2023-06-05 20:00:47', '12840000', '0', NULL, '12840000', '2023-07-01', '2023-12-01', 'Testing bro');
-INSERT INTO `transaksi` VALUES (7, 41, '2', 65, '15', 'Small', '2023-05-29 19:59:56', 6, NULL, 'Televisi Samsung,AC,Televisi,Parkir Mobil', 'Diterima', '2023-06-05 20:00:47', '12840000', '0', NULL, '12840000', '2024-01-01', '2024-06-01', NULL);
+INSERT INTO `transaksi` VALUES (7, 41, '2', 65, '15', 'Small', '2023-05-29 19:59:56', 6, NULL, 'Televisi Samsung,AC,Televisi,Parkir Mobil', 'Diterima dengan Pembaharuan', '2023-06-12 23:13:51', '12840000', '0', NULL, '12840000', '2024-01-01', '2024-06-01', NULL);
 INSERT INTO `transaksi` VALUES (8, 41, '2', 65, '16', 'Small', '2023-05-29 21:31:54', 3, '1685373032_WhatsApp Image 2023-04-29 at 22.16.37.jpeg', 'Televisi Samsung,AC,Televisi,Parkir Mobil', 'Diterima', '2023-06-05 20:00:47', '6420000', '0', NULL, '6420000', '2023-06-03', '2023-09-03', NULL);
 INSERT INTO `transaksi` VALUES (9, 41, '2', 64, '100', 'Delux', '2023-05-30 20:52:28', 3, '1685621288_WhatsApp Image 2023-04-29 at 22.16.37 (1).jpeg', 'Televisi Samsung,AC,Televisi,Parkir Mobil', 'Ditolak', '2023-06-06 22:38:11', '6120000', '0', NULL, '6120000', '2023-05-30', '2023-08-30', 'Kamar telah penuh');
 INSERT INTO `transaksi` VALUES (10, 41, '2', 64, '100', 'Delux', '2023-06-01 19:07:34', 3, '1685621268_WhatsApp Image 2023-04-29 at 22.16.37 (1).jpeg', 'Televisi Samsung,AC,Televisi', 'Ditolak', '2023-06-06 22:38:51', '3720000', '0', NULL, '3720000', '2023-06-01', '2023-09-01', 'kamar telah penuh');
@@ -318,7 +318,7 @@ INSERT INTO `transaksi` VALUES (21, 41, NULL, 69, '100', 'Medium', '2023-06-06 2
 INSERT INTO `transaksi` VALUES (22, 41, '2', 69, '100', 'Medium', '2023-06-06 22:19:58', 1, '1686065478_1632799789925.jpg', 'AC', 'Ditolak', '2023-06-06 22:41:37', '1500000', '50000', 'KEMERDEKAAN', '1450000', '2023-06-20', '2023-07-20', 'kamar telah penuh');
 INSERT INTO `transaksi` VALUES (23, 41, '2', 69, '100', 'Medium', '2023-06-06 22:20:38', 1, '1686065409_09032023.png', 'AC', 'Ditolak', '2023-06-06 22:42:03', '1500000', '50000', 'KEMERDEKAAN', '1450000', '2023-06-20', '2023-07-20', 'kamar telah penuh, silahkan pilih yang lain');
 INSERT INTO `transaksi` VALUES (24, 41, '2', 69, '100', 'Medium', '2023-06-06 22:20:48', 1, '1686065352_1629794995703.jpg', 'AC', 'Diterima', '2023-06-06 22:43:40', '1500000', '50000', 'KEMERDEKAAN', '1450000', '2023-06-20', '2023-07-20', NULL);
-INSERT INTO `transaksi` VALUES (25, 41, '2', 69, '100', 'Medium', '2023-06-06 22:22:03', 3, '1686065325_131e8d77-4f25-43a5-aaf0-722e924ad773.jpeg', 'Televisi Samsung,AC,Televisi,Parkir Mobil', 'Diterima dengan Pembaharuan', '2023-06-08 21:16:42', '7620000', '50000', 'KOSANYAR', '7570000', '2023-06-07', '2023-09-07', NULL);
+INSERT INTO `transaksi` VALUES (25, 41, '2', 69, '100', 'Medium', '2023-06-06 22:22:03', 3, '1686065325_131e8d77-4f25-43a5-aaf0-722e924ad773.jpeg', 'Televisi Samsung,AC,Televisi,Parkir Mobil', 'Diterima dengan Pembaharuan', '2023-06-12 23:01:56', '7620000', '50000', 'KOSANYAR', '7570000', '2023-06-07', '2023-09-07', NULL);
 INSERT INTO `transaksi` VALUES (26, 41, '2', 65, '16', 'Small', '2023-06-06 22:24:36', 1, '1686065297_89bd7ab5a5101874c911cef0a663780e.png', 'Televisi Samsung,AC,Televisi,Parkir Motor', 'Ditolak', '2023-06-06 22:45:04', '2140000', '100000', 'MERDEKA', '2040000', '2023-09-06', '2023-10-06', 'tes tolak');
 INSERT INTO `transaksi` VALUES (27, 41, '2', 65, '16', 'Small', '2023-06-06 23:14:23', 1, '1686068150_1629794995703.jpg', 'tessss,Televisi Samsung,AC,Televisi,Parkir Mobil,Parkir Motor', 'Diterima', '2023-06-08 20:05:46', '3940000', '99999', 'SEMBILANSEMBILAN', '3840001', '2023-05-08', '2023-06-08', NULL);
 
@@ -337,7 +337,7 @@ CREATE TABLE `transaksi_pembaharuan`  (
   `lamaSewa` int(11) NULL DEFAULT NULL,
   `buktiPembayaran` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `pilihanDetailFasilitas` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `status` enum('Diterima Perpanjangan','Ditolak Perpanjangan','Menunggu Pembayaran Perpanjangan','Proses','Diterima Pengembalian','Ditolak Pengembalian') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `status` enum('Diterima Perpanjangan','Ditolak Perpanjangan','Menunggu Pembayaran Perpanjangan','Proses','Diterima Pengembalian','Ditolak Pengembalian','Diterima Penambahan','Ditolak Penambahan','Menunggu Pembayaran Penambahan') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `updated_at` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `totalPembayaranNormal` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'totalHarga yang dibayar tanpa diskon',
   `potonganHarga` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'potonga diskon yang didapat',
@@ -349,14 +349,18 @@ CREATE TABLE `transaksi_pembaharuan`  (
   `idTransaksiRefrensi` int(11) NULL DEFAULT NULL,
   `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `detailLainnya` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `totalKurangPenambahanFasilitas` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`idTransaksi`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of transaksi_pembaharuan
 -- ----------------------------
-INSERT INTO `transaksi_pembaharuan` VALUES (28, 41, '2', 69, '100', 'Medium', '2023-06-08 20:39:59', 3, '1686232896_satriags-api.png', 'AC', 'Proses', '2023-06-09 21:02:10', '4500000', '50000', 'KEMERDEKAAN', '4450000', '2023-09-08', '2023-12-08', NULL, 25, 'Perpanjangan', NULL);
-INSERT INTO `transaksi_pembaharuan` VALUES (29, 41, '2', 69, '155', 'Medium', '2023-06-08 21:09:59', 1, '1686233423_Screen Shot 2023-04-14 at 01.11.35.png', 'AC,Televisi', 'Proses', '2023-06-09 21:02:10', '1560000', '50000', 'KOSANYAR', '1510000', '2023-07-21', '2023-08-21', 'tolak perpanjangan', 24, 'Perpanjangan', NULL);
-INSERT INTO `transaksi_pembaharuan` VALUES (30, 41, '2', 69, '100', 'Medium', '2023-06-09 20:53:25', 3, NULL, 'Televisi Samsung,AC', 'Diterima Perpanjangan', '2023-06-09 21:09:18', '5850000', '0', '', '5850000', '2023-06-07', '2023-06-07', NULL, 25, 'Pengurangan Fasilitas', '{\"idTransaksi\":\"25\",\"totalPembayaranUtuh\":\"7570000\",\"fasilitas\":[\"Televisi Samsung|360000\",\"AC|200000\"],\"totalPengembalianValue\":\"1720000\",\"BtnPenguranganFasilitas\":\"\"}');
+INSERT INTO `transaksi_pembaharuan` VALUES (28, 41, '2', 69, '100', 'Medium', '2023-06-08 20:39:59', 3, '1686586047_15-twibbon-hut-pdi-perjuangan-bisa-diunggah-di-media-sosial_169.jpeg', 'AC', 'Proses', '2023-06-12 23:07:27', '4500000', '50000', 'KEMERDEKAAN', '4450000', '2023-09-08', '2023-12-08', NULL, 25, 'Perpanjangan', NULL, NULL);
+INSERT INTO `transaksi_pembaharuan` VALUES (29, 41, '2', 69, '155', 'Medium', '2023-06-08 21:09:59', 1, '1686233423_Screen Shot 2023-04-14 at 01.11.35.png', 'AC,Televisi', 'Proses', '2023-06-09 21:02:10', '1560000', '50000', 'KOSANYAR', '1510000', '2023-07-21', '2023-08-21', 'tolak perpanjangan', 24, 'Perpanjangan', NULL, NULL);
+INSERT INTO `transaksi_pembaharuan` VALUES (30, 41, '', 69, '100', 'Medium', '2023-06-09 20:53:25', 3, NULL, 'Televisi Samsung,AC', 'Diterima Pengembalian', '2023-06-12 21:50:46', '5850000', '0', '', '5850000', '2023-06-07', '2023-06-07', NULL, 25, 'Pengurangan Fasilitas', '{\"idTransaksi\":\"25\",\"totalPembayaranUtuh\":\"7570000\",\"fasilitas\":[\"Televisi Samsung|360000\",\"AC|200000\"],\"totalPengembalianValue\":\"1720000\",\"BtnPenguranganFasilitas\":\"\"}', NULL);
+INSERT INTO `transaksi_pembaharuan` VALUES (31, 41, '', 69, '100', 'Medium', '2023-06-12 21:37:12', 3, NULL, 'AC,Televisi,Parkir Mobil', 'Ditolak Pengembalian', '2023-06-12 21:50:24', '7210000', '0', '', '7210000', '2023-06-07', '2023-06-07', 'tolak pengembalian', 25, 'Pengurangan Fasilitas', '{\"idTransaksi\":\"25\",\"totalPembayaranUtuh\":\"7570000\",\"fasilitas\":[\"AC|200000\",\"Televisi|120000\",\"Parkir Mobil|1600000\"],\"totalPengembalianValue\":\"360000\",\"BtnPenguranganFasilitas\":\"\"}', NULL);
+INSERT INTO `transaksi_pembaharuan` VALUES (33, 41, '2', 65, '15', 'Small', '2023-06-12 23:00:49', 6, '1686586063_e7bd0b04b52e769fe897c8407fdf6b29.jpg', 'Televisi Samsung,AC,Televisi,Parkir Mobil,Parkir Motor', 'Diterima Penambahan', '2023-06-12 23:13:51', '17640000', '0', '', '17640000', '2024-01-01', '2024-01-01', NULL, 7, 'Penambahan Fasilitas', '{\"idTransaksi\":\"7\",\"totalPembayaranUtuh\":\"12840000\",\"fasilitas\":[\"Parkir Motor|4800000\"],\"totalPenambahanValue\":\"4800000\",\"fasilitasNow\":\"Televisi Samsung,AC,Televisi,Parkir Mobil\",\"BtnPenambahanFasilitas\":\"\"}', '4800000');
+INSERT INTO `transaksi_pembaharuan` VALUES (34, 41, '2', 69, '100', 'Medium', '2023-06-12 23:13:16', 3, '1686586407_1681585063_bg2.png', 'Televisi Samsung,AC,Televisi,Parkir Mobil,Parkir Motor', 'Ditolak Penambahan', '2023-06-12 23:16:00', '9170000', '0', '', '9170000', '2023-06-07', '2023-06-07', 'tolak tambah fasilitasnya', 25, 'Penambahan Fasilitas', '{\"idTransaksi\":\"25\",\"totalPembayaranUtuh\":\"7570000\",\"fasilitas\":[\"Parkir Motor|1600000\"],\"totalPenambahanValue\":\"1600000\",\"fasilitasNow\":\"Televisi Samsung,AC,Televisi,Parkir Mobil\",\"BtnPenambahanFasilitas\":\"\"}', '1600000');
 
 SET FOREIGN_KEY_CHECKS = 1;
