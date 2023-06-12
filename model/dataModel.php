@@ -49,10 +49,44 @@ class dataModel
         t.namaDiskon,
         t.potonganHarga,
             t.buktiPembayaran,
-            t.`status`
+            t.`status`,
+						'' type
             
         FROM
             `transaksi` t
+            LEFT JOIN m_user u ON t.idUser = u.idUser
+            $where
+						UNION
+						SELECT
+        -- INFO USER
+        u.idUser,
+            u.namaUser,
+            u.email,
+            u.jenisKelamin,
+            u.nomorTelepon,
+        -- 	INFO DETAIL KAMAR
+        t.idTransaksi,
+        t.namaTipeKamar,
+            t.nomorKamar,
+            t.pilihanDetailFasilitas,
+            
+        -- 	INFO WAKTU DETAIL KAMAR
+        t.tanggalWaktuTransaksi,
+            t.lamaSewa,
+            t.awalSewa,
+            t.akhirSewa,
+            
+        -- 	INFO PEMBAYARAN
+        t.totalPembayaran,
+        t.totalPembayaranNormal,
+        t.namaDiskon,
+        t.potonganHarga,
+            t.buktiPembayaran,
+            t.`status`,
+						t.type
+            
+        FROM
+            `transaksi_pembaharuan` t
             LEFT JOIN m_user u ON t.idUser = u.idUser
             $where
         ";
@@ -88,7 +122,8 @@ class dataModel
                 <th>Total Pembayaran Normal</th>
                 <th>Total Pembayaran</th>
                 <th>Bukti Pembayaran</th>
-                <th>Status</th>
+                <th>Status Transaksi</th>
+                <th>Type Transaksi</th>
               </tr>";
         foreach ($this->showDataTransaksi() as $k => $x) {
 
@@ -115,6 +150,7 @@ class dataModel
             <td>" . formatRupiah($x->totalPembayaran) . "</td>
             <td><a target=\"_blank\" style=\"font-size: 12px;\" href=\"$urlBuktiBayar\">" . $urlBuktiBayar . "</a></td>
             <td>" . $x->status . "</td>
+            <td>" . $x->type . "</td>
           </tr>
 ";
         }

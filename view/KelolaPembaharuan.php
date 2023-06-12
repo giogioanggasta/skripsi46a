@@ -8,11 +8,11 @@ include('tmpadmin/nav-kelola.php');
 // include('../model/adminModel.php');
 ?>
 .
-<a class="w3-display-middle" style="color:black;float: center; margin-top: -13%; margin-left: 45%; text-decoration: none; font-size: 120%;">Tabel Transaksi</a>
+<a class="w3-display-middle" style="color:black;float: center; margin-top: -13%; margin-left: 45%; text-decoration: none; font-size: 120%;">Tabel Transaksi Pembaharuan</a>
 <center>
 
   <select name="status_filter" onchange="filterStatus(this.value)" class="form-control w-50">
-    <option value="" selected hidden>Filter Status</option>
+    <option value="" selected hidden>Filter Status Pembaharuan</option>
     <option <?php
             if (isset($_GET['filter_status'])) {
               if ($_GET['filter_status'] == 'Semua') {
@@ -23,36 +23,82 @@ include('tmpadmin/nav-kelola.php');
             ?> value="Semua">Semua</option>
     <option <?php
             if (isset($_GET['filter_status'])) {
+              if ($_GET['filter_status'] == 'Diterima Perpanjangan') {
+
+                echo "selected";
+              }
+            }
+            ?> value="Diterima Perpanjangan">Diterima Perpanjangan</option>
+    <option <?php
+            if (isset($_GET['filter_status'])) {
+              if ($_GET['filter_status'] == 'Ditolak Perpanjangan') {
+
+                echo "selected";
+              }
+            }
+            ?> value="Ditolak Perpanjangan">Ditolak Perpanjangan</option>
+    <option <?php
+            if (isset($_GET['filter_status'])) {
+              if ($_GET['filter_status'] == 'Menunggu Pembayaran Perpanjangan') {
+
+                echo "selected";
+              }
+            }
+            ?> value="Menunggu Pembayaran Perpanjangan">Menunggu Pembayaran Perpanjangan</option>
+    <option <?php
+            if (isset($_GET['filter_status'])) {
               if ($_GET['filter_status'] == 'Proses') {
 
                 echo "selected";
               }
             }
             ?> value="Proses">Proses</option>
+    <!-- ===== -->
     <option <?php
             if (isset($_GET['filter_status'])) {
-              if ($_GET['filter_status'] == 'Menunggu Pembayaran') {
+              if ($_GET['filter_status'] == 'Diterima Pengembalian') {
 
                 echo "selected";
               }
             }
-            ?> value="Menunggu Pembayaran">Menunggu Pembayaran</option>
+            ?> value="Diterima Pengembalian">Diterima Pengembalian</option>
+    <!-- ===== -->
     <option <?php
             if (isset($_GET['filter_status'])) {
-              if ($_GET['filter_status'] == 'Ditolak') {
+              if ($_GET['filter_status'] == 'Ditolak Pengembalian') {
 
                 echo "selected";
               }
             }
-            ?> value="Ditolak">Ditolak</option>
+            ?> value="Ditolak Pengembalian">Ditolak Pengembalian</option>
+    <!-- ===== -->
     <option <?php
             if (isset($_GET['filter_status'])) {
-              if ($_GET['filter_status'] == 'Diterima') {
+              if ($_GET['filter_status'] == 'Diterima Penambahan') {
 
                 echo "selected";
               }
             }
-            ?> value="Diterima">Diterima</option>
+            ?> value="Diterima Penambahan">Diterima Penambahan</option>
+    <!-- ===== -->
+    <option <?php
+            if (isset($_GET['filter_status'])) {
+              if ($_GET['filter_status'] == 'Ditolak Penambahan') {
+
+                echo "selected";
+              }
+            }
+            ?> value="Ditolak Penambahan">Ditolak Penambahan</option>
+    <!-- ===== -->
+    <option <?php
+            if (isset($_GET['filter_status'])) {
+              if ($_GET['filter_status'] == 'Menunggu Pembayaran Penambahan') {
+
+                echo "selected";
+              }
+            }
+            ?> value="Menunggu Pembayaran Penambahan">Menunggu Pembayaran Penambahan</option>
+    <!-- ===== -->
   </select>
   <script>
     function filterStatus(val) {
@@ -115,7 +161,7 @@ if (count($_POST) == 0) {
             $defaultVal = array('Proses');
             if (isset($_GET['filter_status'])) {
               if ($_GET['filter_status'] == 'Semua') {
-                $defaultVal = array('Proses', 'Menunggu Pembayaran', 'Ditolak', 'Diterima');
+                $defaultVal = array('Diterima Perpanjangan', 'Ditolak Perpanjangan', 'Menunggu Pembayaran Perpanjangan', 'Proses', 'Diterima Pengembalian', 'Ditolak Pengembalian', 'Diterima Penambahan', 'Ditolak Penambahan', 'Menunggu Pembayaran Penambahan');
               } else {
                 $defaultVal = array($_GET['filter_status']);
               }

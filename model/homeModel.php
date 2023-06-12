@@ -277,6 +277,16 @@ Total Perpanjangan yang Harus Dibayar : " . formatRupiah($_POST['totalHargaTrans
     }
     public function savePenguranganFasilitas($idTransaksi, $pilihanFasilitasBaru, $totalPembayaranBaru)
     {
+
+        $sql = "SELECT * FROM transaksi_pembaharuan WHERE idTransaksiRefrensi = '{$idTransaksi}' AND type = 'Pengurangan Fasilitas' AND status = 'Diterima Pengembalian'";
+        $this->db->query($sql);
+        if ($this->db->single()) {
+            flash('pesanan_alert', 'Gagal melakukan pengajuan pengembalian karena sudah pernah anda lakukan max 1x pengajuan pengembalian', 'red');
+            header('Location: ../view/Pesanan.php?tab=pembaharuan');
+            exit;
+        }
+
+
         $dtl = $this->detailTransaksi($idTransaksi);
         $insert = "INSERT INTO transaksi_pembaharuan (
         idTransaksiRefrensi,
@@ -382,7 +392,7 @@ Terdapat pengajuan pengurangan fasilitas, sebesar " . formatRupiah($_POST['total
             $result = sendWhatsApp($infoUser->nomorTelepon, "===== Notification Penambahan Fasilitas Kos46A =====
 Terimakasih telah melakukan pengajuan Penambahan fasilitas, detail yang perlu anda bayar sebesar " . formatRupiah($_POST['totalPenambahanValue']));
 
-
+            flash('pesanan_alert', 'Berhasil menyimpan transaksi, lanjutkan proses pembayaran', 'green');
             header('Location: ../view/Pesanan.php?tab=pembaharuan');
         }
     }

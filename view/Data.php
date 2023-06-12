@@ -104,7 +104,8 @@ include('tmpadmin/nav-data.php');
                 <th>Total Pembayaran Normal</th>
                 <th>Total Pembayaran</th>
                 <th>Bukti Pembayaran</th>
-                <th>Status</th>
+                <th>Status Transaksi</th>
+                <th>Type Transaksi</th>
               </tr>
             </thead>
             <tbody>
@@ -144,6 +145,7 @@ include('tmpadmin/nav-data.php');
 
                                                                             ?></a></td>
                   <td><?= $x->status ?></td>
+                  <td><?= $x->type ?></td>
                 </tr>
 
 

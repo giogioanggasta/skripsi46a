@@ -123,7 +123,16 @@ if (!isset($_SESSION['session_login'])) {
             <?php
             }
             ?>
-
+            <?php
+            if (isset($d->type)) {
+              if ($d->type == 'Penambahan Fasilitas') {
+            ?>
+                <p style="margin-bottom: 8px;color: #0a2724;">Total Tambahan Pembayaran: <?= formatRupiah($d->totalKurangPenambahanFasilitas) . "<br>"; ?></p>
+                <p style="margin-bottom: 8px;color: #0a2724;">Total Pembayaran Sebelumnya: <?= formatRupiah($d->totalPembayaran - $d->totalKurangPenambahanFasilitas) . "<br>"; ?></p>
+            <?php
+              }
+            }
+            ?>
             <p style="margin-bottom: 8px;color: #0a2724;">Total Harga: <?= formatRupiah($d->totalPembayaran) . "<br>"; ?></p>
             <p style="margin-bottom: 8px;color: #0a2724;"><b>Status Pemesanan:</b> <?= $d->status . "<br>"; ?></p>
 

@@ -117,7 +117,8 @@ class UserModel
         t.awalSewa,
         t.akhirSewa,
         t.idTransaksiRefrensi,
-        t.type
+        t.type,
+        t.totalKurangPenambahanFasilitas
         FROM 
         transaksi_pembaharuan t
         LEFT JOIN m_user u ON t.idUser = u.idUser
