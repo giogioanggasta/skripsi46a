@@ -139,10 +139,10 @@ if (count($_POST) == 0) {
                 <td>
                   <?php
                   if ($x->type == 'Pengurangan Fasilitas') {
-                    echo "Pengembalian : " . formatRupiah($x->pengembalian);
+                    echo "Pengembalian : <br>" . formatRupiah($x->pengembalian);
                   } else {
                   ?>
-                    Perlu Dibayar : <?= formatRupiah($x->totalPembayaran) ?></td>
+                    Perlu Dibayar : <br><?= formatRupiah($x->totalPembayaran) ?></td>
 
               <?php
                   }

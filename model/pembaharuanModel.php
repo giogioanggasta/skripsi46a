@@ -45,22 +45,48 @@ class pembaharuanModel
     public function rejectTrans($idTransaksi, $reason)
     {
 
-        $update = "UPDATE transaksi_pembaharuan SET status='Ditolak Perpanjangan',reason='{$reason}',idAdmin='{$_SESSION['admin_session_login']->idAdmin}' WHERE idTransaksi = '{$idTransaksi}'";
-        $this->db->query($update);
+        $cekTrans = "SELECT * FROM transaksi_pembaharuan WHERE idTransaksi = '{$idTransaksi}' ";
+        $this->db->query($cekTrans);
+        $infoTans = $this->db->single();
+        if ($infoTans->type == 'Pengurangan Fasilitas') {
+            $update = "UPDATE transaksi_pembaharuan SET status='Ditolak Pengembalian',reason='{$reason}',idAdmin='{$_SESSION['admin_session_login']->idAdmin}' WHERE idTransaksi = '{$idTransaksi}'";
+            $this->db->query($update);
 
-        if ($this->db->returnExecute()) {
+            if ($this->db->returnExecute()) {
+
+                $cekTrans = "SELECT * FROM transaksi_pembaharuan WHERE idTransaksi = '{$idTransaksi}' ";
+                $this->db->query($cekTrans);
+                $infoTans = $this->db->single();
+                $cekUser = "SELECT * FROM m_user WHERE idUser='{$infoTans->idUser}'";
+                $this->db->query($cekUser);
+                $infoUser = $this->db->single();
+                // notif wa
+                sendWhatsApp($infoUser->nomorTelepon, "===== Notification Reject Pengembalian Kos46A =====
+Mohon Maaf pengembalian uang fasilitas, Telah ditolak oleh Admin dengan alasan : *" . $reason . "*
+Terimakasih.");
 
 
+                flash('insert_alert', 'Berhasil membatalkan transaksi', 'green');
+            } else {
+                flash('insert_alert', 'Gagal membatalkan transaksi', 'red');
+            }
+        } else if ($infoTans->type == 'Pengurangan Fasilitas') {
 
 
-            $cekTrans = "SELECT * FROM transaksi_pembaharuan WHERE idTransaksi = '{$idTransaksi}' ";
-            $this->db->query($cekTrans);
-            $infoTans = $this->db->single();
-            $cekUser = "SELECT * FROM m_user WHERE idUser='{$infoTans->idUser}'";
-            $this->db->query($cekUser);
-            $infoUser = $this->db->single();
-            // notif wa
-            sendWhatsApp($infoUser->nomorTelepon, "===== Notification Reject Perpanjangan Kos46A =====
+            $update = "UPDATE transaksi_pembaharuan SET status='Ditolak Perpanjangan',reason='{$reason}',idAdmin='{$_SESSION['admin_session_login']->idAdmin}' WHERE idTransaksi = '{$idTransaksi}'";
+            $this->db->query($update);
+
+            if ($this->db->returnExecute()) {
+
+
+                $cekTrans = "SELECT * FROM transaksi_pembaharuan WHERE idTransaksi = '{$idTransaksi}' ";
+                $this->db->query($cekTrans);
+                $infoTans = $this->db->single();
+                $cekUser = "SELECT * FROM m_user WHERE idUser='{$infoTans->idUser}'";
+                $this->db->query($cekUser);
+                $infoUser = $this->db->single();
+                // notif wa
+                sendWhatsApp($infoUser->nomorTelepon, "===== Notification Reject Perpanjangan Kos46A =====
 Mohon Maaf transaksi perpanjangan anda dengan detail berikut :
 - Nama Pemesan : {$infoUser->namaUser}
 - Tanggal Pemesanan : {$infoTans->tanggalWaktuTransaksi}
@@ -73,50 +99,84 @@ Telah ditolak oleh Admin dengan alasan : *" . $reason . "*
 Terimakasih.");
 
 
-            flash('insert_alert', 'Berhasil membatalkan transaksi', 'green');
-        } else {
-            flash('insert_alert', 'Gagal membatalkan transaksi', 'red');
+                flash('insert_alert', 'Berhasil membatalkan transaksi', 'green');
+            } else {
+                flash('insert_alert', 'Gagal membatalkan transaksi', 'red');
+            }
         }
+
         header('Location: ../view/KelolaPembaharuan.php');
         exit;
     }
     public function approveTrans($idTransaksi)
     {
-// PENGECAKAN TYPE AGAR PENGURANGAN DPT DI SETUJUI DAN DITOLAK BLM
-        
-        $update = "UPDATE transaksi_pembaharuan SET status='Diterima Perpanjangan',idAdmin='{$_SESSION['admin_session_login']->idAdmin}' WHERE idTransaksi = '{$idTransaksi}'";
-        $this->db->query($update);
 
-        if ($this->db->returnExecute()) {
+        $cekTrans = "SELECT * FROM transaksi_pembaharuan WHERE idTransaksi = '{$idTransaksi}' ";
+        $this->db->query($cekTrans);
+        $infoTans = $this->db->single();
 
+        if ($infoTans->type == 'Pengurangan Fasilitas') {
+            $update = "UPDATE transaksi_pembaharuan SET status='Diterima Pengembalian',idAdmin='{$_SESSION['admin_session_login']->idAdmin}' WHERE idTransaksi = '{$idTransaksi}'";
+            $this->db->query($update);
+            if ($this->db->returnExecute()) {
+                // UPDATE REFRENSI
+                $updateRef = "UPDATE transaksi SET status='Diterima dengan Pembaharuan',idAdmin='{$_SESSION['admin_session_login']->idAdmin}' WHERE idTransaksi = '{$infoTans->idTransaksiRefrensi}'";
+                $this->db->query($updateRef);
 
-
-            $cekTrans = "SELECT * FROM transaksi_pembaharuan WHERE idTransaksi = '{$idTransaksi}' ";
-            $this->db->query($cekTrans);
-            $infoTans = $this->db->single();
-
-            // UPDATE REFRENSI
-            $updateRef = "UPDATE transaksi SET status='Diterima dengan Pembaharuan',idAdmin='{$_SESSION['admin_session_login']->idAdmin}' WHERE idTransaksi = '{$infoTans->idTransaksiRefrensi}'";
-            $this->db->query($updateRef);
-            $this->db->returnExecute();
-
-            // KURANGI DISKON
-            $cekDiskon = "SELECT * FROM diskon WHERE namaDiskon = '{$infoTans->namaDiskon}'";
-            $this->db->query($cekDiskon);
-            $infoDiskon = $this->db->single();
-            if ($infoDiskon) {
-                $updateDiskon = "UPDATE diskon SET `limit`='" . ($infoDiskon->limit - 1) . "' WHERE idDiskon = '{$infoDiskon->idDiskon}'";
-                $this->db->query($updateDiskon);
                 $this->db->returnExecute();
+
+                // AMBIL DATA DIRI USER
+                $cekUser = "SELECT * FROM m_user WHERE idUser='{$infoTans->idUser}'";
+                $this->db->query($cekUser);
+                $infoUser = $this->db->single();
+
+                sendWhatsApp($infoUser->nomorTelepon, "===== Notification Pengembalian Kos46A ======
+Transaksi Pengembalian Uang Fasilitas anda telah di terima oleh admin, Terimakasih.");
+
+                flash('insert_alert', 'Berhasil menerima transaksi', 'green');
+            } else {
+
+                flash('insert_alert', 'Gagal menerima transaksi', 'red');
             }
+        } else if ($infoTans->type == 'Perpanjangan') {
 
-            $cekUser = "SELECT * FROM m_user WHERE idUser='{$infoTans->idUser}'";
-            $this->db->query($cekUser);
-            $infoUser = $this->db->single();
+            $update = "UPDATE transaksi_pembaharuan SET status='Diterima Perpanjangan',idAdmin='{$_SESSION['admin_session_login']->idAdmin}' WHERE idTransaksi = '{$idTransaksi}'";
 
 
-            // notif wa
-            sendWhatsApp($infoUser->nomorTelepon, "===== Notification Approve Perpanjangan Kos46A =====
+            // PENGECAKAN TYPE AGAR PENGURANGAN DPT DI SETUJUI DAN DITOLAK BLM
+
+            $this->db->query($update);
+
+            if ($this->db->returnExecute()) {
+
+
+
+                $cekTrans = "SELECT * FROM transaksi_pembaharuan WHERE idTransaksi = '{$idTransaksi}' ";
+                $this->db->query($cekTrans);
+                $infoTans = $this->db->single();
+
+                // UPDATE REFRENSI
+                $updateRef = "UPDATE transaksi SET status='Diterima dengan Pembaharuan',idAdmin='{$_SESSION['admin_session_login']->idAdmin}' WHERE idTransaksi = '{$infoTans->idTransaksiRefrensi}'";
+                $this->db->query($updateRef);
+                $this->db->returnExecute();
+
+                // KURANGI DISKON
+                $cekDiskon = "SELECT * FROM diskon WHERE namaDiskon = '{$infoTans->namaDiskon}'";
+                $this->db->query($cekDiskon);
+                $infoDiskon = $this->db->single();
+                if ($infoDiskon) {
+                    $updateDiskon = "UPDATE diskon SET `limit`='" . ($infoDiskon->limit - 1) . "' WHERE idDiskon = '{$infoDiskon->idDiskon}'";
+                    $this->db->query($updateDiskon);
+                    $this->db->returnExecute();
+                }
+
+                $cekUser = "SELECT * FROM m_user WHERE idUser='{$infoTans->idUser}'";
+                $this->db->query($cekUser);
+                $infoUser = $this->db->single();
+
+
+                // notif wa
+                sendWhatsApp($infoUser->nomorTelepon, "===== Notification Approve Perpanjangan Kos46A =====
 Transaksi Perpanjangan anda dengan detail berikut :
 - Nama Pemesan : {$infoUser->namaUser}
 - Tanggal Pemesanan : {$infoTans->tanggalWaktuTransaksi}
@@ -129,9 +189,10 @@ Telah diterima oleh Admin, Terimakasih.");
 
 
 
-            flash('insert_alert', 'Berhasil menerima transaksi', 'green');
-        } else {
-            flash('insert_alert', 'Gagal menerima transaksi', 'red');
+                flash('insert_alert', 'Berhasil menerima transaksi', 'green');
+            } else {
+                flash('insert_alert', 'Gagal menerima transaksi', 'red');
+            }
         }
         header('Location: ../view/KelolaPembaharuan.php');
         exit;
