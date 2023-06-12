@@ -317,7 +317,7 @@ Total Perpanjangan yang Harus Dibayar : " . formatRupiah($_POST['totalHargaTrans
         '{$totalPembayaranBaru}',
         '{$totalPembayaranBaru}',
         '{$dtl->awalSewa}',
-        '{$dtl->awalSewa}',
+        '{$dtl->akhirSewa}',
         'Pengurangan Fasilitas',
         'Proses',
         '" . json_encode($_POST) . "')";
@@ -374,7 +374,7 @@ Terdapat pengajuan pengurangan fasilitas, sebesar " . formatRupiah($_POST['total
         '{$totalPembayaranBaru}',
         '{$totalPembayaranBaru}',
         '{$dtl->awalSewa}',
-        '{$dtl->awalSewa}',
+        '{$dtl->akhirSewa}',
         'Penambahan Fasilitas',
         'Menunggu Pembayaran Penambahan',
         '" . json_encode($_POST) . "',
