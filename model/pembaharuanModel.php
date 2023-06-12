@@ -29,6 +29,7 @@ class pembaharuanModel
        t.pilihanDetailFasilitas,
        t.status,
        t.type,
+       t.totalKurangPenambahanFasilitas,
        REPLACE(JSON_EXTRACT(detailLainnya,'$.totalPengembalianValue'),'\"','') pengembalian
        
        
@@ -70,7 +71,29 @@ Terimakasih.");
             } else {
                 flash('insert_alert', 'Gagal membatalkan transaksi', 'red');
             }
-        } else if ($infoTans->type == 'Pengurangan Fasilitas') {
+        } else if ($infoTans->type == 'Penambahan Fasilitas') {
+            $update = "UPDATE transaksi_pembaharuan SET status='Ditolak Penambahan',reason='{$reason}',idAdmin='{$_SESSION['admin_session_login']->idAdmin}' WHERE idTransaksi = '{$idTransaksi}'";
+            $this->db->query($update);
+
+            if ($this->db->returnExecute()) {
+
+                $cekTrans = "SELECT * FROM transaksi_pembaharuan WHERE idTransaksi = '{$idTransaksi}' ";
+                $this->db->query($cekTrans);
+                $infoTans = $this->db->single();
+                $cekUser = "SELECT * FROM m_user WHERE idUser='{$infoTans->idUser}'";
+                $this->db->query($cekUser);
+                $infoUser = $this->db->single();
+                // notif wa
+                sendWhatsApp($infoUser->nomorTelepon, "===== Notification Reject Penambahan Fasilitas Kos46A =====
+Mohon Maaf penambahan fasilitas, Telah ditolak oleh Admin dengan alasan : *" . $reason . "*
+Terimakasih.");
+
+
+                flash('insert_alert', 'Berhasil membatalkan transaksi', 'green');
+            } else {
+                flash('insert_alert', 'Gagal membatalkan transaksi', 'red');
+            }
+        } else if ($infoTans->type == 'Perpanjangan') {
 
 
             $update = "UPDATE transaksi_pembaharuan SET status='Ditolak Perpanjangan',reason='{$reason}',idAdmin='{$_SESSION['admin_session_login']->idAdmin}' WHERE idTransaksi = '{$idTransaksi}'";
@@ -132,6 +155,30 @@ Terimakasih.");
 
                 sendWhatsApp($infoUser->nomorTelepon, "===== Notification Pengembalian Kos46A ======
 Transaksi Pengembalian Uang Fasilitas anda telah di terima oleh admin, Terimakasih.");
+
+                flash('insert_alert', 'Berhasil menerima transaksi', 'green');
+            } else {
+
+                flash('insert_alert', 'Gagal menerima transaksi', 'red');
+            }
+        }
+        if ($infoTans->type == 'Penambahan Fasilitas') {
+            $update = "UPDATE transaksi_pembaharuan SET status='Diterima Penambahan',idAdmin='{$_SESSION['admin_session_login']->idAdmin}' WHERE idTransaksi = '{$idTransaksi}'";
+            $this->db->query($update);
+            if ($this->db->returnExecute()) {
+                // UPDATE REFRENSI
+                $updateRef = "UPDATE transaksi SET status='Diterima dengan Pembaharuan',idAdmin='{$_SESSION['admin_session_login']->idAdmin}' WHERE idTransaksi = '{$infoTans->idTransaksiRefrensi}'";
+                $this->db->query($updateRef);
+
+                $this->db->returnExecute();
+
+                // AMBIL DATA DIRI USER
+                $cekUser = "SELECT * FROM m_user WHERE idUser='{$infoTans->idUser}'";
+                $this->db->query($cekUser);
+                $infoUser = $this->db->single();
+
+                sendWhatsApp($infoUser->nomorTelepon, "===== Notification Penambahan Fasilitas Kos46A ======
+Transaksi Penambahan Fasilitas anda telah di terima oleh admin, Terimakasih.");
 
                 flash('insert_alert', 'Berhasil menerima transaksi', 'green');
             } else {
