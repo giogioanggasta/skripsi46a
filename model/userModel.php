@@ -157,9 +157,17 @@ Terimakasih {$infoUser->namaUser}, telah melakukan upload bukti pembayaran. Moho
         }
         header('Location: ../view/Pesanan.php');
     }
+    public function detailTransaksiPembaharuan($idTransaksi)
+    {
+        $sql = "SELECT * FROM transaksi_pembaharuan WHERE idTransaksi = '{$idTransaksi}'";
+
+        $this->db->query($sql);
+        return $this->db->single();
+    }
 
     public function saveBuktiBayarPerpanjangan($idTransaksi, $namaGambar)
     {
+        $trans = $this->detailTransaksiPembaharuan($idTransaksi);
         $upd = "UPDATE transaksi_pembaharuan SET buktiPembayaran='$namaGambar',status = 'Proses' WHERE idTransaksi = '{$idTransaksi}'";
         $this->db->query($upd);
 
@@ -169,13 +177,13 @@ Terimakasih {$infoUser->namaUser}, telah melakukan upload bukti pembayaran. Moho
             $infoUser = $this->db->single();
 
 
-            sendWhatsApp('087742036248', "===== Admin Notification Order Perpanjangan Kos46A =====
-Ada pesanan perpanjangan kamar detail sebagai berikut :
+            sendWhatsApp('087742036248', "===== Admin Notification Order {$trans->type} Kos46A =====
+Ada pesanan {$trans->type} kamar detail sebagai berikut :
 ID Pesanan : {$idTransaksi}
 Tanggal Upload Bukti Pembayaran : " . date('d-m-Y H:i:s'));
 
 
-            sendWhatsApp($infoUser->nomorTelepon, "===== Notification Perpanjangan Kos46A =====
+            sendWhatsApp($infoUser->nomorTelepon, "===== Notification {$trans->type} Kos46A =====
 Terimakasih {$infoUser->namaUser}, telah melakukan upload bukti pembayaran. Mohon menunggu respon admin");
 
             flash('pesanan_alert', 'Berhasil upload bukti pembayaran', 'green');
@@ -255,7 +263,7 @@ if (isset($_POST['btnSavePembayaran'])) {
 }
 
 
-if (isset($_POST['btnSavePembayaranPerpanjangan'])) {
+if (isset($_POST['btnSavePembayaranPerpanjanganOrPenambahanFasilitas'])) {
     if (!(file_exists('../images/bukti-bayar'))) {
         mkdir('../images/bukti-bayar', 0777, true);
     }

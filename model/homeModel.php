@@ -71,6 +71,33 @@ class HomeModel
         return $this->db->resultAll();
     }
 
+    public function showFasilitasPenambahan($kecuali)
+    {
+
+        $arFasilitas = array();
+        $fasilitas = explode(',', $kecuali);
+        $fasilitasNotIn = implode("','", $fasilitas);
+        // foreach ($fasilitas as $d) {
+        //     $data = explode('|', $d)[0];
+        //     array_push($arFasilitas, $data);
+        // }
+        // var_dump($fasilitasNotIn);
+        // exit;
+        // CEK EMAIL
+        $getAllFasilitas = "SELECT
+        mf.idFasilitas,mf.namaFasilitas,mf.fotoFasilitas,a.namaAdmin,
+        ( SELECT z.hargaFasilitas FROM fasilitas_pengelolaan z WHERE mf.idFasilitas = z.idFasilitas ORDER BY z.created_at DESC LIMIT 1) hargaFasilitas
+    FROM
+        fasilitas mf
+        LEFT JOIN admin a ON mf.idAdmin = a.idAdmin 
+        WHERE mf.namaFasilitas NOT IN ('{$fasilitasNotIn}')
+        ORDER BY mf.idFasilitas DESC";
+        $this->db->query($getAllFasilitas);
+
+        return $this->db->resultAll();
+    }
+
+
     public function searchFasilitas($cari)
     {
 
@@ -304,7 +331,64 @@ Terdapat pengajuan pengurangan fasilitas, sebesar " . formatRupiah($_POST['total
             header('Location: ../view/Pesanan.php?tab=pembaharuan');
         }
     }
+    public function savePenambahanFasilitas($idTransaksi, $pilihanFasilitasBaru, $totalPembayaranBaru)
+    {
+        $dtl = $this->detailTransaksi($idTransaksi);
+        $insert = "INSERT INTO transaksi_pembaharuan (
+        idTransaksiRefrensi,
+        idUser,
+        idTipeKamar,
+        nomorKamar,
+        namaTipeKamar,
+        lamaSewa,
+        pilihanDetailFasilitas,
+        namaDiskon,
+        potonganHarga,
+        totalPembayaranNormal,
+        totalPembayaran,
+        awalSewa,
+        akhirSewa,
+        type,
+        status,
+        detailLainnya,
+        totalKurangPenambahanFasilitas) VALUES (
+        '{$idTransaksi}',
+        '{$_SESSION['session_login']->idUser}',
+        '{$dtl->idTipeKamar}',
+        '{$dtl->nomorKamar}',
+        '{$dtl->namaTipeKamar}',
+        '{$dtl->lamaSewa}',
+        '{$pilihanFasilitasBaru}',
+        '',
+        0,
+        '{$totalPembayaranBaru}',
+        '{$totalPembayaranBaru}',
+        '{$dtl->awalSewa}',
+        '{$dtl->awalSewa}',
+        'Penambahan Fasilitas',
+        'Menunggu Pembayaran Penambahan',
+        '" . json_encode($_POST) . "',
+        '{$_POST['totalPenambahanValue']}')";
+        // echo $insert;
+        // exit;
+        $this->db->query($insert);
+        if ($this->db->returnExecute()) {
+            $cekUser = "SELECT * FROM m_user WHERE idUser='{$_SESSION['session_login']->idUser}'";
+            $this->db->query($cekUser);
+            $infoUser = $this->db->single();
+
+            // notif wa
+
+            $result = sendWhatsApp($infoUser->nomorTelepon, "===== Notification Penambahan Fasilitas Kos46A =====
+Terimakasih telah melakukan pengajuan Penambahan fasilitas, detail yang perlu anda bayar sebesar " . formatRupiah($_POST['totalPenambahanValue']));
+
+
+            header('Location: ../view/Pesanan.php?tab=pembaharuan');
+        }
+    }
 }
+
+
 
 $homeM = new HomeModel();
 
@@ -355,4 +439,32 @@ if (isset($_POST['BtnPenguranganFasilitas'])) {
     // $totalBayarUtuh = implode(',', ));
     echo "<pre>";
     var_dump($_POST);
+}
+if (isset($_POST['BtnPenambahanFasilitas'])) {
+
+    $arFasilitas = array();
+    $fasilitas = (explode(',', (implode(',', $_POST['fasilitas']))));
+    foreach ($fasilitas as $d) {
+        $data = explode('|', $d)[0];
+        array_push($arFasilitas, $data);
+    }
+
+
+    $arFasilitasBaru = array();
+    $fasilitasBaru = (explode(',', $_POST['fasilitasNow']));
+    foreach ($fasilitasBaru as $d) {
+        array_push($arFasilitasBaru, $d);
+    }
+    $merge = array_merge($arFasilitasBaru, $arFasilitas);
+    $arFasilitasBaruMatang = implode(',', $merge);
+
+    $idTransaksi = $_POST['idTransaksi'];
+    $totalBayarUtuh = $_POST['totalPembayaranUtuh'];
+    $pilihanFasilitasBaru = $arFasilitasBaruMatang;
+    $totalPenambahanValue = $_POST['totalPenambahanValue'];
+    $totalPembayaranBaru = $totalBayarUtuh + $totalPenambahanValue;
+
+
+
+    $homeM->savePenambahanFasilitas($idTransaksi, $pilihanFasilitasBaru, $totalPembayaranBaru);
 }

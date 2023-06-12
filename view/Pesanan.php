@@ -129,7 +129,7 @@ if (!isset($_SESSION['session_login'])) {
 
             </p>
             <?php
-            if ($d->status == 'Menunggu Pembayaran' || $d->status == 'Menunggu Pembayaran Perpanjangan') {
+            if ($d->status == 'Menunggu Pembayaran' || $d->status == 'Menunggu Pembayaran Perpanjangan' || $d->status == 'Menunggu Pembayaran Penambahan') {
             ?>
               <div class="card-bottom bg-secondary p-2 text-white">
 
@@ -146,9 +146,9 @@ if (!isset($_SESSION['session_login'])) {
                   ?>
                     <button type="submit" class="w3-button w3-blue btn btn-primary" name="btnSavePembayaran">Upload Pembayaran</button>
                   <?php
-                  } else if ($d->status == 'Menunggu Pembayaran Perpanjangan') {
+                  } else if ($d->status == 'Menunggu Pembayaran Perpanjangan' || $d->status == 'Menunggu Pembayaran Penambahan') {
                   ?>
-                    <button type="submit" class="w3-button w3-blue btn btn-primary" name="btnSavePembayaranPerpanjangan">Upload Pembayaran Perpanjangan</button>
+                    <button type="submit" class="w3-button w3-blue btn btn-primary" name="btnSavePembayaranPerpanjanganOrPenambahanFasilitas">Upload Pembayaran Perpanjangan</button>
                   <?php
                   }
                   ?>

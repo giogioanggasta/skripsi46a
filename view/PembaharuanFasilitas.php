@@ -16,18 +16,27 @@ if (!isset($_SESSION['session_login'])) {
   exit;
 }
 
+$tambahSatu = 0;
+if ($detailTransaksi->awalSewa > date('Y-m-d')) {
 
-$tanggal1 = date('Y-m-d');
+  $dateNow = $detailTransaksi->awalSewa;
+  $tambahSatu = 1;
+} else {
+  $dateNow =  date('Y-m-d');
+  $tambahSatu = 0;
+}
+
+$tanggal1 = $dateNow;
 $tanggal2 = $detailTransaksi->akhirSewa;
 
 $date1 = new DateTime($tanggal1);
 $date2 = new DateTime($tanggal2);
 
 $interval = $date1->diff($date2);
-$selisih_bulan = ($interval->y * 12) + $interval->m;
+$selisih_bulan = ($interval->y * 12) + $interval->m + ($tambahSatu);
 
 if ($detailTransaksi->lamaSewa == 1) {
-  flash('pesanan_alert', 'Maaf, transaksi anda tidak dapat melakukan pengembalian', 'red');
+  flash('pesanan_alert', 'Maaf, transaksi anda tidak dapat melakukan pengembalian maupun penambahan', 'red');
 
 ?>
   <script>
@@ -68,6 +77,7 @@ if ($detailTransaksi->lamaSewa == 1) {
         <script>
           // Hak pembayaran yang dapat diubah
           var globalTotalPengembalian = 0;
+          var globalTotalPenambahan = 0;
         </script>
 
         <?php
@@ -106,6 +116,13 @@ if ($detailTransaksi->lamaSewa == 1) {
             globalTotalPengembalian = globalTotalPengembalian + parseInt(totalKurang);
             $('#totalPengembalian').html(formatRupiah(parseInt(globalTotalPengembalian)))
             $('#totalPengembalianValue').val((parseInt(globalTotalPengembalian)))
+          }
+
+
+          function KalkulasiPenambahan(totalTambah) {
+            globalTotalPenambahan = globalTotalPenambahan + parseInt(totalTambah);
+            $('#totalPenambahan').html(formatRupiah(parseInt(globalTotalPenambahan)))
+            $('#totalPenambahanValue').val((parseInt(globalTotalPenambahan)))
           }
         </script>
       </div>
@@ -157,16 +174,59 @@ if ($detailTransaksi->lamaSewa == 1) {
         </form>
       </div>
       <div style="display: none;" class="form-group" id="penambahan">
-        <h5 class="text-dark">Silahkan Pilih Fasilitas yang ditambah</h5>
+
+        <h5 class="text-dark"> Silahkan Pilih Fasilitas yang ditambah </h5>
+        <form method="post">
+          <input type="hidden" name="idTransaksi" value="<?= $idTransaksi ?>">
+          <input type="hidden" name="totalPembayaranUtuh" value="<?= ($detailTransaksi->totalPembayaran) ?>">
+          <?php
+          $idx = 0;
+
+
+
+          foreach ($homeM->showFasilitasPenambahan($detailTransaksi->pilihanDetailFasilitas) as $x => $v) {
+            $idx++;
+          ?>
+            <input type="checkbox" id="pilihPenambahanFasilitas<?= $idx ?>" onclick="ubahPenambahan<?= $idx ?>(this.value)" value="<?= $v->namaFasilitas ?>|<?= $v->hargaFasilitas * $selisih_bulan ?>" name="fasilitas[]"><?= $v->namaFasilitas ?>
+            <br>
+            <script>
+              function ubahPenambahan<?= $idx ?>(datas) {
+                var harga = datas.split("|")[1];
+                var kondisi = document.getElementById('pilihPenambahanFasilitas<?= $idx ?>').checked;
+                console.log(kondisi)
+                if (kondisi == true) {
+                  KalkulasiPenambahan(harga);
+
+                } else {
+                  KalkulasiPenambahan(-harga);
+
+                }
+              }
+            </script>
+          <?php
+          }
+          ?>
+
+          <div>
+            <h4 class="text-dark mt-3">Kalkulasi Penambahan Fasilitas</h4>
+            <p>Jumlah Bulan yang dikembalikan : <?= $selisih_bulan ?></p>
+            <p>Total Penambahan : <span id="totalPenambahan">Rp. 0</span></p>
+            <input type="hidden" name="totalPenambahanValue" id="totalPenambahanValue">
+            <input type="hidden" name="fasilitasNow" value="<?= $detailTransaksi->pilihanDetailFasilitas ?>">
+
+
+          </div>
+
+          <button type="submit" class="btn btn-success" name="BtnPenambahanFasilitas">Ajukan Penambahan Fasilitas</button>
+        </form>
+
+
       </div>
     </div>
   </div>
-</div>
 
 
 
-
-</div>
 </div>
 
 <?php
