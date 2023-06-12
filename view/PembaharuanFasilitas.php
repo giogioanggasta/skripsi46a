@@ -20,7 +20,7 @@ $tambahSatu = 0;
 if ($detailTransaksi->awalSewa > date('Y-m-d')) {
 
   $dateNow = $detailTransaksi->awalSewa;
-  $tambahSatu = 1;
+  $tambahSatu = 0;
 } else {
   $dateNow =  date('Y-m-d');
   $tambahSatu = 0;
