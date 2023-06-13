@@ -169,7 +169,7 @@ if ($detailTransaksi->lamaSewa == 1) {
           <!-- <input type="text"> -->
 
           <div>
-            <h4 class="text-dark mt-3">KalkulasiPengurangan Hak Pengembalian</h4>
+            <h4 class="text-dark mt-3">Kalkulasi Pengurangan Hak Pengembalian</h4>
             <p>Jumlah Bulan yang dikembalikan : <?= $selisih_bulan ?></p>
             <p>Total Pengembalian : <span id="totalPengembalian">Rp. 0</span></p>
             <input type="hidden" name="totalPengembalianValue" id="totalPengembalianValue">
@@ -226,7 +226,7 @@ if ($detailTransaksi->lamaSewa == 1) {
 
           <div>
             <h4 class="text-dark mt-3">Kalkulasi Penambahan Fasilitas</h4>
-            <p>Jumlah Bulan yang dikembalikan : <?= $selisih_bulan ?></p>
+            <!-- <p>Jumlah Bulan yang dikembalikan : <?= $selisih_bulan ?></p> -->
             <p>Total Penambahan : <span id="totalPenambahan">Rp. 0</span></p>
             <input type="hidden" name="totalPenambahanValue" id="totalPenambahanValue">
             <input type="hidden" name="fasilitasNow" value="<?= $detailTransaksi->pilihanDetailFasilitas ?>">
