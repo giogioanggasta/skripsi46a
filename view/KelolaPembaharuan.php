@@ -21,14 +21,14 @@ include('tmpadmin/nav-kelola.php');
               }
             }
             ?> value="Semua">Semua</option>
-    <option <?php
-            if (isset($_GET['filter_status'])) {
-              if ($_GET['filter_status'] == 'Diterima Perpanjangan') {
+    <!-- <option <?php
+                  if (isset($_GET['filter_status'])) {
+                    if ($_GET['filter_status'] == 'Diterima Perpanjangan') {
 
-                echo "selected";
-              }
-            }
-            ?> value="Diterima Perpanjangan">Diterima Perpanjangan</option>
+                      echo "selected";
+                    }
+                  }
+                  ?> value="Diterima Perpanjangan">Diterima Perpanjangan</option>
     <option <?php
             if (isset($_GET['filter_status'])) {
               if ($_GET['filter_status'] == 'Ditolak Perpanjangan') {
@@ -52,7 +52,7 @@ include('tmpadmin/nav-kelola.php');
                 echo "selected";
               }
             }
-            ?> value="Proses">Proses</option>
+            ?> value="Proses">Proses</option> -->
     <!-- ===== -->
     <option <?php
             if (isset($_GET['filter_status'])) {
@@ -178,17 +178,17 @@ if (count($_POST) == 0) {
                 <td><?= $x->type ?></td>
                 <td>
                   Tipe Kamar : <?= $x->namaTipeKamar ?> - Nomor Kamar <?= $x->nomorKamar ?><br>
-                  Fasilitas Kamar : <?= $x->pilihanDetailFasilitas ?><br>
+                  Pembaharuan Fasilitas Kamar : <?= $x->pilihanDetailFasilitas ?><br>
                   Tgl Pemesanan : <?= formatTgl($x->tanggalWaktuTransaksi) ?> <?= formatWaktu($x->tanggalWaktuTransaksi) ?><br>
                   Lama Sewa : <?= $x->lamaSewa ?> (<?= formatTgl($x->awalSewa) ?> sampai <?= formatTgl($x->akhirSewa) ?>)<br>
                 </td>
                 <td>
                   <?php
                   if ($x->type == 'Pengurangan Fasilitas') {
-                    echo "Pengembalian : <br>" . formatRupiah(json_decode($x->detailLainnya)->totalPengembalianValue);
+                    echo "Pengembalian: <br>" . formatRupiah(json_decode($x->detailLainnya)->totalPengembalianValue);
                   } else {
                   ?>
-                    Perlu Dibayar : <br>
+                    Perlu Dibayar: <br>
                     <?php
                     if ($x->type == 'Penambahan Fasilitas') {
                     ?>

@@ -37,6 +37,13 @@ class HomeModel
         $this->db->query($sql);
         return $this->db->single();
     }
+    public function showDetailTransaksiRef($idTransaksi)
+    {
+        $sql = "SELECT * FROM transaksi_pembaharuan WHERE idTransaksiRefrensi = '{$idTransaksi}' ORDER BY idTransaksi DESC";
+
+        $this->db->query($sql);
+        return $this->db->resultAll();
+    }
 
     public function detailTransaksiRef($idTransaksi)
     {
@@ -173,6 +180,8 @@ Terimakasih telah melakukan pemesanan, jangan lupa melakukan pembayaran, detail 
 - Lama Sewa : {$_POST['awalSewa']} sampai {$create_akhirSewa} ({$_POST['lamaSewa']} bulan)
 Total Yang Harus Dibayar : " . formatRupiah($_POST['totalHargaTransaksi']));
 
+            flash('pesanan_alert', 'lanjutkan transaksi anda dengan melakukan pembayaran', 'green');
+
             header('Location: ../view/Pesanan.php');
         }
     }
@@ -202,13 +211,13 @@ Total Perpanjangan yang Harus Dibayar : " . formatRupiah($_POST['totalHargaTrans
 
 
 
-            flash('insert_alert', 'Berhasil mengajukan transaksi, melakukan ', 'green');
+            flash('pesanan_alert', 'Berhasil mengajukan transaksi, melakukan ', 'green');
 
             header('Location: ../view/Pesanan.php?tab=pembaharuan');
         } else {
 
 
-            flash('insert_alert', 'Gagal menerima transaksi', 'red');
+            flash('pesanan_alert', 'Gagal menerima transaksi', 'red');
         }
     }
 
@@ -376,6 +385,7 @@ Terimakasih telah melakukan pengajuan pengurangan fasilitas, detail pengembalian
 
             $result = sendWhatsApp('087742036248', "===== Notification Pengurangan Fasilitas Kos46A =====
 Terdapat pengajuan pengurangan fasilitas, sebesar " . formatRupiah($_POST['totalPengembalianValue'])) . " harap cek pengajuannya ";
+            flash('pesanan_alert', 'Berhasil melakukan pengajuan fasilitas', 'green');
 
             header('Location: ../view/Pesanan.php?tab=pembaharuan');
         }

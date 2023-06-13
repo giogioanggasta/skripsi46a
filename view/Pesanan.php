@@ -14,20 +14,25 @@ if (!isset($_SESSION['session_login'])) {
 }
 ?>
 
+<div class="container" style="margin-top:-2%;">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h3>DAFTAR TRANSAKSI ANDA</h3>
+      <br>
+      <?php
+      if (isset($_SESSION['pesanan_alert']) && !isset($_POST['btnSavePembayaran']) || isset($_SESSION['pesanan_alert']) && !isset($_POST['btnUpdateFasilitas'])) {
+        echo $_SESSION['pesanan_alert'];
+        echo "  <br>";
+      }
+      if (count($_POST) == 0) {
+        unset($_SESSION['pesanan_alert']);
+      }
 
-<div class="container">
+      ?>
 
-  <center><b><a class="w3-display-middle" style="color:black;float: center; margin-top: -10%; text-decoration: none;">Daftar Transaksi Anda</a></center></b>
+    </div>
+  </div>
 
-  <?php
-  if (isset($_SESSION['pesanan_alert']) && !isset($_POST['btnSavePembayaran']) || isset($_SESSION['pesanan_alert']) && !isset($_POST['btnUpdateFasilitas'])) {
-    echo $_SESSION['pesanan_alert'];
-  }
-  if (count($_POST) == 0) {
-    unset($_SESSION['pesanan_alert']);
-  }
-
-  ?>
   <div class="row">
     <div class="col-6 ">
       <a class="btn btn-secondary float-right <?= isset($_GET['tab']) ? (($_GET['tab'] == 'pesanan') ? 'active' : '') : 'active' ?>" href="?tab=<?= 'pesanan' ?>">Pesanan </a>
@@ -58,7 +63,7 @@ if (!isset($_SESSION['session_login'])) {
 
 
     ?>
-      <div class="col-4 mt-4">
+      <div class="col-6 mt-4">
 
         <div class="card mb-3" style="max-width: 540px;">
 
@@ -212,7 +217,37 @@ if (!isset($_SESSION['session_login'])) {
             }
             ?>
 
+
+            <br>
+            <?php
+            if ($homeM->showDetailTransaksiRef($d->idTransaksi)) {
+            ?>
+              <b>Riwayat Pembaharuan</b>
+
+            <?php
+            }
+            ?>
+            <ul>
+              <?php
+              foreach ($homeM->showDetailTransaksiRef($d->idTransaksi) as $k => $v) {
+
+              ?>
+                <li><?= ($v->type == 'Pengurangan Fasilitas') ? '<span class="text-danger font-weight-bold">' . $v->type . '</span>' : '<span class="text-success  font-weight-bold">' . $v->type . '</span>'  ?><br>
+                  Status : <?= $v->status ?><br>
+                  Tanggal Pengajuan : <?= formatTgl($v->tanggalWaktuTransaksi) . ' ' . formatWaktu($v->tanggalWaktuTransaksi) ?><br>
+                  Fasilitas : <?= ($v->pilihanDetailFasilitas) ?><br>
+                  Total <?= ($v->type == 'Pengurangan Fasilitas') ? 'Pengembalian'  : 'Penambahan' ?>: <?= ($v->type == 'Pengurangan Fasilitas') ? formatRupiah(json_decode($v->detailLainnya)->totalPengembalianValue)  : formatRupiah($v->totalKurangPenambahanFasilitas) ?><br>
+                  Total Harga Transaksi : <?= formatRupiah($v->totalPembayaran) ?>
+                </li>
+              <?php
+              }
+
+              ?>
+            </ul>
+
           </div>
+
+
         </div>
 
 
