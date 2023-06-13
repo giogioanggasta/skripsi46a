@@ -317,13 +317,13 @@ Total Perpanjangan yang Harus Dibayar : " . formatRupiah($_POST['totalHargaTrans
     public function savePenguranganFasilitas($idTransaksi, $pilihanFasilitasBaru, $totalPembayaranBaru)
     {
 
-        $sql = "SELECT * FROM transaksi_pembaharuan WHERE idTransaksiRefrensi = '{$idTransaksi}' AND type = 'Pengurangan Fasilitas' AND status = 'Diterima Pengembalian'";
-        $this->db->query($sql);
-        if ($this->db->single()) {
-            flash('pesanan_alert', 'Gagal melakukan pengajuan pengembalian karena sudah pernah anda lakukan max 1x pengajuan pengembalian', 'red');
-            header('Location: ../view/Pesanan.php?tab=pembaharuan');
-            exit;
-        }
+        // $sql = "SELECT * FROM transaksi_pembaharuan WHERE idTransaksiRefrensi = '{$idTransaksi}' AND type = 'Pengurangan Fasilitas' AND status = 'Diterima Pengembalian'";
+        // $this->db->query($sql);
+        // if ($this->db->single()) {
+        //     flash('pesanan_alert', 'Gagal melakukan pengajuan pengembalian karena sudah pernah anda lakukan max 1x pengajuan pengembalian', 'red');
+        //     header('Location: ../view/Pesanan.php?tab=pembaharuan');
+        //     exit;
+        // }
 
 
         $dtl = $this->detailTransaksi($idTransaksi);
