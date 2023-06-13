@@ -195,28 +195,32 @@ if ($detailTransaksi->lamaSewa == 1) {
           <?php
           $idx = 0;
 
+          if (!$homeM->showFasilitasPenambahan($detailTransaksi->pilihanDetailFasilitas)) {
+            echo "Tidak ada lagi Fasilitas yang dapat anda tambahkan";
+          } else {
 
 
-          foreach ($homeM->showFasilitasPenambahan($detailTransaksi->pilihanDetailFasilitas) as $x => $v) {
-            $idx++;
+            foreach ($homeM->showFasilitasPenambahan($detailTransaksi->pilihanDetailFasilitas) as $x => $v) {
+              $idx++;
           ?>
-            <input type="checkbox" id="pilihPenambahanFasilitas<?= $idx ?>" onclick="ubahPenambahan<?= $idx ?>(this.value)" value="<?= $v->namaFasilitas ?>|<?= $v->hargaFasilitas * $selisih_bulan ?>" name="fasilitas[]"><?= $v->namaFasilitas ?>
-            <br>
-            <script>
-              function ubahPenambahan<?= $idx ?>(datas) {
-                var harga = datas.split("|")[1];
-                var kondisi = document.getElementById('pilihPenambahanFasilitas<?= $idx ?>').checked;
-                console.log(kondisi)
-                if (kondisi == true) {
-                  KalkulasiPenambahan(harga);
+              <input type="checkbox" id="pilihPenambahanFasilitas<?= $idx ?>" onclick="ubahPenambahan<?= $idx ?>(this.value)" value="<?= $v->namaFasilitas ?>|<?= $v->hargaFasilitas * $selisih_bulan ?>" name="fasilitas[]"><?= $v->namaFasilitas ?>
+              <br>
+              <script>
+                function ubahPenambahan<?= $idx ?>(datas) {
+                  var harga = datas.split("|")[1];
+                  var kondisi = document.getElementById('pilihPenambahanFasilitas<?= $idx ?>').checked;
+                  console.log(kondisi)
+                  if (kondisi == true) {
+                    KalkulasiPenambahan(harga);
 
-                } else {
-                  KalkulasiPenambahan(-harga);
+                  } else {
+                    KalkulasiPenambahan(-harga);
 
+                  }
                 }
-              }
-            </script>
+              </script>
           <?php
+            }
           }
           ?>
 
@@ -229,8 +233,14 @@ if ($detailTransaksi->lamaSewa == 1) {
 
 
           </div>
+          <?php
+          if ($homeM->showFasilitasPenambahan($detailTransaksi->pilihanDetailFasilitas)) {
 
-          <button type="submit" class="btn btn-success" name="BtnPenambahanFasilitas">Ajukan Penambahan Fasilitas</button>
+          ?>
+            <button type="submit" class="btn btn-success" name="BtnPenambahanFasilitas">Ajukan Penambahan Fasilitas</button>
+          <?php
+          }
+          ?>
         </form>
 
 
