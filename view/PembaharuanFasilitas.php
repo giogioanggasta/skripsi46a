@@ -138,27 +138,29 @@ if ($detailTransaksi->lamaSewa == 1) {
           $id = 0;
           if (!$detailTransaksi->pilihanDetailFasilitas) {
             echo "Tidak ada Fasilitas yang dapat dikurangi!";
-          }
-          foreach ($fasiltasNow as $v) {
-            $id++;
+          } else {
+
+            foreach ($fasiltasNow as $v) {
+              $id++;
           ?>
-            <input type="checkbox" id="pilihPenguranganFasilitas<?= $id ?>" onclick="ubahPengembalian<?= $id ?>(this.value)" value="<?= $v ?>|<?= $homeM->searchFasilitas($v)->hargaFasilitas * $selisih_bulan ?>" checked name="fasilitas[]"><?= $v ?>
-            <br>
-            <script>
-              function ubahPengembalian<?= $id ?>(datas) {
-                var harga = datas.split("|")[1];
-                var kondisi = document.getElementById('pilihPenguranganFasilitas<?= $id ?>').checked;
-                console.log(kondisi)
-                if (kondisi == true) {
-                  KalkulasiPengurangan(-harga);
+              <input type="checkbox" id="pilihPenguranganFasilitas<?= $id ?>" onclick="ubahPengembalian<?= $id ?>(this.value)" value="<?= $v ?>|<?= $homeM->searchFasilitas($v)->hargaFasilitas * $selisih_bulan ?>" checked name="fasilitas[]"><?= $v ?>
+              <br>
+              <script>
+                function ubahPengembalian<?= $id ?>(datas) {
+                  var harga = datas.split("|")[1];
+                  var kondisi = document.getElementById('pilihPenguranganFasilitas<?= $id ?>').checked;
+                  console.log(kondisi)
+                  if (kondisi == true) {
+                    KalkulasiPengurangan(-harga);
 
-                } else {
-                  KalkulasiPengurangan(harga);
+                  } else {
+                    KalkulasiPengurangan(harga);
 
+                  }
                 }
-              }
-            </script>
+              </script>
           <?php
+            }
           }
           // var_dump($fasiltasNow);
           ?>
