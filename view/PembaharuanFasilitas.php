@@ -2,7 +2,7 @@
 include 'tmpuser/header.php';
 include 'tmpuser/nav.php';
 $idTransaksi = base64_decode($_GET['aWRUcmFuc2Frc2k']);
-$detailTransaksi = $homeM->detailTransaksi($idTransaksi);
+$detailTransaksi = $homeM->detailTransaksiRef($idTransaksi);
 
 $idTransaksi = base64_decode($_GET['aWRUcmFuc2Frc2k']);
 if (!isset($_SESSION['session_login'])) {

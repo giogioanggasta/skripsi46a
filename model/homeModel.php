@@ -38,6 +38,38 @@ class HomeModel
         return $this->db->single();
     }
 
+    public function detailTransaksiRef($idTransaksi)
+    {
+        // INI AKAN MENGAMBIL TRANS PEMBAHARUAN YANG BERSIFAT SUDAH BENAR BENAR DI TERIMA YG TERBARU
+        $sql = "SELECT * FROM transaksi_pembaharuan WHERE status NOT IN ('Ditolak Pengembalian','Ditolak Penambahan','Menunggu Pembayaran Penambahan','Proses') AND idTransaksiRefrensi = '{$idTransaksi}' ORDER BY idTransaksi DESC";
+        $this->db->query($sql);
+        $cekPembaharuan =  $this->db->single();
+        if ($cekPembaharuan) {
+            return $cekPembaharuan;
+            exit;
+        }
+
+        // INI AKAN MENGHALANGI PENGAJUAN ULANG YANG BLM SELESAI
+        $sqlProses = "SELECT * FROM transaksi_pembaharuan WHERE status IN ('Proses','Menunggu Pembayaran Penambahan') AND idTransaksiRefrensi = '{$idTransaksi}' ORDER BY idTransaksi DESC";
+        $this->db->query($sqlProses);
+        $cekPembaharuanProses =  $this->db->single();
+        if ($cekPembaharuanProses) {
+            flash('pesanan_alert', 'Gagal mengajukan pembaharuan karena ada pengajuan pembaharuan anda yang belum selesai', 'red');
+
+            echo "<script>
+            window.location.href = 'Pesanan.php';
+          </script>";
+            // header('Location: ../view/Pesanan.php');
+            exit;
+        }
+
+        // JIKA DARI KEDUA VALIDASI TERSEBUT TIDAK ADA MAKA YG DI AMBIL DETAIL TRANS ASLI
+        $sql = "SELECT * FROM transaksi WHERE idTransaksi = '{$idTransaksi}'";
+
+        $this->db->query($sql);
+        return $this->db->single();
+    }
+
     public function searchTipeKamar($idTipeKamar)
     {
         $cekDtl = "SELECT
@@ -159,7 +191,6 @@ Total Yang Harus Dibayar : " . formatRupiah($_POST['totalHargaTransaksi']));
             $infoUser = $this->db->single();
 
             // notif wa
-
             $result = sendWhatsApp($infoUser->nomorTelepon, "===== Notification Perpanjangan Kos46A =====
 Terimakasih telah melakukan perpanjangan pemesanan, jangan lupa melakukan pembayaran, detail pesanan anda sebagai berikut :
 - Nama Pemesan : {$infoUser->namaUser}
@@ -169,7 +200,15 @@ Terimakasih telah melakukan perpanjangan pemesanan, jangan lupa melakukan pembay
 - Lama Sewa : {$_POST['awalSewa']} sampai {$create_akhirSewa} ({$_POST['lamaSewa']} bulan)
 Total Perpanjangan yang Harus Dibayar : " . formatRupiah($_POST['totalHargaTransaksi']));
 
+
+
+            flash('insert_alert', 'Berhasil mengajukan transaksi, melakukan ', 'green');
+
             header('Location: ../view/Pesanan.php?tab=pembaharuan');
+        } else {
+
+
+            flash('insert_alert', 'Gagal menerima transaksi', 'red');
         }
     }
 
