@@ -136,7 +136,7 @@ if ($detailTransaksi->lamaSewa == 1) {
 
           $fasiltasNow = explode(',', $detailTransaksi->pilihanDetailFasilitas);
           $id = 0;
-          if (!$fasiltasNow) {
+          if (!$detailTransaksi->pilihanDetailFasilitas) {
             echo "Tidak ada Fasilitas yang dapat dikurangi!";
           }
           foreach ($fasiltasNow as $v) {
@@ -172,7 +172,7 @@ if ($detailTransaksi->lamaSewa == 1) {
 
           </div>
           <?php
-          if ($fasiltasNow) {
+          if ($detailTransaksi->pilihanDetailFasilitas) {
           ?>
             <button type="submit" class="btn btn-danger" name="BtnPenguranganFasilitas">Ajukan Pengurangan Fasilitas</button>
           <?php
