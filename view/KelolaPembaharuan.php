@@ -185,7 +185,7 @@ if (count($_POST) == 0) {
                 <td>
                   <?php
                   if ($x->type == 'Pengurangan Fasilitas') {
-                    echo "Pengembalian : <br>" . formatRupiah($x->pengembalian);
+                    echo "Pengembalian : <br>" . formatRupiah(json_decode($x->detailLainnya)->totalPengembalianValue);
                   } else {
                   ?>
                     Perlu Dibayar : <br>

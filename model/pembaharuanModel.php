@@ -30,7 +30,7 @@ class pembaharuanModel
        t.status,
        t.type,
        t.totalKurangPenambahanFasilitas,
-       REPLACE(JSON_EXTRACT(detailLainnya,'$.totalPengembalianValue'),'\"','') pengembalian
+       detailLainnya
        
        
    FROM
