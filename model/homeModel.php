@@ -60,7 +60,7 @@ class HomeModel
         $sqlProses = "SELECT * FROM transaksi_pembaharuan WHERE status IN ('Proses','Menunggu Pembayaran Penambahan') AND idTransaksiRefrensi = '{$idTransaksi}' ORDER BY idTransaksi DESC";
         $this->db->query($sqlProses);
         $cekPembaharuanProses =  $this->db->single();
-        if ($cekPembaharuanProses) {
+        if ($cekPembaharuanProses && !isset($_POST['BtnPenambahanFasilitas']) || $cekPembaharuanProses && !isset($_POST['BtnPenguranganFasilitas'])) {
             flash('pesanan_alert', 'Gagal mengajukan pembaharuan karena ada pengajuan pembaharuan anda yang belum selesai', 'red');
 
             echo "<script>
