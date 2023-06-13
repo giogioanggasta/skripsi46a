@@ -221,55 +221,106 @@ if (!isset($_SESSION['session_login'])) {
             <br>
 
             <?php
-            // if (isset($_GET['tab'])) {
-            //   if ($_GET['tab'] != 'pembaharuan') {
-            //   }
-            // }
-            if ($homeM->showDetailTransaksiRef($d->idTransaksi) && isset($_GET['tab']) || $homeM->showDetailTransaksiRef($d->idTransaksi) &&  $_GET['tab'] != 'pembaharuan') {
-
-
+            if (isset($_GET['tab'])) {
+              if ($_GET['tab'] != 'pembaharuan') {
             ?>
-              <div class="accordion" id="accordionExample<?= $d->idTransaksi ?>">
-                <div class="card">
-                  <div class="card-header" id="headingOne<?= $d->idTransaksi ?>">
+                <?php
+                if ($homeM->showDetailTransaksiRef($d->idTransaksi)) {
+                ?>
+                  <div class="accordion" id="accordionExample<?= $d->idTransaksi ?>">
+                    <div class="card">
+                      <div class="card-header" id="headingOne<?= $d->idTransaksi ?>">
 
-                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne<?= $d->idTransaksi ?>" aria-expanded="true" aria-controls="collapseOne<?= $d->idTransaksi ?>">
-                      <b>Riwayat Pembaharuan</b>
-                    </button>
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne<?= $d->idTransaksi ?>" aria-expanded="true" aria-controls="collapseOne<?= $d->idTransaksi ?>">
+                          <b>Riwayat Pembaharuan</b>
+                        </button>
+
+                      </div>
+
+                      <div id="collapseOne<?= $d->idTransaksi ?>" class="collapse" aria-labelledby="headingOne<?= $d->idTransaksi ?>" data-parent="#accordionExample<?= $d->idTransaksi ?>">
+                        <div class="card-body">
+                          <ul>
+                            <?php
+                            foreach ($homeM->showDetailTransaksiRef($d->idTransaksi) as $k => $v) {
+
+                            ?>
+                              <li><?= ($v->type == 'Pengurangan Fasilitas') ? '<span class="text-danger font-weight-bold">' . $v->type . '</span>' : '<span class="text-success  font-weight-bold">' . $v->type . '</span>'  ?><br>
+                                Status : <?= $v->status ?><br>
+                                Tanggal Pengajuan : <?= formatTgl($v->tanggalWaktuTransaksi) . ' ' . formatWaktu($v->tanggalWaktuTransaksi) ?><br>
+                                Fasilitas : <?= ($v->pilihanDetailFasilitas) ?><br>
+                                Total <?= ($v->type == 'Pengurangan Fasilitas') ? 'Pengembalian'  : 'Penambahan' ?>: <?= ($v->type == 'Pengurangan Fasilitas') ? formatRupiah(json_decode($v->detailLainnya)->totalPengembalianValue)  : formatRupiah($v->totalKurangPenambahanFasilitas) ?><br>
+                                Total Harga Transaksi : <?= formatRupiah($v->totalPembayaran) ?>
+                              </li>
+                            <?php
+                            }
+
+                            ?>
+                          </ul>
+                        </div>
+                      </div>
+
+
+                    </div>
+
 
                   </div>
 
-                  <div id="collapseOne<?= $d->idTransaksi ?>" class="collapse" aria-labelledby="headingOne<?= $d->idTransaksi ?>" data-parent="#accordionExample<?= $d->idTransaksi ?>">
-                    <div class="card-body">
-                      <ul>
-                        <?php
-                        foreach ($homeM->showDetailTransaksiRef($d->idTransaksi) as $k => $v) {
+                <?php
+                }
+                ?>
+              <?php
+              }
+            } else {
+              ?>
+              <?php
+              if ($homeM->showDetailTransaksiRef($d->idTransaksi)) {
+              ?>
+                <div class="accordion" id="accordionExample<?= $d->idTransaksi ?>">
+                  <div class="card">
+                    <div class="card-header" id="headingOne<?= $d->idTransaksi ?>">
 
-                        ?>
-                          <li><?= ($v->type == 'Pengurangan Fasilitas') ? '<span class="text-danger font-weight-bold">' . $v->type . '</span>' : '<span class="text-success  font-weight-bold">' . $v->type . '</span>'  ?><br>
-                            Status : <?= $v->status ?><br>
-                            Tanggal Pengajuan : <?= formatTgl($v->tanggalWaktuTransaksi) . ' ' . formatWaktu($v->tanggalWaktuTransaksi) ?><br>
-                            Fasilitas : <?= ($v->pilihanDetailFasilitas) ?><br>
-                            Total <?= ($v->type == 'Pengurangan Fasilitas') ? 'Pengembalian'  : 'Penambahan' ?>: <?= ($v->type == 'Pengurangan Fasilitas') ? formatRupiah(json_decode($v->detailLainnya)->totalPengembalianValue)  : formatRupiah($v->totalKurangPenambahanFasilitas) ?><br>
-                            Total Harga Transaksi : <?= formatRupiah($v->totalPembayaran) ?>
-                          </li>
-                        <?php
-                        }
+                      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne<?= $d->idTransaksi ?>" aria-expanded="true" aria-controls="collapseOne<?= $d->idTransaksi ?>">
+                        <b>Riwayat Pembaharuan</b>
+                      </button>
 
-                        ?>
-                      </ul>
                     </div>
+
+                    <div id="collapseOne<?= $d->idTransaksi ?>" class="collapse" aria-labelledby="headingOne<?= $d->idTransaksi ?>" data-parent="#accordionExample<?= $d->idTransaksi ?>">
+                      <div class="card-body">
+                        <ul>
+                          <?php
+                          foreach ($homeM->showDetailTransaksiRef($d->idTransaksi) as $k => $v) {
+
+                          ?>
+                            <li><?= ($v->type == 'Pengurangan Fasilitas') ? '<span class="text-danger font-weight-bold">' . $v->type . '</span>' : '<span class="text-success  font-weight-bold">' . $v->type . '</span>'  ?><br>
+                              Status : <?= $v->status ?><br>
+                              Tanggal Pengajuan : <?= formatTgl($v->tanggalWaktuTransaksi) . ' ' . formatWaktu($v->tanggalWaktuTransaksi) ?><br>
+                              Fasilitas : <?= ($v->pilihanDetailFasilitas) ?><br>
+                              Total <?= ($v->type == 'Pengurangan Fasilitas') ? 'Pengembalian'  : 'Penambahan' ?>: <?= ($v->type == 'Pengurangan Fasilitas') ? formatRupiah(json_decode($v->detailLainnya)->totalPengembalianValue)  : formatRupiah($v->totalKurangPenambahanFasilitas) ?><br>
+                              Total Harga Transaksi : <?= formatRupiah($v->totalPembayaran) ?>
+                            </li>
+                          <?php
+                          }
+
+                          ?>
+                        </ul>
+                      </div>
+                    </div>
+
+
                   </div>
 
 
                 </div>
 
-
-              </div>
-
+              <?php
+              }
+              ?>
             <?php
             }
             ?>
+
+
 
 
           </div>
