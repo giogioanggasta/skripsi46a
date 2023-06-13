@@ -221,7 +221,13 @@ if (!isset($_SESSION['session_login'])) {
             <br>
 
             <?php
-            if ($homeM->showDetailTransaksiRef($d->idTransaksi)) {
+            // if (isset($_GET['tab'])) {
+            //   if ($_GET['tab'] != 'pembaharuan') {
+            //   }
+            // }
+            if ($homeM->showDetailTransaksiRef($d->idTransaksi) && isset($_GET['tab']) || $homeM->showDetailTransaksiRef($d->idTransaksi) &&  $_GET['tab'] != 'pembaharuan') {
+
+
             ?>
               <div class="accordion" id="accordionExample<?= $d->idTransaksi ?>">
                 <div class="card">
