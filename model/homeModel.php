@@ -514,7 +514,8 @@ if (isset($_POST['BtnPenambahanFasilitas'])) {
     foreach ($fasilitasBaru as $d) {
         array_push($arFasilitasBaru, $d);
     }
-    $merge = array_merge($arFasilitasBaru, $arFasilitas);
+    
+    $merge = array_merge(array_filter($arFasilitasBaru), array_filter($arFasilitas));
     $arFasilitasBaruMatang = implode(',', $merge);
 
     $idTransaksi = $_POST['idTransaksi'];
