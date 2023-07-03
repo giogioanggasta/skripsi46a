@@ -147,7 +147,7 @@ if (count($_POST) == 0) {
               <th>ID Transaksi</th>
               <th>Nama User</th>
               <th>Status Transaksi</th>
-              <th>Type Transaksi</th>
+              <th>Tipe Transaksi</th>
               <th>Detail Kamar</th>
               <th>Total </th>
               <th>Bukti Pembayaran</th>

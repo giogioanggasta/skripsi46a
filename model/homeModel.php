@@ -180,7 +180,7 @@ Terimakasih telah melakukan pemesanan, jangan lupa melakukan pembayaran, detail 
 - Lama Sewa : {$_POST['awalSewa']} sampai {$create_akhirSewa} ({$_POST['lamaSewa']} bulan)
 Total Yang Harus Dibayar : " . formatRupiah($_POST['totalHargaTransaksi']));
 
-            flash('pesanan_alert', 'lanjutkan transaksi anda dengan melakukan pembayaran', 'green');
+            flash('pesanan_alert', 'Mohon lanjutkan transaksi anda dengan melakukan pembayaran', 'green');
 
             header('Location: ../view/Pesanan.php');
         }
