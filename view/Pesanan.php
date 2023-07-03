@@ -210,6 +210,14 @@ if (!isset($_SESSION['session_login'])) {
                   </div>
               <?php
                 }
+              } else {
+                ?>
+                  <p>Bukti Pembayaran :&nbsp;<a style="font-size:15px" href="../images/bukti-bayar/<?= $d->buktiPembayaran ?>" class="text-danger" target="_blank">Lihat</a></p>
+
+                  <div class="card-bottom bg-primary p-2 text-white">
+                    <h4>Transaksi sedang di <?= $d->status ?> oleh Admin Mohon sabar menunggu</h4>
+                  </div>
+              <?php
               }
               ?>
 

@@ -114,10 +114,7 @@ if (count($_POST) == 0) {
 
             <?php
 
-            // echo "<br><pre>";
-            // $data = array('nama' => 'gio', 'umur' => '25');
-            // var_dump($data);
-            // var_dump($kelolaM->showKamar());/
+      
             foreach ($kelolaM->showKamar() as $s => $x) {
             ?>
 

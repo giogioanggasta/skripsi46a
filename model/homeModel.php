@@ -223,7 +223,8 @@ Total Perpanjangan yang Harus Dibayar : " . formatRupiah($_POST['totalHargaTrans
 
     public function cekKetersediaanKamar($awalSewa, $lamaSewa, $tipeKamar)
     {
-        $cekKamar = "SELECT
+        $cekKamar = "
+        SELECT
         k.nomorKamar,
         k.status,
         IF((SELECT
@@ -241,7 +242,7 @@ Total Perpanjangan yang Harus Dibayar : " . formatRupiah($_POST['totalHargaTrans
     (t.awalSewa BETWEEN '{$awalSewa}' AND DATE_FORMAT(DATE_ADD('{$awalSewa}', INTERVAL {$lamaSewa} MONTH), '%Y-%m-%d') OR
     t.akhirSewa BETWEEN '{$awalSewa}' AND DATE_FORMAT(DATE_ADD('{$awalSewa}', INTERVAL {$lamaSewa} MONTH), '%Y-%m-%d'))
         AND t.nomorKamar = k.nomorKamar AND t.status  IN ('Diterima','Diterima dengan Pembaharuan')))
-        ketersediaan,
+        AS ketersediaan,
         IF((SELECT
         GROUP_CONCAT(concat('(',t.awalSewa,' sampai ',t.akhirSewa,')')) sewa
     FROM
@@ -250,42 +251,7 @@ Total Perpanjangan yang Harus Dibayar : " . formatRupiah($_POST['totalHargaTrans
     (t.awalSewa BETWEEN '{$awalSewa}' AND DATE_FORMAT(DATE_ADD('{$awalSewa}', INTERVAL {$lamaSewa} MONTH), '%Y-%m-%d') OR
     t.akhirSewa BETWEEN '{$awalSewa}' AND DATE_FORMAT(DATE_ADD('{$awalSewa}', INTERVAL {$lamaSewa} MONTH), '%Y-%m-%d'))
         AND t.nomorKamar = k.nomorKamar AND t.status  IN ('Diterima','Diterima dengan Pembaharuan')) IS NULL,'','disabled')
-        html 
-    FROM
-        kamar k WHERE k.idTipeKamar = '{$tipeKamar}' AND k.status = 'Tersedia'
-				
-				UNION
-				
-				
-				
-				SELECT
-        k.nomorKamar,
-        k.status,
-        IF((SELECT
-        GROUP_CONCAT(concat('(',t.awalSewa,' sampai ',t.akhirSewa,')')) sewa
-    FROM
-        `transaksi` t
-    WHERE
-    (t.awalSewa BETWEEN '{$awalSewa}' AND DATE_FORMAT(DATE_ADD('{$awalSewa}', INTERVAL {$lamaSewa} MONTH), '%Y-%m-%d') OR
-    t.akhirSewa BETWEEN '{$awalSewa}' AND DATE_FORMAT(DATE_ADD('{$awalSewa}', INTERVAL {$lamaSewa} MONTH), '%Y-%m-%d'))
-        AND t.nomorKamar = k.nomorKamar AND t.status IN ('Diterima Perpanjangan','Diterima Pengembalian')) IS NULL,'kosong',(SELECT
-        GROUP_CONCAT(concat('(',t.awalSewa,' sampai ',t.akhirSewa,')')) sewa
-    FROM
-        `transaksi` t
-    WHERE
-    (t.awalSewa BETWEEN '{$awalSewa}' AND DATE_FORMAT(DATE_ADD('{$awalSewa}', INTERVAL {$lamaSewa} MONTH), '%Y-%m-%d') OR
-    t.akhirSewa BETWEEN '{$awalSewa}' AND DATE_FORMAT(DATE_ADD('{$awalSewa}', INTERVAL {$lamaSewa} MONTH), '%Y-%m-%d'))
-        AND t.nomorKamar = k.nomorKamar AND t.status  IN ('Diterima Perpanjangan','Diterima Pengembalian')))
-        ketersediaan,
-        IF((SELECT
-        GROUP_CONCAT(concat('(',t.awalSewa,' sampai ',t.akhirSewa,')')) sewa
-    FROM
-        `transaksi` t
-    WHERE
-    (t.awalSewa BETWEEN '{$awalSewa}' AND DATE_FORMAT(DATE_ADD('{$awalSewa}', INTERVAL {$lamaSewa} MONTH), '%Y-%m-%d') OR
-    t.akhirSewa BETWEEN '{$awalSewa}' AND DATE_FORMAT(DATE_ADD('{$awalSewa}', INTERVAL {$lamaSewa} MONTH), '%Y-%m-%d'))
-        AND t.nomorKamar = k.nomorKamar AND t.status IN ('Diterima Perpanjangan','Diterima Pengembalian')) IS NULL,'','disabled')
-        html 
+        AS html 
     FROM
         kamar k WHERE k.idTipeKamar = '{$tipeKamar}' AND k.status = 'Tersedia'";
 
@@ -379,15 +345,20 @@ Total Perpanjangan yang Harus Dibayar : " . formatRupiah($_POST['totalHargaTrans
 
             // notif wa
 
-            $result = sendWhatsApp($infoUser->nomorTelepon, "===== Notification Pengurangan Fasilitas Kos46A =====
-Terimakasih telah melakukan pengajuan pengurangan fasilitas, detail pengembalian anda sebesar " . formatRupiah($_POST['totalPengembalianValue']));
+            echo "<script>
+            window.location.href = 'Pesanan.php';
+          </script>";
+//             $result = sendWhatsApp($infoUser->nomorTelepon, "===== Notification Pengurangan Fasilitas Kos46A =====
+// Terimakasih telah melakukan pengajuan pengurangan fasilitas, detail pengembalian anda sebesar " . formatRupiah($_POST['totalPengembalianValue']));
 
 
             $result = sendWhatsApp('087742036248', "===== Notification Pengurangan Fasilitas Kos46A =====
 Terdapat pengajuan pengurangan fasilitas, sebesar " . formatRupiah($_POST['totalPengembalianValue'])) . " harap cek pengajuannya ";
             flash('pesanan_alert', 'Berhasil melakukan pengajuan fasilitas', 'green');
 
-            header('Location: ../view/Pesanan.php?tab=pembaharuan');
+            // header('Location: ../view/Pesanan.php?tab=pembaharuan');
+            
+          exit;
         }
     }
     public function savePenambahanFasilitas($idTransaksi, $pilihanFasilitasBaru, $totalPembayaranBaru)
